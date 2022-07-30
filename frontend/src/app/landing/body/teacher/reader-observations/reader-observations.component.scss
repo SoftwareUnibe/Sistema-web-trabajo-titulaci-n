@@ -1,0 +1,45 @@
+.container {
+    width: 100%;
+    padding: 0.8rem 1rem 0 1rem;
+}
+
+.tittle_container{
+    padding: 0 1rem;
+}
+
+.table_container_obs {
+    padding: 1rem;
+    width: 100%;
+}
+.container ::ng-deep .p-dialog ::ng-deep .p-dialog-content {
+    background: #ffffff;
+    color: rgba(0, 0, 0, 0.87);
+    padding: 0;
+}
+::ng-deep .description {
+    min-height: 5rem;
+}
+
+.tittle_container {
+    display: flex;
+    flex-direction: column;
+}
+.actionButtons ::ng-deep button {
+    padding: 0.8rem;
+}
+
+@media screen and (min-width: 1200px) {
+    .tittle_container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .actionButtons {
+        display: flex;
+        justify-content: flex-end;
+        &.buttons {
+            padding: 0;
+        }
+    }
+}

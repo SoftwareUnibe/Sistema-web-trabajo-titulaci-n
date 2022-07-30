@@ -1,0 +1,17 @@
+.steps__container {
+    min-height: 100vh;
+    max-height: 100%;
+    max-width: 100%;
+    padding: 1rem;
+    background-color: #eee;
+}
+
+.steps__container ::ng-deep.p-steps {
+    padding: 0;
+}
+
+@media only screen and (max-width: 840px) {
+    .steps__container ::ng-deep.p-steps-title {
+        display: none !important;
+    }
+}

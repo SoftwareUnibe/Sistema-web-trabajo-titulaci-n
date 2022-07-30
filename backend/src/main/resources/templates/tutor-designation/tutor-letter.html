@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Carta de asignación dirigida al tutor</title>
+    <link rel="stylesheet" th:href="@{../pdf-resources/css/tutor-designation/tutor-letter.css}"/>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <table class="table">
+            <thead>
+            <tr>
+                <td rowspan="2" class="unibeLogo">
+                    <img src="../pdf-resources/images/logo.png" class="logo"/>
+                </td>
+                <td class="title">
+                    <h4>UNIVERSIDAD IBEROAMERICANA DEL ECUADOR</h4>
+                </td>
+                <td rowspan="2" class="formNumber">
+                    <h4>FORMULARIO No. UNIBE-VRA-DA-<span th:text="${#dates.year(actualDate)}"></span>-013-F</h4>
+                </td>
+            </tr>
+            <tr>
+                <td class="title">
+                    <h4>DESIGNACIÓN COMO TUTOR (A)</h4>
+                </td>
+            </tr>
+            </thead>
+        </table>
+    </div>
+    <div align="right">
+        <p class="normal_text">Quito, D.M, <span
+                th:text="${(#dates.format(designation[0].date, 'dd/MM/yyyy')) }"></span>
+        </p>
+    </div>
+    <div class="content_text">
+        <p>Docente: <span th:text="${designation[0].teacher.name + ' ' + designation[0].teacher.lastName}"></span></p>
+        <p>Presente.</p>
+        <p>
+            Estimado (a) docente, atendiendo a su experiencia el Comité de trabajo de integración de la Carrera de
+            <span th:text="${careerName}"></span> que está adscrita a la Facultad <span th:text="${faculty}"></span>
+            le notifica que ha sido designado (a) como tutor (a) de Trabajo de Integración curricular
+            <br>
+            Propuesta de investigación
+            <br>
+            <br>
+            <br>
+            De los siguientes estudiantes:
+        </p>
+        <div class="table_content">
+            <table class="tg">
+                <col/>
+                <col span="2"/>
+                <thead>
+                <tr>
+                    <th class="tg-0pky">Nombres y apellidos de estudiantes</th>
+                    <th class="tg-0pky">Tema aprobado</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr style="min-height: 100px">
+                    <td class="studentAndTopic"><span th:text="${studentOne}"></span></td>
+                    <td class="studentAndTopic" rowspan="2"><span
+                            th:text="${designation[0].topicStudent.topic.name}"></span></td>
+                </tr>
+                <tr th:if="${designation[0].topicStudent.topic.twoStudents}">
+                    <td class="studentAndTopic">
+                        <span th:text="${studentTwo}"></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <p>
+                Considerando que según el Artículo No. 45 del Reglamento de titulación, entre sus funciones se
+                encuentran:
+            </p>
+            <ul style="list-style-type: lower-alpha; font-size: small">
+                <li>
+                    Orientar al estudiante sobre la información bibliográfica pertinente.
+                </li>
+                <li>
+                    Asesorar oportunamente sus dudas y consultas.
+                </li>
+                <li>
+                    Exigir y revisar periódicamente la presentación de avances del Documento del Trabajo de Integración
+                    Curricular o de la Propuesta de Investigación.
+                </li>
+                <li>
+                    Sugerir correcciones y enmiendas.
+                </li>
+                <li>
+                    Exigir al estudiante el cumplimiento de procedimientos técnicos y administrativos que correspondan.
+                </li>
+                <li>
+                    Realizar el registro de las horas de tutorías especificando la actividad realizada en cada uno de
+                    los encuentros en el formulario establecido.
+                </li>
+                <li>
+                    Reportar al Director (a) de Carrera las horas de tutorías y avances del Trabajo de Integración
+                    Curricular o de la Propuesta de Investigación por cada estudiante de forma periódica
+                </li>
+                <li>
+                    Reportar al Director(a) el incumplimiento de las horas de tutorías por parte del estudiante y
+                    presentarle las evidencias que respaldan las acciones realizadas para que el estudiante cumpla con
+                    las tutorías.
+                </li>
+                <li>
+                    Garantizar que no exista plagio, y de evidenciar su existencia realizar los correctivos a tiempo.
+                </li>
+                <li>
+                    Garantizar un Trabajo de Integración Curricular o una Propuesta de Investigación con fundamentos
+                    técnicos, metodológicos y ajustado a las normas vigentes establecidas por la universidad.
+                </li>
+                <li>
+                    Cumplir con las tutorías de manera semanal desde el momento que recibe la designación por parte del
+                    Comité de Trabajo de Integración Curricular.
+                </li>
+                <li>
+                    Velar por el cumplimiento de las horas de tutorías por parte del (de la) estudiante y dejar
+                    evidencias de las acciones realizadas.
+                </li>
+                <li>
+                    Brindar tutorías al estudiante hasta el momento de su presentación oral.
+                </li>
+                <li>
+                    Informar y justificar al (as) Director (a) de Carrera las posibles ausencias a las tutorías a través
+                    del informe correspondiente.
+                </li>
+                <li>
+                    En el caso que el (la) tutorado no logre los objetivos para la entrega del trabajo de integración
+                    curricular o de la propuesta de investigación en las fechas establecidas, deberá generar un informe
+                    con la exposición de motivos y entregar al (la) Director (a) de carrera
+                </li>
+            </ul>
+            <p>Agradeciendo su receptividad y colaboración, me despido reiterándole mi estima. </p>
+            <div class="signs">
+                <table class="footer__sign">
+                    <thead>
+                    <tr>
+                        <th>_______________________________________</th>
+                        <th>_______________________________________</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                        <span>
+                            Director (a) de carrera
+                            <br>
+                            Secretario (a) del comité
+                        </span>
+                        </td>
+                        <td>
+                        <span>
+                            Decano (a) de Facultad
+                            <br>
+                            Presidente del comité
+                        </span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
+</html>

@@ -1,0 +1,52 @@
+<div class="form__container" *ngIf="topic" fadein animation-duration-500>
+    <p-card>
+        <ng-template pTemplate="header">
+            <h2>{{formTitle}}</h2>
+        </ng-template>
+        <form #addNewTopic="ngForm">
+            <div class="form__inputs formgrid grid">
+                <div class="field col-12">
+                    <label class="mb-2">Tema</label>
+                    <textarea rows="2" class="inputfield w-full" [(ngModel)]="topic.name" name="name"
+                        [autoResize]="true" pInputTextarea placeholder="Ingrese el titulo de su tema"
+                        required></textarea>
+                    <small
+                        *ngIf="addNewTopic.controls['name']?.errors?.required && addNewTopic.controls['name']?.touched"
+                        class="p-error">
+                        *Este campo es obligatorio
+                    </small>
+                </div>
+                <div class="field col-12">
+                    <label class="mb-2">Descripción</label>
+                    <textarea rows="6" class="inputfield w-full" [(ngModel)]="topic.description" name="description"
+                        [autoResize]="true" pInputTextarea placeholder="Ingrese la descripción de su tema"
+                        required></textarea>
+                    <small
+                        *ngIf="addNewTopic.controls['description']?.errors?.required && addNewTopic.controls['description']?.touched"
+                        class="p-error">
+                        *Este campo es obligatorio
+                    </small>
+                </div>
+                <div class="articulation field col-12">
+                    <label class="mb-2">Articulación</label>
+                    <p-dropdown class="w-full inputfield" [options]="articulation" placeholder="Selecciona uno"
+                        optionLabel="label" optionValue="value" name="career" [(ngModel)]="topic.articulation"
+                        name="articulation" [required]="true">
+                    </p-dropdown>
+                    <small
+                        *ngIf="addNewTopic.controls['articulation']?.errors?.required && addNewTopic.controls['articulation']?.touched"
+                        class="p-error">
+                        *Este campo es obligatorio
+                    </small>
+                </div>
+                <div class="buttons col-12">
+                    <button pButton pRipple type="button" routerLink="/home" class="p-button-danger col p-2 mr-4"
+                        label="Cancelar" [disabled]="loading"></button>
+                    <button pButton pRipple type="button" [loading]="loading" class="col" label="{{buttonActionName}}" style="background-color: #002858;"
+                        [disabled]="!addNewTopic.valid" (click)="addTopic(topic, userCareer)"></button>
+                </div>
+            </div>
+        </form>
+    </p-card>
+
+</div>

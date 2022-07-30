@@ -1,0 +1,21 @@
+.calendar_container {
+    min-height: 100vh;
+    max-height: 100%;
+    max-width: 100vw;
+    padding: 1rem;
+}
+
+.calendar_container .table_container ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+    font-size: 0.95rem;
+    text-align: left;
+    padding: 1rem 1rem;
+}
+
+.calendar_container .table_container ::ng-deep .p-datatable {
+    box-shadow: 0px 5px 17px -7px rgba(0, 0, 0, 0.75);
+    min-width: 100%;
+}
+
+.calendar_container .table_container ::ng-deep .p-datatable .p-datatable-thead > tr > th{
+    text-align: center;
+}

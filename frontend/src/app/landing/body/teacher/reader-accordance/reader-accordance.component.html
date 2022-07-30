@@ -1,0 +1,95 @@
+<div class="container_reader_accordance" >
+    <div class="tittle_container flex justify-content-between px-3 pt-3">
+        <h2>Registro de conformidad o no conformidad</h2>
+    </div>
+    <div class="info_container flex flex-column mt-2 align-items-center justify-content-center">
+        <p-progressSpinner *ngIf="topicStudents.length===0"></p-progressSpinner>
+        <p-card class="sm:col-12 md:col-10 lg:col-8 xl:col-7 fadein animation-duration-500" *ngIf="topicStudents.length>0 && reader">
+            <ng-template pTemplate="header">
+                <app-documents-header documentTitle="VERIFICACIÓN DE CORECCIONES" formNumber="22">
+                </app-documents-header>
+            </ng-template>
+            <ng-template pTemplate="content">
+                <div class="flex flex-column">
+                    <p class="text-lg">
+                        <span class="font-semibold">Fecha de emisión: </span> <span>{{documentDate}}</span>
+                    </p>
+                    <p class="text-lg mt-2">
+                        <span class="font-semibold">Nombre del docente: </span>{{reader.reader.name + ' ' +
+                        reader.reader.lastName}}<span></span>
+                    </p>
+                    <p class="text-lg  mt-2">
+                        <span>Por medio del presente se le solicita verificar que </span>
+                    </p>
+                    <p class=" text-lg  mt-2" *ngIf="!reader.topic.twoStudents"> <span class="font-semibold">Nombre del
+                            Estudiante: </span>
+                        {{topicStudents[0].student.name +' '+topicStudents[0].student.lastName}}</p>
+                    <p class=" text-lg  mt-2" *ngIf="reader.topic.twoStudents"> <span class="font-semibold">Nombre de
+                            los estudiantes: </span>
+                        {{topicStudents[0].student.name +' '+topicStudents[0].student.lastName
+                        +', '+topicStudents[1].student.name +'
+                        '+topicStudents[1].student.lastName}}</p>
+                    <p class=" text-lg  mt-2"> <span class="font-semibold">Tema del Trabajo de Integración Curricular:
+                        </span> {{reader.topic.name}}
+                    </p>
+                    <p class=" text-lg mt-2">Seleccione según corresponda la conformidad o no conformidad de las
+                        correcciones:
+                    </p>
+                    <div class="field-radiobutton mt-2">
+                        <p-radioButton name="city" [value]="true" [(ngModel)]="selectedValue"></p-radioButton>
+                        <label for="city1">Conformidad</label>
+                    </div>
+                    <div class="field-radiobutton">
+                        <p-radioButton name="city" [value]="false" [(ngModel)]="selectedValue"></p-radioButton>
+                        <label for="city2">No conformidad</label>
+                    </div>
+                    <p class="text-lg mt-2 mb-1">En caso de existir no conformidad indicar en las observaciones las
+                        inconformidades.
+                    </p>
+                    <p class="text-lg mt-2 mb-1">Fecha máxima de entrega de los resultados de la verificación:
+
+                        <p-calendar class="inputfield ml-2" name="maxDate" inputId="basic" [minDate]="curretDate"
+                            [(ngModel)]="maxDate" dateFormat="yy-mm-dd" [required]="true" [showIcon]="true"
+                            placeholder="Fecha" (onSelect)="selectedDate($event)">
+                        </p-calendar>
+                    </p>
+                    <p class="text-lg mt-2 mb-1">
+                        Atentamente,
+                    </p>
+                    <p class="font-semiboldtext-lg mt-2 mb-1">
+                        Unidad de Titulación de la UNIB.E.
+                    </p>
+                </div>
+                <div class="flex flex-column mt-2" *ngIf="selectedValue==false">
+                    <p class="text-lg font-semibold">Añada las observaciones</p>
+                    <textarea [(ngModel)]="observation" name="observation" rows="1" class="inputfield w-full"
+                        [autoResize]="true" pInputTextarea placeholder="Observación"
+                        [required]="readerAccordance?.observations?.length ? false: true"></textarea>
+
+                    <div class="add__objectives flex justify-content-end mb-2 mt-2">
+                        <button (click)="addObservation(observation)" pButton pRipple type="button"
+                            style="background-color: #f7b926; color: black;" icon="pi pi-plus" iconPos="left"
+                            label="Agregar" class="p-button-info mr-2"></button>
+                    </div>
+                    <p-scrollPanel *ngIf="readerAccordance?.observations?.length"
+                        [style]="{width: '100%', height: '150px'}">
+                        <div *ngFor="let simpleObservation of readerAccordance?.observations; let index = index">
+                            <div class="objectives__list flex mt-2 mb-2">
+                                <p class="p-2 col-11" style="text-align: justify;"> <b>{{index + 1}}. </b>
+                                    {{simpleObservation}}
+                                </p>
+                                <i (click)="removeObservation(index)"
+                                    class="pi pi-trash col-1 flex justify-content-center align-items-end p-2 cursor-pointer "></i>
+                            </div>
+                        </div>
+                    </p-scrollPanel>
+                </div>
+                <div class="mt-2 flex justify-content-center">
+                    <button pButton pRipple type="button" label="Guardar" class="col-3 p-button-primary"
+                        (click)="saveAccordance(topicStudents[0].topic)" [loading]="loading"></button>
+                </div>
+            </ng-template>
+        </p-card>
+    </div>
+
+</div>

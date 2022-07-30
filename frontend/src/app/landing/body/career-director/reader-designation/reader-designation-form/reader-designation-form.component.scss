@@ -1,0 +1,40 @@
+.reader__container {
+    display: flex;
+    justify-content: center;
+}
+
+.reader__container .document__format ::ng-deep.p-card-header img {
+    padding: 1rem 3rem 0 3rem;
+}
+
+.reader__container .document__format ::ng-deep.p-card-body {
+    padding: 0 5rem 0rem 5rem;
+}
+
+.card__text section > p {
+    font-size: large;
+    text-align: justify;
+}
+.card__text .pi-pencil {
+    cursor: pointer;
+    background-color: #3f51b5;
+    padding: 0.5rem;
+    border-radius: 50%;
+    color: white;
+}
+
+.card__text .pi-times {
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+}
+
+.card__text p > a {
+    word-wrap: break-word;
+}
+
+.remove__Reader > i {
+    font-size: 1.2rem;
+    color: #d32f2f;
+    cursor: pointer;
+}

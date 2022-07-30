@@ -1,0 +1,88 @@
+<div class="tutorTable__Container flex flex-column" >
+    <div class="tittle text-left md:text-center pt-2">
+        <h1>Cartas de designación de tutores</h1>
+    </div>
+    <div class="table_container " >
+        <p-table #dt [value]="tutorDesignations" styleClass="fadein animation-duration-500" [globalFilterFields]="['teacher.name', 'teacher.lastName']"
+            dataKey="id" [responsiveLayout]="'scroll'" [paginator]="true" [rows]="7" [loading]="!tutorDesignations">
+
+            <ng-template pTemplate="caption">
+                <p>Carrera: {{actualCareerDirector?.career?.name}} </p>
+                <div class="flex grid grid-nogutter xl:col-5 lg:col-7 md:col-10 col-12 p-0 mt-2">
+                    <span class="p-input-icon-left col-12 p-0">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" class="w-full inputfield"
+                            (input)="applyFilterTopics($event, 'contains')" placeholder="Buscar por nombre de tutor" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>N°</th>
+                    <th>Tutor</th>
+                    <th>Estudiante (es)</th>
+                    <th>Tema</th>
+                    <th>Documentos</th>
+                    <th>Descargar en PDF</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-tutorDesignation let-rowIndex="rowIndex">
+                <tr>
+                    <td>{{rowIndex + 1}}</td>
+                    <td>{{tutorDesignation.teacher.name + ' ' + tutorDesignation.teacher.lastName}}</td>
+                    <td>
+                        <ng-container *ngIf="tutorDesignation.topicStudent[0].topic.twoStudents else oneStudent">
+                            <div class="students" *ngFor="let user of tutorDesignation.topicStudent">
+                                <ul>
+                                    <li> {{user.student.name + ' ' + user.student.lastName}}</li>
+                                </ul>
+                            </div>
+                        </ng-container>
+                        <ng-template #oneStudent>
+                            <ul>
+                                <li> {{tutorDesignation.topicStudent[0]?.student.name + ' ' +
+                                    tutorDesignation.topicStudent[0]?.student.lastName}}</li>
+                            </ul>
+                        </ng-template>
+                    </td>
+                    <td>{{tutorDesignation.topicStudent[0].topic.name}}</td>
+                    <td>
+                        <p-tieredMenu #previewDocuments [model]="visualizeDocuments" [popup]="true" appendTo="body"
+                            [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'">
+                        </p-tieredMenu>
+                        <button icon="pi pi-angle-down" iconPos="right" pButton pRipple type="button" label="Documentos"
+                            class="p-button p-button-primary"
+                            (click)="generateDocumentsOptions($event, tutorDesignation)">
+                        </button>
+                    </td>
+                    <td>
+                        <p-tieredMenu #downloadDocument [model]="downLoadDocuments" [popup]="true" appendTo="body"
+                            [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'">
+                        </p-tieredMenu>
+                        <button icon="pi pi-angle-down" iconPos="right" pButton pRipple type="button" label="Descargar"
+                            class="p-button-outlined p-button-danger"
+                            (click)="generateDocumentsDownloadOptions($event, tutorDesignation)">
+                        </button>
+
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="8" class="text-lg" *ngIf="tutorDesignations.length===0">No existe
+                        temas para gestionar
+                    </td>
+                    <td colspan="8" class="text-lg" *ngIf="tutorDesignations.length!==0">
+                        No se encontraron resultados</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+<app-tutor-document-preview [tutorDesignation]="tutorDesignation" [tutorDocumentPreview]="tutorDocumentPreview"
+    [actualCareerDirector]="actualCareerDirector" (closeTutorDocumentPreview)="closeTutorDocumentPreviewModal()">
+</app-tutor-document-preview>
+<app-student-document-preview [createdBy]="careerDirector" [tutorDesignation]="tutorDesignation"
+    [studentDocumentPreview]="studentDocumentPreview" [haveSecondStudent]="haveSecondStudent"
+    (closeStudentDocumentPreview)="closeStudentDocumentPreviewModal()">
+</app-student-document-preview>

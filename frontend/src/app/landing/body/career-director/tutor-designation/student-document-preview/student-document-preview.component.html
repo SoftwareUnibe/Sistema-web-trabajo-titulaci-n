@@ -1,0 +1,116 @@
+<div class="studentLetter__container" *ngIf="tutorDesignationStudent">
+    <p-dialog header="Vista Previa" [(visible)]="studentDocumentPreview"
+        [breakpoints]="{'1200px' : '60vw', '960px': '70vw', '850px':'80vw' ,'650px': '100vw'}" [style]="{width: '50vw', margin:'0 1rem'}"
+        [draggable]="false" [resizable]="false" [modal]="true" (onHide)="closeStudentDocumentModal()">
+        <p-card class="sm:col-12 md:col-10 lg:col-8 xl:col-7 card">
+            <ng-template pTemplate="header">
+                    <app-documents-header documentTitle="DESIGNACIÓN DE TUTOR (A) DIRIGIDA AL ESTUDIANTE"
+                        formNumber="012">
+                    </app-documents-header>
+            </ng-template>
+            <ng-template pTemplate="content">
+                <form #studentLetterForm="ngForm">
+                    <div class="flex align-items-center justify-content-end mt-1">
+                        <p class="text-lg"> Quito, D.M. {{tutorDesignationStudent.date | date: 'dd/MM/yyyy'}}
+                        </p>
+                    </div>
+                    <div class="flex flex-column align-items-start justify-content-center pt-3 mb-2">
+                        <p class="text-lg">Estudiante: {{tutorDesignationStudent.topicStudent.student?.name +"
+                            "+tutorDesignationStudent.topicStudent.student?.secondName +"
+                            "+tutorDesignationStudent.topicStudent.student?.lastName
+                            +" "+tutorDesignationStudent.topicStudent.student?.secondLastName}}</p>
+
+                    </div>
+                    <div class="align-items-center justify-content-start  mb-2">
+                        <p class="text-lg mt-4"> Facultad:
+                            {{tutorDesignationStudent.topicStudent.student?.career.faculty.name}}</p>
+                        <p class="text-lg mt-4"> Carrera:
+                            {{tutorDesignationStudent.topicStudent.student?.career.name}}
+                        </p>
+                    </div>
+                    <div class="flex align-items-center justify-content-start pt-3 mb-3">
+                        <p class="text-lg"> De nuestras consideraciones:</p>
+                    </div>
+                    <div class="text-justify line-height-3">
+                        <p class="text-lg">Se le informa que una vez evaluada la propuesta de tema
+                            presentada por usted
+                            se le ha asignado al docente: {{tutorDesignationStudent.teacher?.secondLastName + ' ' +
+                            tutorDesignationStudent.teacher?.lastName + ' '
+                            + tutorDesignationStudent.teacher?.name}}
+                            como tutor (a) del trabajo titulado:
+                            {{tutorDesignationStudent.topicStudent.topic?.name}}, con quien
+                            deberá ponerse en contacto para proceder con el desarrollo del mismo.
+                            <br>
+                            Se le informa que le corresponde una (1) hora semanal para las tutorías, por
+                            lo que, usted conjuntamente con su tutor (a) deberán llevar el control del
+                            cumplimiento de horas de tutorías en el formulario correspondiente, el mismo
+                            tiene que ser presentado a Secretaría de Administración y Registro al
+                            finalizar el proceso ya que es un requisito para la titulación que debe
+                            reposar en su portafolio académico.
+                            <br>
+                            Considerando que según el Artículo No. 46 del Reglamento de titulación,
+                            entre sus responsabilidades se encuentran:
+                        </p>
+                        <ul style="list-style-type: lower-alpha; margin-left: 5rem;">
+                            <li>Asistir a las tutorías acordadas con el Director(a) del
+                                Trabajo
+                                de
+                                Integración Curricular o de la Propuesta de Investigación en
+                                el
+                                día y
+                                horario programado.</li>
+                            <li>Entregar periódicamente los avances del Documento del
+                                Trabajo de
+                                Integración Curricular o de la Propuesta de Investigación,
+                                según
+                                las
+                                fechas acordadas con el (la) Tutor(a) del mismo.</li>
+                            <li>Aplicar las correcciones y enmiendas realizadas por el (la)
+                                Tutor(a) del
+                                Trabajo de Integración Curricular o de la Propuesta de
+                                Investigación.
+                            </li>
+                            <li>Cumplir a tiempo con los procedimientos técnicos y
+                                administrativos
+                                correspondientes a los procesos de titulación.
+                            </li>
+                            <li>Garantizar la veracidad del contenido del Trabajo de
+                                Integración
+                                Curricular o de la Propuesta de Investigación.
+                            </li>
+                            <li>
+                                Aplicar al Trabajo de Integración Curricular o Propuesta de
+                                Investigación, los fundamentos técnicos, y metodológicos
+                                pertinentes al
+                                tema de estudio.
+                            </li>
+                            <li>
+                                Aplicar las normas vigentes para la elaboración del Trabajo
+                                de
+                                Integración Curricular o Propuesta de Investigación
+                            </li>
+                        </ul>
+                        <br>
+                        <div class="sign flex justify-content-center mt-6">
+                            <div class="careerDirector_sign flex flex-column col-6 p-0">
+                                <div class="line" style="border-bottom: 1px solid black;"></div>
+                                <p>Director (a) de carrera</p>
+                                <p>Secretario (a) del comité</p>
+                            </div>
+                            <div class="decano flex flex-column ml-3 col-6 p-0">
+                                <div class="line" style="border-bottom: 1px solid black;"></div>
+                                <p>Decano (a) de Facultad</p>
+                                <p>Presidente del comité</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </ng-template>
+        </p-card>
+        <ng-template pTemplate="footer">
+            <p-button (click)="closeStudentDocumentModal()" label="Cerrar" styleClass="p-button-text"></p-button>
+        </ng-template>
+    </p-dialog>
+
+</div>

@@ -1,0 +1,214 @@
+<div class="container">
+    <div class="actions_container flex justify-content-between align-items-center px-3 pt-2">
+        <p class="text-2xl font-bold">
+            Evaluación del Trabajo de Titulación <span *ngIf="reader.topic.career.hasProduct"
+                class="text-2xl font-bold">y el producto</span>
+        </p>
+    </div>
+    <div class="table_container_notes" *ngIf="$tutor | async as tutor ">
+        <p-table #dt [value]="titulationWorkEvaluation" styleClass="p-datatable-gridlines fadein animation-duration-500"
+            *ngIf="titulationWorkEvaluation" [globalFilterFields]="['name']" selectionMode="single" dataKey="id"
+            responsiveLayout="scroll" [metaKeySelection]="true" [loading]="!topicStudents">
+            <ng-template pTemplate="caption">
+                <div class="flex flex-column ">
+                    <div class="min-w-full">
+                        <div class="flex flex-wrap  justify-content-between border-top-2 border-300 p-2 ">
+                            <span> <span class="name">Facultad: </span>{{reader.topic.career.faculty.name}}</span>
+                            <span> <span class="name">Carrera: </span>{{reader.topic.career.name}}</span>
+                            <span> <span class="name">Fecha: </span>{{date.toLocaleDateString()}}</span>
+                        </div>
+                        <div class="flex flex-wrap  justify-content-between border-top-1 border-300 p-2"
+                            *ngFor="let topicStudent of topicStudents">
+                            <span> <span class="name">Autor: </span><span>{{topicStudent.student.name + ' ' +
+                                    topicStudent.student.lastName }}</span></span>
+                            <span> <span class="name">Cédula: </span>{{topicStudent.student.ci}}</span>
+                        </div>
+                        <div class="flex flex-column justify-content-start ">
+
+                            <span class="border-top-1 border-300 p-2"><span class="name">Titulo del trabajo de
+                                    titulación: </span> {{reader.topic.name}}</span>
+                            <span class="border-top-1  border-300 p-2"> <span class="name">Director del trabajo de
+                                    titulación: </span><span>
+                                    {{tutor.teacher.name}} {{tutor.teacher.lastName}}</span></span>
+                            <span class="border-top-1  border-300 p-2"> <span class="name">Docente lector:
+                                </span>{{reader.reader.name + ' '+
+                                reader.reader.lastName}}</span>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Criterios de evaluación</th>
+                    <th>Preguntas</th>
+                    <th>Ponderación</th>
+                    <th>Calificación</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-evaluationT let-rowIndex="rowIndex">
+                <tr>
+                    <td>
+                        <h4>{{evaluationT.evaluationCriteria}}</h4>
+                    </td>
+                    <td>
+                        <p class="text-justify ">{{evaluationT.questions}}</p>
+                    </td>
+                    <td>
+                        <p class="text-center">{{evaluationT.ponderation}}%</p>
+                    </td>
+                    <td pEditableColumn>
+
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input pInputText type="number" min="0" id="work" name="titulationWorkNotes"
+                                    [(ngModel)]="titulationWorkNotes[rowIndex]" required style="max-width:5rem;"
+                                    [max]="evaluationT.ponderation">
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                <span style="cursor: pointer;">
+                                    <ng-container *ngIf="!titulationWorkNotes[rowIndex] else hasNote">
+                                        <p class="font-bold text-center">Calificar <i
+                                                class="fa-solid fa-pencil fa-xs"></i></p>
+                                    </ng-container>
+                                    <ng-template #hasNote>
+                                        <p class="text-center">{{titulationWorkNotes[rowIndex]}}</p>
+                                    </ng-template>
+                                </span>
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="footer" let-editing="editing" *ngIf="!reader.topic.career.hasProduct">
+                <tr>
+                    <td colspan="2" class="text-left">Total</td>
+                    <td>100% / 10 puntos</td>
+                    <td>{{calculateTotalWithoutProduct(titulationWorkNotes)}}</td>
+                </tr>
+                <tr [pEditableRow]="evaluation.commentary">
+                    <td colspan="1">
+                        <p>Comentario</p>
+                    </td>
+                    <td pEditableColumn colspan="2" id="comentary">
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input pInputText type="text" value="" [(ngModel)]="evaluation.commentary" required
+                                    class="min-w-full">
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{evaluation.commentary}}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td style="text-align:center">
+                        <button pButton pRipple type="button" pSaveEditableRow
+                            [icon]="evaluation.commentary?'pi pi-check':'pi pi-pencil'"
+                            [ngClass]="evaluation.commentary?'p-button-success':''"
+                            class="p-button-rounded p-button  mr-2"></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" class="text-center justify-content-center">
+                        <button pButton pRipple type="button" class=" p-button  mr-2"
+                            (click)="saveEvaluation(evaluation,reader.topic)"> Guardar</button>
+
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+        <p-table #dt [value]="titulationProductEvaluation" editMode="row" styleClass="p-datatable-gridlines"
+            *ngIf="reader.topic.career.hasProduct" [globalFilterFields]="['name']" selectionMode="single"
+            dataKey="comentary" [responsiveLayout]="'scroll'" [metaKeySelection]="true">
+            <ng-template pTemplate="caption">
+                <div class="flex flex-column ">
+                    <div class="min-w-full">
+                        <div class="flex flex-wrap  justify-content-center border-botton-2 border-300 p-2 ">
+                            <span class="name">Evaluación del producto</span>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Criterios de evaluación</th>
+                    <th>Preguntas</th>
+                    <th>Ponderación</th>
+                    <th>Calificación</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-evaluation let-rowIndex="rowIndex">
+                <tr>
+                    <td>
+                        <h4>{{evaluation.evaluationCriteria}}</h4>
+                    </td>
+                    <td>
+                        <p class="text-justify ">{{evaluation.questions}}</p>
+                    </td>
+                    <td>
+                        <p class="text-center">{{evaluation.ponderation}}%</p>
+                    </td>
+                    <td pEditableColumn>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input pInputText type="number" min="0" [(ngModel)]="productNotes[rowIndex]" required
+                                    style="max-width:5rem;" [max]="10">
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                <span style="cursor: pointer;">
+                                    <ng-container *ngIf="!productNotes[rowIndex] else hasProductNote">
+                                        <p class="font-bold text-center">Calificar <i
+                                                class="fa-solid fa-pencil fa-xs"></i></p>
+                                    </ng-container>
+                                    <ng-template #hasProductNote>
+                                        <p class="text-center"> {{productNotes[rowIndex]}}</p>
+                                    </ng-template>
+                                </span>
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="footer" let-editing="editing">
+                <tr>
+                    <td colspan="2" class="text-left">Total</td>
+                    <td>
+                        <p class="text-center">100% / 10 puntos</p>
+                    </td>
+                    <td>
+                        <p class="text-center">{{calculateTotal(titulationWorkNotes,productNotes) | number : '1.2-2'}}
+                        </p>
+                    </td>
+                </tr>
+                <tr [pEditableRow]="evaluation.commentary">
+                    <td colspan="1">
+                        <p>Comentario</p>
+                    </td>
+                    <td pEditableColumn colspan="3" id="comentary">
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input pInputText type="text" value="" [(ngModel)]="evaluation.commentary" required
+                                    class="min-w-full">
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                <span style="cursor:pointer;">
+                                    <ng-container *ngIf="!evaluation.commentary else hasCommentary">
+                                        <p> Escriba su comentario aquí...</p>
+                                    </ng-container>
+                                    <ng-template #hasCommentary>
+                                        {{evaluation.commentary}}
+                                    </ng-template>
+                                </span>
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" class="text-center justify-content-center">
+                        <button pButton pRipple type="button" class=" p-button  mr-2"
+                            (click)="saveEvaluation(evaluation,reader.topic)" [loading]="loading"> Guardar </button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>

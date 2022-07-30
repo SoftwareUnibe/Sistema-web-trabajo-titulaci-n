@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Carta de asignación dirigida al tutor</title>
+    <link rel="stylesheet" th:href="@{../pdf-resources/css/tutor-designation/tutor-letter.css}"/>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <table class="table">
+            <thead>
+            <tr>
+                <td rowspan="2" class="unibeLogo">
+                    <img src="../pdf-resources/images/logo.png" class="logo"/>
+                </td>
+                <td class="title">
+                    <h4>UNIVERSIDAD IBEROAMERICANA DEL ECUADOR</h4>
+                </td>
+                <td rowspan="2" class="formNumber">
+                    <h4>FORMULARIO No. UNIBE-VRA-DA-<span th:text="${#dates.year(actualDate)}"></span>-021-F</h4>
+                </td>
+            </tr>
+            <tr>
+                <td class="title">
+                    <h4>RESULTADO PROCESO DE LECTORÍA</h4>
+                </td>
+            </tr>
+            </thead>
+        </table>
+    </div>
+    <div class="content_text" style="font-size: 18px">
+        <p>Fecha de emisión: <span th:text="${(#dates.format(emissionDate, 'dd/MM/yyyy')) }"></span></p>
+        <p>Nombre del estudiante: <span th:text="${userFullName}"></span></p>
+        <p>
+            Por medio de la presente se le informa que su trabajo ha sido leído por el (la) lector (a) designado (a),
+            por que se remite a usted las observaciones para que sean aplicadas al documento de titulación.
+        </p>
+        <p>Tema del Trabajo de Integración Curricular: <span th:text="${topicName}"></span></p>
+        <p>Fecha máxima de entrega de las correcciones en formato Word y PDF: <span
+                th:text="${(#dates.format(maxDate, 'dd/MM/yyyy'))}"></span></p>
+        <br>
+        Atentamente,
+        <br>
+        <br>
+        <br>
+        <p><b>Unidad de Titulación de la UNIB.E.</b></p>
+    </div>
+</div>
+</body>
+</html>
+</html>

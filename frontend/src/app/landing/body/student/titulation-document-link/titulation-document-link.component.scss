@@ -1,0 +1,32 @@
+.thesis__container ::ng-deep .p-fileupload-content .p-progressbar {
+    display: none;
+}
+
+.thesis__container .selectedFile {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    & td {
+        text-align: center;
+        border: 1px solid black;
+        overflow: hidden;
+        padding: 0.5rem;
+        word-break: normal;
+    }
+    & th {
+        border: 1px solid black;
+        overflow: hidden;
+        padding: 1rem;
+        word-break: normal;
+    }
+}
+
+.thesis__container ::ng-deep .p-progress-spinner-svg {
+    height: 4rem;
+}
+
+@media screen and (min-width: 300px) and(max-width: 467px) {
+    .thesis__container ::ng-deep .p-fileupload .p-fileupload-buttonbar .p-button {
+        margin-top: 1rem;
+    }
+}

@@ -1,0 +1,162 @@
+<div class="tutorLetter__container" *ngIf="tutorDesignation">
+    <p-dialog header="Vista Previa" [(visible)]="tutorDocumentPreview"
+        [breakpoints]="{'1200px' : '60vw', '960px': '70vw', '850px':'80vw' ,'650px': '100vw'}" [style]="{width: '50vw', margin: '0 1rem'}"
+        [draggable]="false" [resizable]="false" [modal]="true" (onHide)="closeTutorDocumentModal()">
+        <p-card class="sm:col-12 md:col-10 lg:col-8 xl:col-7 card">
+            <ng-template pTemplate="header">
+                <app-documents-header documentTitle="DESIGNACIÓN COMO TUTOR (A)" formNumber="013">
+                </app-documents-header>
+            </ng-template>
+            <ng-template pTemplate="content">
+                <form #tutorLetterForm="ngForm">
+                    <div class="flex align-items-center justify-content-end mt-1">
+                        <p class="text-lg"> Quito, D.M. {{tutorDesignation.date | date: 'dd/MM/yyyy'}} </p>
+                    </div>
+                    <div class="flex align-items-center justify-content-start">
+                        <p class="text-lg flex">Docente: {{tutorDesignation.teacher.name + ' ' +
+                            tutorDesignation.teacher.lastName}} </p>
+
+                    </div>
+                    <div class="flex align-items-center justify-content-start pt-3 mb-3">
+                        <p class="text-lg"> Presente.</p>
+                    </div>
+                    <div class="text-justify line-height-3">
+                        <p class="text-lg">Estimado (a) docente, atendiendo a su experiencia el Comité
+                            de trabajo de
+                            integración de la Carrera de
+                            {{tutorDesignation.topicStudent[0]?.student.career.name}} que está adscrita a la
+                            Facultad {{tutorDesignation.topicStudent[0]?.student.career.faculty.name}} le
+                            notifica que ha sido designado (a) como tutor (a) de
+                            Trabajo de Integración curricular
+                            <br>
+                            Propuesta de investigación
+                        </p>
+                        <p class="mt-5 text-lg">
+                            De los siguientes estudiantes:
+                        </p>
+                    </div>
+                    <table class="tg col-12">
+                        <thead>
+                            <tr>
+                                <th class="tg-0pky col-4 text-center font-bold text-md">Nombres y
+                                    Apellidos de
+                                    estudiantes</th>
+                                <th class="tg-0pky col-4 text-center font-bold text-md">Tema aprobado
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="tg-0pky text-center uppercase">
+                                    <p>{{tutorDesignation.topicStudent[0]?.student.name + ' ' +
+                                        tutorDesignation.topicStudent[0]?.student.secondName + ' ' +
+                                        tutorDesignation.topicStudent[0]?.student.lastName + ' ' +
+                                        tutorDesignation.topicStudent[0]?.student.secondLastName}}</p>
+                                </td>
+                                <td class="tg-0pky text-center" rowspan="2">
+                                    {{tutorDesignation.topicStudent[0]?.topic.name}}</td>
+                            </tr>
+                            <tr *ngIf="tutorDesignation.topicStudent[0]?.topic.twoStudents">
+                                <td class="tg-0pky text-center">
+                                    <div class="flex flex-column justify-content-end uppercase">
+                                        <p>{{tutorDesignation.topicStudent[1]?.student.name + ' ' +
+                                            tutorDesignation.topicStudent[1]?.student.secondName + ' ' +
+                                            tutorDesignation.topicStudent[1]?.student.lastName + ' ' +
+                                            tutorDesignation.topicStudent[1]?.student.secondLastName}}</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="considerations mt-3">
+                        <p class="text-lg">Considerando que según el Artículo No. 45 del Reglamento de
+                            titulación, entre sus funciones se encuentran:</p>
+                        <ol type="a" class="ml-6 line-height-3">
+                            <li>
+                                Orientar al estudiante sobre la información bibliográfica pertinente.
+                            </li>
+                            <li>
+                                Asesorar oportunamente sus dudas y consultas.
+                            </li>
+                            <li>
+                                Exigir y revisar periódicamente la presentación de avances del Documento
+                                del Trabajo de Integración Curricular o de la Propuesta de
+                                Investigación.
+                            </li>
+                            <li>
+                                Sugerir correcciones y enmiendas.
+                            </li>
+                            <li>
+                                Exigir al estudiante el cumplimiento de procedimientos técnicos y
+                                administrativos que correspondan.
+                            </li>
+                            <li>
+                                Realizar el registro de las horas de tutorías especificando la actividad
+                                realizada en cada uno de los encuentros en el formulario establecido.
+                            </li>
+                            <li>
+                                Reportar al Director (a) de Carrera las horas de tutorías y avances del
+                                Trabajo de Integración Curricular o de la Propuesta de Investigación por
+                                cada estudiante de forma periódica.
+                            </li>
+                            <li>
+                                Reportar al Director(a) el incumplimiento de las horas de tutorías por
+                                parte del estudiante y presentarle las evidencias que respaldan las
+                                acciones realizadas para que el estudiante cumpla con las tutorías.
+                            </li>
+                            <li>
+                                Garantizar que no exista plagio, y de evidenciar su existencia realizar
+                                los correctivos a tiempo.
+                            </li>
+                            <li>
+                                Garantizar un Trabajo de Integración Curricular o una Propuesta de
+                                Investigación con fundamentos técnicos, metodológicos y ajustado a las
+                                normas vigentes establecidas por la universidad.
+                            </li>
+                            <li>
+                                Cumplir con las tutorías de manera semanal desde el momento que recibe
+                                la designación por parte del Comité de Trabajo de Integración
+                                Curricular.
+                            </li>
+                            <li>
+                                Velar por el cumplimiento de las horas de tutorías por parte del (de la)
+                                estudiante y dejar evidencias de las acciones realizadas
+                            </li>
+                            <li>
+                                Brindar tutorías al estudiante hasta el momento de su presentación oral.
+                            </li>
+                            <li>
+                                Informar y justificar al (as) Director (a) de Carrera las posibles
+                                ausencias a las tutorías a través del informe correspondiente.
+                            </li>
+                            <li>
+                                En el caso que el (la) tutorado no logre los objetivos para la entrega
+                                del trabajo de integración curricular o de la propuesta de investigación
+                                en las fechas establecidas, deberá generar un informe con la exposición
+                                de motivos y entregar al (la) Director (a) de carrera
+                            </li>
+                        </ol>
+                        <p class="mt-3 text-lg">Agradeciendo su receptividad y colaboración, me despido
+                            reiterándole mi estima.
+                        </p>
+                        <div class="sign flex justify-content-center mt-8">
+                            <div class="careerDirector_sign flex flex-column col-6 p-0">
+                                <div class="line" style="border-bottom: 1px solid black;"></div>
+                                <p>Director (a) de carrera</p>
+                                <p>Secretario (a) del comité</p>
+                            </div>
+                            <div class="decano flex flex-column ml-3 col-6 p-0">
+                                <div class="line" style="border-bottom: 1px solid black;"></div>
+                                <p>Decano (a) de Facultad</p>
+                                <p>Presidente del comité</p>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </ng-template>
+        </p-card>
+        <ng-template pTemplate="footer">
+            <p-button (click)="closeTutorDocumentModal()" label="Cerrar" styleClass="p-button-text"></p-button>
+        </ng-template>
+    </p-dialog>
+</div>

@@ -1,0 +1,78 @@
+<div class="body_container flex flex-column">
+    <div class="tittle text-left md:text-left pt-2">
+        <h1>Asignar tutor</h1>
+    </div>
+    <div class="tabView_container">
+        <p-tabView>
+            <p-tabPanel header="Asignación de tutores">
+                <div class="table_container" *ngIf="topicProposalOnExecution">
+                    <p-table #dt2 [value]="topicProposalOnExecution" [loading]="!topicProposalOnExecution" styleClass="fadein animation-duration-500"
+                        [globalFilterFields]="['topicStudent.0.topic.name', 'topicStudent.0.student.name','topicStudent.1.student.name','topicStudent.0.student.lastName','topicStudent.1.student.lastName']"
+                        dataKey="id" [responsiveLayout]="'scroll'" [paginator]="true" [rows]="7">
+                        <ng-template pTemplate="caption">
+                            <div class="search_input flex col-12 sm:col-8 md:col-4 p-0">
+                                <span class="p-input-icon-left col-12 p-0">
+                                    <i class="pi pi-search ml-2"></i>
+                                    <input pInputText type="text" class="w-full"
+                                        (input)="applyFilterProposalTopics($event, 'contains')"
+                                        placeholder="Buscar por tema o estudiante" />
+                                </span>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th id="number">N°</th>
+                                <th id="name">Tema</th>
+                                <th id="articulation">Articulación</th>
+                                <th id="dni">Estudiante (es)</th>
+                                <th id="career">Carrera</th>
+                                <th id="asigmentDate">Fecha de asignación</th>
+                                <th id="topicEvaluation">Estado</th>
+                                <th id="actions">Acciones</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-topicProposalOnExecution let-rowIndex="rowIndex">
+                            <tr>
+                                <td class="text-justify">{{rowIndex + 1}}</td>
+                                <td class="col-5 text-justify">
+                                    {{topicProposalOnExecution.topicStudent[0].topic.name}}
+                                </td>
+                                <td class="col">
+                                    {{topicProposalOnExecution.topicStudent[0].topic.articulation}}
+                                </td>
+                                <td class="col-2">
+                                    <ul>
+                                        <li *ngFor="let students of topicProposalOnExecution.topicStudent">
+                                            {{students.student.name + ' ' + students.student.lastName}}
+                                        </li>
+                                    </ul>
+                                </td>
+                                <td class="col-2">{{topicProposalOnExecution.topicStudent[0].topic.career.name}}
+                                </td>
+                                <td class="col-2">{{topicProposalOnExecution.topicStudent[0].assignedDate |
+                                    date:'yyyy-MM-dd'}}
+                                </td>
+                                <td class="col">{{topicProposalOnExecution.topicStudent[0].topic.topicStatus}}
+                                </td>
+                                <td>
+                                    <button pButton pRipple type="button" label="Designar tutores"
+                                        class="p-button p-button-primary" (click)="test(topicProposalOnExecution.id)">
+                                    </button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="8" class="text-lg" *ngIf="topicProposalOnExecution.length===0">No existe
+                                    temas para gestionar
+                                </td>
+                                <td colspan="8" class="text-lg" *ngIf="topicProposalOnExecution.length!==0">
+                                    No se encontraron resultados</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </p-tabPanel>
+        </p-tabView>
+    </div>
+</div>

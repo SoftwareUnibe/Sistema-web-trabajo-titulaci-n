@@ -1,0 +1,18 @@
+<div class="header flex justify-content-between md:justify-content-end align-items-center p-1" *ngIf="user">
+    <button #btn type="button" class="p-button-text text-white hamburguer-menu" pButton pRipple icon="fa-solid fa-bars"
+        (click)="menu.toggle($event)"></button>
+    <p-tieredMenu #menu class="responsive_menu" [model]="resposiveMenuItems" [popup]="true"></p-tieredMenu>
+    <p class="text-sm mr-1 md:mr-3">{{getUserRoleName(user.roles[0].rolName)}}</p>
+
+    <div class="flex justify-content-end pr-1">
+        <div class="user_info flex align-items-center">
+            <i class="fa-solid fa-user-gear text-white mr-3"></i>
+            <p class="text-sm">{{user.name + " "+user.lastName}}</p>
+        </div>
+        <div class="user_info_button">
+            <button #btn type="button" class="p-button-text" pButton pRipple icon="pi pi-angle-down"
+                (click)="userMenu.toggle($event)"></button>
+            <p-tieredMenu #userMenu [model]="userMenuItems" [popup]="true"></p-tieredMenu>
+        </div>
+    </div>
+</div>

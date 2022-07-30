@@ -1,0 +1,67 @@
+body {
+    font-family: Roboto, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
+    font-size: 15px;
+}
+.container{
+    display: -webkit-flex;
+    flex-direction: column;
+    padding: 1rem 22rem 0 22rem;
+}
+
+.header{
+    display: -webkit-flex;
+    webkit-justify-content: center;
+    justify-content: center;
+}
+
+.logo {
+    width: 100%;
+    height: 6rem;
+}
+
+.document_title h3{
+   	text-align: center;
+}
+
+.student_info .student{
+    align-items: center;
+}
+
+.student_info .student p,
+.proposalData p{
+    margin:1rem 0;
+}
+
+.denunciation_footer{
+    display: inline-block;
+    width: 100%;
+}
+
+.denunciation_footer p{
+    margin: 0;
+}
+
+.max-length{
+    max-width: 26.5%;
+    text-align: center;
+    min-width: 26.5%;
+    margin-right: 44px;
+    display: inline-block;
+    inline-size: 150px;
+    overflow-wrap: break-word;
+    vertical-align: text-top;
+    line-height: normal;
+}
+.max-length-end{
+    max-width: 26.5%;
+    text-align: center;
+    min-width: 26.5%;
+    display: inline-block;
+    inline-size: 150px;
+    overflow-wrap: break-word;
+    vertical-align: text-top;
+    line-height: normal;
+}
+.padding{
+    padding-left: 30px;
+}

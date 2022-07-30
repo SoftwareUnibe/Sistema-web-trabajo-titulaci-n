@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>Persistence</ID>
+  <OriginalElement>JavaeeElement:/4cf75d18/entityManagerFactory/backend/jpa/JPA/PersistenceModel</OriginalElement>
+  <nodes>
+    <node x="1445.7748944610578" y="407.7788038854673">ProductAndWorkEvaluation#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/ProductAndWorkEvaluation.java</node>
+    <node x="1287.7711214083122" y="755.6786716916495">ReaderObservations#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/ReaderObservations.java</node>
+    <node x="462.5142966790704" y="341.5363329917756">User#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/security/entity/User.java</node>
+    <node x="1101.7497121142824" y="396.7788038854673">Topic#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/Topic.java</node>
+    <node x="-215.89245374846865" y="680.3389472523792">TopicApprovalNotification#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/TopicApprovalNotification.java</node>
+    <node x="-205.89245374846865" y="175.16130330095035">TopicDenunciation#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/TopicDenunciation.java</node>
+    <node x="120.95503620537704" y="416.5779174767602">TopicStudent#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/TopicStudent.java</node>
+    <node x="448.082100909123" y="880.6835317002683">Reader#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/Reader.java</node>
+    <node x="-244.89245374846865" y="411.5779174767602">TopicProposal#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/TopicProposal.java</node>
+    <node x="165.95503620537704" y="759.3389472523792">DesignationTT#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/DesignationTT.java</node>
+    <node x="1489.2748944610578" y="222.82886998237623">TutoringHours#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/TutoringHours.java</node>
+    <node x="380.0142966790704" y="169.16130330095035">Rol#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/security/entity/Rol.java</node>
+    <node x="795.0134925570159" y="605.7804867853641">CalendarDetail#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/CalendarDetail.java</node>
+    <node x="555.5289938340378" y="169.16130330095035">TutoringConstancy#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/TutoringConstancy.java</node>
+    <node x="805.7198194194324" y="414.7791075582496">Career#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/Career.java</node>
+    <node x="826.7198194194324" y="233.16130330095035">Faculty#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/Faculty.java</node>
+    <node x="1451.2748944610578" y="592.7287377885584">ReaderAccordance#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/ReaderAccordance.java</node>
+    <node x="944.3252548141351" y="817.7804867853641">FinalDegreeCalendar#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/FinalDegreeCalendar.java</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="ProductAndWorkEvaluation#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/ProductAndWorkEvaluation.java" target="Topic#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/Topic.java" relationship="RELATION">
+      <point x="108.9995227322812" y="-3.5039394468583396E-4" />
+      <point x="1339.2543170743088" y="489.7784534915226" />
+      <point x="1339.2543170743088" y="489.7788038854673" />
+      <point x="1216.9350670907124" y="489.7788038854673" />
+      <point x="37.18535497643006" y="-37.77880388546731" />
+    </edge>
+    <edge source="TopicProposal#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/TopicProposal.java" target="TopicStudent#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/TopicStudent.java" relationship="RELATION">
+      <point x="135.4997033209296" y="-4.379110784924478E-5" />
+      <point x="26.107249572460944" y="509.81791780482735" />
+      <point x="231.955382608857" y="509.81791780482735" />
+      <point x="3.4640347996628407E-4" y="-81.99999967193276" />
+    </edge>
+    <edge source="TopicApprovalNotification#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/TopicApprovalNotification.java" target="TopicStudent#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/TopicStudent.java" relationship="RELATION">
+      <point x="72.64353607058126" y="-25.655415552110867" />
+      <point x="152.83897605285148" y="725.6835317002683" />
+      <point x="-79.11606015252556" y="65.59384140019966" />
+    </edge>
+    <edge source="TopicDenunciation#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/TopicDenunciation.java" target="TopicStudent#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/TopicStudent.java" relationship="RELATION">
+      <point x="-96.49972076359325" y="6.537092900771313E-5" />
+      <point x="152.79939034031838" y="279.16136867187936" />
+      <point x="-79.15564586505866" y="-74.58448903363626" />
+    </edge>
+    <edge source="Reader#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/Reader.java" target="Topic#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/Topic.java" relationship="RELATION">
+      <point x="33.23375375643968" y="15.563371685364928" />
+      <point x="1163.0" y="956.2469033856332" />
+      <point x="-16.749712114282374" y="77.72119611453269" />
+    </edge>
+    <edge source="ReaderAccordance#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/ReaderAccordance.java" target="Topic#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/Topic.java" relationship="RELATION">
+      <point x="-98.52057738674876" y="9.271262211441638" />
+      <point x="1364.2550687612413" y="673.0" />
+      <point x="1364.2550687612413" y="550.2290809248556" />
+      <point x="1220.9350670907124" y="550.2290809248556" />
+      <point x="41.18535497643006" y="55.22119611453269" />
+    </edge>
+    <edge source="TopicStudent#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/TopicStudent.java" target="User#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/security/entity/User.java" relationship="RELATION">
+      <point x="-110.99965359651998" y="3.280672444816446E-7" />
+      <point x="292.0" y="498.57791780482745" />
+      <point x="292.0" y="497.5" />
+      <point x="6.985703320929588" y="7.963667008224377" />
+    </edge>
+    <edge source="Reader#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/Reader.java" target="User#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/security/entity/User.java" relationship="RELATION">
+      <point x="9.417899090876972" y="-50.683531700268304" />
+      <point x="-29.014296679070412" y="126.96366700822438" />
+    </edge>
+    <edge source="ReaderObservations#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/ReaderObservations.java" target="Topic#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/Topic.java" relationship="RELATION">
+      <point x="-101.00020811351465" y="3.235237776380018E-4" />
+      <point x="1219.0" y="815.6789952154271" />
+      <point x="1219.0" y="571.0" />
+      <point x="11.185354976430062" y="81.22119611453269" />
+    </edge>
+    <edge source="FinalDegreeCalendar#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/FinalDegreeCalendar.java" target="Career#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/Career.java" relationship="RELATION">
+      <point x="-5.090489047277529" y="-38.0" />
+      <point x="1026.7347657668574" y="483.2517212015344" />
+      <point x="883.7198194194324" y="483.2517212015344" />
+      <point x="883.7198194194324" y="520.015414379892" />
+      <point x="878.7198194194324" y="520.015414379892" />
+      <point x="0.0" y="60.0" />
+    </edge>
+    <edge source="DesignationTT#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/DesignationTT.java" target="User#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/security/entity/User.java" relationship="RELATION">
+      <point x="39.64353607058132" y="5.344584447889133" />
+      <point x="381.0" y="802.6835317002683" />
+      <point x="381.0" y="606.0" />
+      <point x="-66.16536050885941" y="116.46366700822438" />
+    </edge>
+    <edge source="CalendarDetail#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/CalendarDetail.java" target="FinalDegreeCalendar#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/FinalDegreeCalendar.java" relationship="RELATION">
+      <point x="3.11851183966057" y="-60.0" />
+      <point x="865.6320043966764" y="862.7151114781174" />
+      <point x="1031.825254814135" y="862.7151114781174" />
+      <point x="0.0" y="38.000000000000014" />
+    </edge>
+    <edge source="TutoringConstancy#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/TutoringConstancy.java" target="User#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/security/entity/User.java" relationship="RELATION">
+      <point x="-32.83002574893237" y="-19.66130330095035" />
+      <point x="602.1989680851054" y="628.0" />
+      <point x="43.83463949114059" y="138.46366700822438" />
+    </edge>
+    <edge source="Career#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/Career.java" target="Faculty#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/Faculty.java" relationship="RELATION">
+      <point x="0.28018058056761674" y="-49.77910755824962" />
+      <point x="879.0" y="311.0353461557101" />
+      <point x="880.613989501492" y="311.0353461557101" />
+      <point x="1.8941700820596452" y="34.83869669904965" />
+    </edge>
+    <edge source="TutoringHours#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/TutoringHours.java" target="Topic#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/Topic.java" relationship="RELATION">
+      <point x="-65.500253687326" y="-4.2670156244639657E-4" />
+      <point x="1364.2550687612413" y="304.82844328081376" />
+      <point x="1364.2550687612413" y="439.0" />
+      <point x="76.18535497643006" y="-50.77880388546731" />
+    </edge>
+    <edge source="TutoringConstancy#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/TutoringConstancy.java" target="Topic#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/Topic.java" relationship="RELATION">
+      <point x="-2.858645381138558E-4" y="-37.999531700268335" />
+      <point x="635.0287079694997" y="204.6835317002683" />
+      <point x="1131.0" y="204.6835317002683" />
+      <point x="-48.749712114282374" y="-38.27880388546731" />
+    </edge>
+    <edge source="CalendarDetail#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/CalendarDetail.java" target="User#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/security/entity/User.java" relationship="RELATION">
+      <point x="-34.01429667907041" y="22.219513214635867" />
+      <point x="828.4991958779455" y="704.0" />
+      <point x="585.0141144556342" y="704.0" />
+      <point x="585.0141144556342" y="583.5" />
+      <point x="72.98570332092959" y="93.96366700822438" />
+    </edge>
+    <edge source="DesignationTT#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/DesignationTT.java" target="TopicStudent#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/TopicStudent.java" relationship="RELATION">
+      <point x="-4.0009962970088964E-4" y="37.999584447889106" />
+      <point x="231.95463610574734" y="687.5354921094233" />
+      <point x="231.0" y="687.5354921094233" />
+      <point x="-0.9550362053770414" y="68.9220825232398" />
+    </edge>
+    <edge source="Topic#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/Topic.java" target="Career#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/Career.java" relationship="RELATION">
+      <point x="-76.74971211428237" y="-40.77880388546731" />
+      <point x="1021.0" y="449.0" />
+      <point x="1021.0" y="449.7791075582496" />
+      <point x="946.7328654004941" y="449.7791075582496" />
+      <point x="68.01304598106174" y="3.2208924417503795" />
+    </edge>
+    <edge source="CalendarDetail#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/CalendarDetail.java" target="Career#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/Career.java" relationship="RELATION">
+      <point x="67.49981777656376" y="1.7258807928330953" />
+      <point x="883.3731317966746" y="667.5063675781972" />
+      <point x="883.3731317966746" y="570.2797971718069" />
+      <point x="883.0" y="570.2797971718069" />
+      <point x="4.280180580567617" y="57.72089244175038" />
+    </edge>
+    <edge source="User#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/security/entity/User.java" target="Rol#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/security/entity/Rol.java" relationship="RELATION">
+      <point x="-59.01429667907041" y="-148.03633299177562" />
+      <point x="487.0" y="317.5" />
+      <point x="487.5142966790704" y="317.5" />
+      <point x="487.5142966790704" y="207.16130330095035" />
+      <point x="-69.0" y="0.0" />
+    </edge>
+    <edge source="User#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/security/entity/User.java" target="Career#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/Career.java" relationship="RELATION">
+      <point x="86.8209634365353" y="-44.53633299177562" />
+      <point x="721.9500724108789" y="445.0" />
+      <point x="721.9500724108789" y="444.0" />
+      <point x="-72.95699357172032" y="-30.77910755824962" />
+    </edge>
+    <edge source="TopicStudent#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/TopicStudent.java" target="Topic#file://D:/Proyectos/Titulation Process Web System/backend/src/main/java/com/tutorial/crud/entities/Topic.java" relationship="RELATION">
+      <point x="-14.999653596520034" y="-81.99999967193276" />
+      <point x="216.955382608857" y="130.66291780482737" />
+      <point x="1172.9350670907124" y="130.66291780482737" />
+      <point x="-6.814645023569938" y="-76.77880388546731" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.512" showDependencies="false" x="993.0424171655627" y="395.80468749999983" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Embeddables</Category>
+    <Category>Properties</Category>
+  </Categories>
+</Diagram>
+

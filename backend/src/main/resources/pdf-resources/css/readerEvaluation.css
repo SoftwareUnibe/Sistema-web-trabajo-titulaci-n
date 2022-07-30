@@ -1,0 +1,63 @@
+body {
+    font-family: Roboto, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
+    font-size: 15px;
+}
+p{
+    margin: 0.6rem;
+    font-size: 15px;
+}
+@page {
+    size: A4;
+}
+.container{
+}
+
+.logo {
+    width: 100%;
+    height: 8rem;
+}
+.date{
+    font-size: 16px;
+}
+.y{
+    margin-left: 5px;
+}
+.content{
+    line-height: 1.5;
+    text-align: justify;
+    font-size: 15px;
+}
+.header{
+    display: -webkit-flex;
+    webkit-justify-content: center;
+    justify-content: center;
+}
+.text-center{
+    text-align: center;
+    font-size: small;
+}
+table {
+    border: 1px solid;
+    min-width: 100%;
+    border-collapse: collapse;
+    text-align: start;
+  }
+   th, td {
+    border: 1px solid;
+    padding: 8px;
+  }
+.text-justify{
+    text-align: justify;
+    line-height: 15px;
+    font-size: small;
+}
+.text-left{
+    text-align: start;
+    font-size: small;
+}
+.tutor-container{
+    text-align: center;
+}
+.firm{
+    margin-top: 40px;
+}

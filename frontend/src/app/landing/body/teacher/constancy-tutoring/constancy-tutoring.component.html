@@ -1,0 +1,118 @@
+<div class="container">
+    <div class="actions_container flex justify-content-between p-3">
+        <p class="text-2xl font-bold xl:col-3">
+            Registro de Tutorías
+        </p>
+        <div class="flex buttons">
+            <button pButton pRipple type="button" label="Registrar una nueva tutoría" icon="pi pi-plus"
+                class="add p-button-rounded p-button-primary" (click)="showBasicDialog()"></button>
+            <button pButton pRipple type="button" label="Vista previa" icon="pi pi-eye"
+                class="preview p-button-rounded p-button-info"
+                (click)="openTutoringConstancyPreviewModal(tutorigConstancy)"></button>
+            <button pButton pRipple type="button" label="Generar constancia" icon="pi pi-file-pdf"
+                class="pdf p-button-rounded p-button-danger" *ngIf="!hasTutoringConstancy"
+                (click)="generateConstancyInPdf(topicStudents[0].topic.id, tutorigConstancy, tutoringDocument)"></button>
+            <button pButton pRipple type="button" label="Descargar constancia" icon="pi pi-file-pdf"
+                class="pdf p-button-rounded p-button-danger  mr-2" *ngIf="hasTutoringConstancy"
+                (click)="downloadConstancy(topicStudents[0].topic.id)"></button>
+        </div>
+    </div>
+    <div class="dialog_container">
+        <p-dialog header="Header" [(visible)]="handleConstancyDisplay" [modal]="true"
+            [breakpoints]="{'1200px' : '60vw', '960px': '70vw', '850px':'80vw' ,'600px': '100vw'}"
+            [style]="{width: '40vw', margin: '0 1rem'}" [draggable]="false" [resizable]="false"
+            (onHide)="resetContancy()">
+            <p-card class="tutory_card">
+                <ng-template pTemplate="header">
+                    <div class="flex text-center justify-content-center pt-3">
+                        <p *ngIf="!edit" class="text-2xl font-semibold">Registro de tutoria</p>
+                        <p *ngIf="edit" class="text-2xl font-semibold">Editar tutoria</p>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="content">
+                    <div class="flex flex-column">
+                        <div class="grid grid-nogutter flex min-w-full px-1">
+                            <div class="col-12 p-0 justify-content-start">
+                                <p class="text-lg font-medium col-12 p-0">Número de horas</p>
+                                <input type="number" class="w-full" pInputText name="hours"
+                                    [(ngModel)]="newContancy.hours">
+                            </div>
+                        </div>
+                        <div class="flex flex-column align-items-start min-w-full py-3 activity_container">
+                            <p class="text-lg font-medium">Descripción de la actividad</p>
+                            <textarea class="activity_area inputfield w-full" cols="60" name="activity" pInputTextarea
+                                [autoResize]="true" [(ngModel)]="newContancy.activity"></textarea>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-card>
+            <ng-template pTemplate="footer">
+                <p-button (click)="handleConstancyDisplay=false" label="Cancelar"
+                    styleClass="p-button-raised p-button-danger">
+                </p-button>
+                <button pButton pRipple type="button" label="Añadir" *ngIf="!edit"
+                    class="p-button-raised p-button-primary  mr-2"
+                    (click)="saveTutoringConstancy(newContancy)" [loading]="loading"></button>
+                <button pButton pRipple type="button" label="Guardar" *ngIf="edit" [loading]="loading"
+                    class="p-button-raised p-button-primary mr-2" (click)="editTutoringConstancy(newContancy)"></button>
+
+            </ng-template>
+        </p-dialog>
+    </div>
+    <div class="table_container" *ngIf="topicStudents">
+        <p-table #dt [value]="tutorigConstancy" styleClass="p-datatable fadein animation-duration-500" [globalFilterFields]="['name']"
+            selectionMode="single" dataKey="id" [responsiveLayout]="'scroll'" [metaKeySelection]="true"
+            [loading]="!tutorigConstancy"
+            [paginator]="true" [rows]="7">
+            <ng-template pTemplate="caption">
+                <div class="flex flex-column justify-content-end">
+                    <div class="flex align-items-center">
+                        <p class="text-lg font-semibold mr-2 col-12 p-0">Tema:
+                            <span class="font-light">{{topicStudents[0].topic.name}}</span>
+                        </p>
+                    </div>
+                    <div class="flex students mt-2">
+                        <p class="text-lg font-semibold mr-2">Estudiantes:</p>
+                        <p class="mr-2" *ngFor="let topicStudent of topicStudents">{{topicStudent.student.name+"
+                            "+topicStudent.student.lastName+"." }}</p>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th id="number">N°</th>
+                    <th id="articulation">Fecha</th>
+                    <th id="name">Actividad</th>
+
+                    <th id="career">N° de Horas</th>
+                    <th id="career">Periodo</th>
+                    <th id="career">Acciones</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-constancy let-rowIndex="rowIndex">
+                <tr>
+                    <td>{{constancy.number}}</td>
+                    <td>{{formatDate(constancy.date)}}</td>
+                    <td class=" text-justify">{{constancy.activity}}</td>
+
+                    <td>{{constancy.hours}}</td>
+                    <td>{{constancy.period}}</td>
+                    <td>
+                        <div class="button_container flex">
+                            <button pButton pRipple type="button" icon="pi pi-pencil" pTooltip="Editar"
+                                tooltipPosition="top" class="p-button-rounded p-button-info p-button-text"
+                                (click)="openDialogToEdit(constancy)"></button>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="6" class="text-lg">Todavia no se ha registrado ninguna tutoria.</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+<app-constancy-tutoring-preview [tutoringList]="tutorigConstancy" [show]="showPreview" [students]="topicStudents"
+    [tutor]="teacher" (showTutoringContancy)="closeTutoringConstancyPreviewModal()"></app-constancy-tutoring-preview>

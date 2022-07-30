@@ -1,0 +1,124 @@
+<div class="reader__container flex flex-column">
+    <h1>Proceso de lectoría</h1>
+    <div class="flex justify-content-center">
+        <p-progressSpinner *ngIf="loading"></p-progressSpinner>
+    </div>
+    <ng-container *ngIf="reader$ | async  as reader ; else noReadersYet">
+        <div class="table-container">
+            <p-table #dt styleClass="p-datatable fadein animation-duration-500" [value]="readerTable" dataKey="id"
+                [responsiveLayout]="'scroll'" [loading]="!reader$">
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column align-items-start justify-content-between 
+                    grid-nogutter flex-wrap">
+                        <p class="mb-2 text-lg"><b>Trabajo de titulación: </b>
+                            "{{reader.topic.name}}"
+                        </p>
+                        <p class="text-lg mb-2"><b>Carrera: </b>{{reader.topic.career.name}}</p>
+                        <p class="text-lg mb-2"><b>Fecha: </b>{{reader.date | date:'dd/MM/YYYY'}}</p>
+                        <p class="text-lg mb-2"><b>Estado de la lectoria: </b>{{reader.state}}</p>
+                        <p class="text-lg mb-2"><b>Lector:</b> {{reader.reader.name + ' ' + reader.reader.secondName + '
+                            ' +
+                            reader.reader.lastName + ' ' +
+                            reader.reader.secondLastName}}</p>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th id="number">Estado</th>
+                        <th id="name">Carta de designación</th>
+                        <th id="career">Evaluación</th>
+                        <th id="career">Observaciones</th>
+                        <th id="career">Verificación correcciones</th>
+                        <th id="career">Resultado lectoría</th>
+
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowIndex="rowIndex">
+                    <tr>
+                        <td>
+                            <ng-container
+                                *ngIf="reader.state === 'Creando calendario' || reader.state === 'En Defensa' else processEnded">
+                                <span class=" font-semibold">Proceso finalizado</span>
+                            </ng-container>
+                            <ng-template #processEnded>
+                                <span class=" font-semibold">{{reader.state}}</span>
+                            </ng-template>
+                        </td>
+                        <td>
+                            <button pButton pRipple type="button" icon="pi pi-file-pdf" pTooltip="Descargar PDF"
+                                tooltipPosition="top" class="p-button-text  p-button-primary " label="Descargar"
+                                (click)="saveAsPdf(reader.id)"></button>
+                        </td>
+                        <td>
+                            <p-message *ngIf="reader.state=='Asignado'" severity="info" text="No evaluado"
+                                styleClass="mr-2"></p-message>
+                            <div class="flex justify-content-start"
+                                *ngIf="reader.state=='Evaluado' || reader.state=='Evaluado con observaciones' || reader.state=='En conformidad' || reader.state=='Siguiente jornada' || reader.state=='En no conformidad'||  reader.state === 'Creando calendario' || reader.state === 'En Defensa'">
+                                <button pButton pRipple type="button" icon="pi pi-file-pdf" pTooltip="Descargar PDF"
+                                    tooltipPosition="top" class="p-button-text p-button-primary " label="Descargar"
+                                    (click)="saveEvaluationPdf(reader.topic.id)"></button>
+                            </div>
+                        </td>
+                        <td>
+                            <p-message *ngIf="reader.state=='Asignado' || reader.state=='Evaluado'" severity="info"
+                                text="Sin observaciones" styleClass="mr-2"></p-message>
+
+                            <ng-container *ngIf="hasObservations$ | async as hasObservations; else noExistObservations">
+                                <div class="flex justify-content-start"
+                                    *ngIf="reader.state=='Evaluado con observaciones' || reader.state=='En conformidad' || reader.state=='Siguiente jornada'|| reader.state=='En no conformidad' || reader.state === 'Creando calendario' || reader.state === 'En Defensa'">
+                                    <button pButton pRipple type="button" icon="pi pi-file-pdf" pTooltip="Descargar PDF"
+                                        tooltipPosition="top" class="p-button-text p-button-primary " label="Descargar"
+                                        (click)="saveObservations(reader.topic.id)"></button>
+                                </div>
+                            </ng-container>
+                            <ng-template #noExistObservations>
+                                <p-message severity="info" text="Sin observaciones" styleClass="mr-2"></p-message>
+                            </ng-template>
+
+
+
+                        </td>
+                        <td>
+                            <p-message
+                                *ngIf="reader.state=='Asignado' || reader.state=='Evaluado' || reader.state=='Evaluado con observaciones'"
+                                severity="info" text="No verificado" styleClass="mr-2"></p-message>
+                            <div class="flex justify-content-start"
+                                *ngIf="reader.state=='En conformidad'|| reader.state=='En no conformidad' || reader.state === 'Creando calendario' || reader.state === 'En Defensa' ">
+                                <button pButton pRipple type="button" icon="pi pi-file-pdf" pTooltip="Descargar PDF"
+                                    tooltipPosition="top" class="p-button-text p-button-primary " label="Descargar"
+                                    (click)="saveAccordance(reader.topic.id)"></button>
+                            </div>
+                        </td>
+                        <td>
+                            <p-message
+                                *ngIf="reader.state==='Asignado'|| reader.state==='Evaluado' || reader.state==='Evaluado con observaciones'"
+                                severity="info" text="Sin resultado" styleClass="mr-2"></p-message>
+                            <div class="flex justify-content-start"
+                                *ngIf="reader.state=='En conformidad'|| reader.state=='En no conformidad' || reader.state === 'Creando calendario' || reader.state === 'En Defensa' ">
+                                <button pButton pRipple type="button" icon="pi pi-file-pdf" pTooltip="Descargar PDF"
+                                    tooltipPosition="top" class="p-button-text p-button-primary " label="Descargar"
+                                    (click)="downloadReaderProcessResult(reader.topic.id)"></button>
+                            </div>
+
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </ng-container>
+</div>
+<ng-template #noReadersYet>
+    <div class="col-6 p-0 align-self-center fadein animation-duration-500" *ngIf="!loading">
+        <p-messages severity="warn">
+            <ng-template pTemplate>
+                <div class="message flex flex-column">
+                    <div class="message__title flex align-items-center">
+                        <i class="pi pi-exclamation-triangle mr-2" style="font-size: 1.5rem"></i>
+                        <h3>IMPORTANTE</h3>
+                    </div>
+                    <p>Aún no tiene asignado ningún lector</p>
+                </div>
+            </ng-template>
+        </p-messages>
+    </div>
+</ng-template>

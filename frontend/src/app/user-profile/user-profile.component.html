@@ -1,0 +1,62 @@
+<div class="user__container grid grid-nogutter mt-4 mb-4" *ngIf="user">
+    <p-card>
+        <ng-template pTemplate="header">
+            <h2>Mi cuenta</h2>
+        </ng-template>
+        <form #userProfile="ngForm">
+            <div class="form__inputs formgrid grid">
+                <div class="field col-12 flex align-items-center"
+                    *ngIf="userRole !== 'Administrador' && userRole !== 'Financiero'">
+                    <p-message severity="warn"
+                        text="Advertencia: Los datos que ingrese en este apartado se mostrarán en los documentos que se generen a su nombre.">
+                    </p-message>
+                </div>
+                <p-divider class="col-12" *ngIf="userRole !== 'Administrador' && userRole !== 'Financiero'"></p-divider>
+                <h3 class="col-12 mb-2">Datos de la cuenta</h3>
+                <div class="field col-12 flex align-items-center">
+                    <p>Usted tiene una cuenta creada con el rol de <b>{{userRole}}</b><span *ngIf="user.career"> en la
+                            carrera de <b>{{user.career?.name}}</b> </span>
+                    </p>
+                </div>
+                <div class="field col-12 flex align-items-center">
+                    <h4>Número de cédula:</h4>
+                    <p class="ml-2">{{user.ci}}</p>
+                </div>
+                <small class="col-12 mb-3">*Los siguientes datos que se presentan pueden ser actualizados</small>
+                <div class="field col-12 sm:col-12 md:col-6">
+                    <label class="mb-2">Primer Nombre</label>
+                    <input type="text" pInputText class="p-inputtext-sm w-full" name="name" [(ngModel)]="user.name">
+                </div>
+                <div class="field col-12 sm:col-12 md:col-6">
+                    <label class="mb-2">Segundo Nombre</label>
+                    <input type="text" pInputText class="p-inputtext-sm w-full" name="secondName"
+                        [(ngModel)]="user.secondName">
+                </div>
+                <div class="field col-12 sm:col-12 md:col-6">
+                    <label class="mb-2">Primer Apellido</label>
+                    <input type="text" pInputText class="p-inputtext-sm w-full" name="lastName"
+                        [(ngModel)]="user.lastName">
+                </div>
+                <div class="field col-12 sm:col-12 md:col-6">
+                    <label class="mb-2">Segundo Apellido</label>
+                    <input type="text" pInputText class="p-inputtext-sm w-full" name="secondLastName"
+                        [(ngModel)]="user.secondLastName">
+                </div>
+                <div class="field col-12">
+                    <label class="mb-2">Correo electrónico</label>
+                    <input type="text" pInputText class="p-inputtext-sm w-full" name="email" [(ngModel)]="user.email">
+                </div>
+                <div class="field col-12">
+                    <label class="mb-2">Grado</label>
+                    <input type="text" pInputText class="p-inputtext-sm w-full" name="degree" [(ngModel)]="user.degree">
+                </div>
+                <div class="buttons col-12">
+                    <button pButton pRipple type="button" class="p-button-danger col p-2 mr-4" label="Cancelar"
+                        routerLink="/home"></button>
+                    <button pButton pRipple type="button" class="col" label="Guardar" [disabled]="!userProfile.dirty"
+                        style="background-color: #002858;" (click)="updateUser(user)"></button>
+                </div>
+            </div>
+        </form>
+    </p-card>
+</div>

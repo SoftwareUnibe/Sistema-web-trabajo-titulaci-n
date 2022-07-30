@@ -1,0 +1,234 @@
+<div class="auth__container ">
+    <div class="auth__forms grid grid-nogutter">
+        <div class="header">
+            <div class="university__info">
+                <div class="university__name col-9">
+                    <h3>Universidad Iberoamericana del Ecuador</h3>
+                </div>
+                <div class="university__logo col-3">
+                    <img src="../../assets/logo.png" alt="">
+                </div>
+            </div>
+        </div>
+        <p-tabView [(activeIndex)]="activeTabViewIndex">
+            <p-tabPanel header="Iniciar Sesión">
+                <form #loginForm="ngForm">
+                    <div class="form__inputs formgrid grid">
+                        <div class="field col-12">
+                            <label class="mb-2">Número de cédula</label>
+                            <input type="text" (keypress)="validateDni($event)" pattern="[0-9]{10,10}" [maxlength]="10"
+                                [minlength]="10" pInputText class="inputfield w-full" name="userName"
+                                [(ngModel)]="loginUser.userName" required>
+                            <small *ngIf="loginForm.controls['userName']?.errors?.pattern" class="p-error block">La
+                                cédula debe tener 10 carácteres</small>
+                        </div>
+                        <div class="field col-12">
+                            <label class="mb-2">Contraseña</label>
+                            <p-password [toggleMask]="true" [feedback]="false"
+                                styleClass="p-password p-component p-inputwrapper p-input-icon-right" name="password"
+                                [(ngModel)]="loginUser.password"></p-password>
+                        </div>
+                        <div class="field col-12 cursor-pointer underline">
+                            <small (click)="showResetPasswordModal()">Olvidaste tu contraseña? Haz click aquí</small>
+                        </div>
+                        <div class="signIn col-12">
+                            <button pButton pRipple type="submit" label="Iniciar Sesión" [loading]="loading"
+                                (click)="login(loginUser)"></button>
+                        </div>
+                    </div>
+                </form>
+            </p-tabPanel>
+
+            <p-tabPanel header="Registrarse">
+                <section class="col-12 p-0">
+                    <p class="font-bold">Atención: </p>
+                    <small class="font-medium">
+                        Los campos marcados con un * son obligatorios
+                    </small>
+                </section>
+
+                <form #registerForm="ngForm">
+                    <div class="form__inputs formgrid grid">
+                        <div class="field col-12 sm:col-12 md:col-6">
+                            <label class="mb-2">Primer Nombre *</label>
+                            <input type="text" pInputText class="inputfield w-full"
+                                [ngClass]="{'ng-dirty': registerForm.controls['name']?.errors?.required && registerForm.controls['name']?.touched }"
+                                name="name" [(ngModel)]="newUser.name" required>
+                        </div>
+                        <div class="field col-12 sm:col-12 md:col-6">
+                            <label class="mb-2">Segundo Nombre *</label>
+                            <input type="text" pInputText class="inputfield w-full" name="secondName"
+                                [(ngModel)]="newUser.secondName">
+                        </div>
+                        <div class="field col-12 sm:col-12 md:col-6">
+                            <label class="mb-2">Primer Apellido *</label>
+                            <input
+                                [ngClass]="{'ng-dirty': registerForm.controls['lastName']?.errors?.required && registerForm.controls['lastName']?.touched }"
+                                type="text" pInputText class="inputfield w-full" name="lastName"
+                                [(ngModel)]="newUser.lastName" required>
+                        </div>
+                        <div class="field col-12 sm:col-12 md:col-6">
+                            <label class="mb-2">Segundo Apellido *</label>
+                            <input type="text" pInputText class="inputfield w-full" name="secondLastName"
+                                [(ngModel)]="newUser.secondLastName">
+                        </div>
+                        <div class="field col-12">
+                            <label class="mb-2">Cédula *</label>
+                            <input type="text" (keypress)="validateDni($event)" [maxlength]="10" [minlength]="10"
+                                [ngClass]="{'ng-dirty': registerForm.controls['ci']?.errors?.required && registerForm.controls['ci']?.touched }"
+                                pInputText class="inputfield w-full" name="ci" pattern="[0-9]{10,10}"
+                                [(ngModel)]="newUser.ci" required>
+                            <small *ngIf="registerForm.controls['ci']?.errors?.pattern" class="p-error block">La cédula
+                                debe tener 10
+                                carácteres</small>
+                        </div>
+                        <div class="field col-12">
+                            <label class="mb-2">Email *</label>
+                            <input type="text" pInputText class="inputfield w-full" name="email"
+                                [ngClass]="{'ng-dirty': registerForm.controls['email']?.errors?.required && registerForm.controls['email']?.touched }"
+                                [(ngModel)]="newUser.email" pattern="{{emailVerifyPattern}}" required>
+                            <small *ngIf="registerForm.controls['email']?.errors?.pattern" class="p-error">*El email
+                                ingresado no es válido, vuelvo a intentar
+                            </small>
+                        </div>
+                        <div class="field col-12">
+                            <label class="mb-2">Contraseña *</label>
+                            <p-password [toggleMask]="true" [feedback]="true" promptLabel="Escribe tu contraseña"
+                                [ngClass]="{'ng-dirty': registerForm.controls['password']?.errors?.required && registerForm.controls['password']?.dirty }"
+                                name="password" styleClass="p-password p-component p-inputwrapper p-input-icon-right"
+                                [weakLabel]="passwordMeter.weakLabel" [mediumLabel]="passwordMeter.mediumLabel"
+                                [strongLabel]="passwordMeter.strongLabel" [(ngModel)]="newUser.password"
+                                [required]="true">
+                                <ng-template pTemplate="footer">
+                                    <p-divider></p-divider>
+                                    <p class="mt-2">Sugerencias</p>
+                                    <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+                                        <li>Al menos una letra minúscula</li>
+                                        <li>Al menos una letra mayúscula</li>
+                                        <li>Al menos un número</li>
+                                        <li>Mínimo 8 caracteres</li>
+                                    </ul>
+                                </ng-template>
+                            </p-password>
+                        </div>
+                        <div class="field col-12">
+                            <label class="mb-2">Rol que desempeña *</label>
+                            <p-dropdown [options]="roles" [(ngModel)]="selectedRole" optionLabel="name"
+                                optionValue='value' name="selectedRole" [required]="true">
+                            </p-dropdown>
+                        </div>
+                        <div class="field col-12" *ngIf="selectedRole == 'ROLE_CAREER_DIRECTOR' ||selectedRole ==  'ROLE_STUDENT'
+                            || selectedRole == 'ROLE_DEAN'">
+                            <label class="mb-2">Carrera *</label>
+                            <p-dropdown class="w-full inputfield" [options]="careers" [(ngModel)]="newUser.career"
+                                optionLabel="name" name="career" [required]="true">
+                            </p-dropdown>
+                        </div>
+                        <div class="field col-12"
+                            *ngIf="selectedRole == 'ROLE_CAREER_DIRECTOR' || selectedRole == 'ROLE_DEAN'|| selectedRole == 'ROLE_ACADEMIC_DIRECTOR' || selectedRole == 'ROLE_TEACHER'">
+                            <label class="mb-2">Grado *</label>
+                            <p-dropdown class="w-full inputfield" [options]="degrees" [(ngModel)]="newUser.degree"
+                                name="degree" [required]="true">
+                            </p-dropdown>
+                        </div>
+                        <div class="signIn col-12">
+                            <p>Al registrarse está aceptando las <span class="font-bold cursor-pointer"(click)="showTermsDialog()">politicas de privacidad</span> del sistema.</p>
+                        </div>
+                        <div class="signIn col-12">
+                            <button pButton pRipple type="submit" label="Registrarse" (click)="register()"
+                                [loading]="loading"></button>
+                        </div>
+                    </div>
+                </form>
+            </p-tabPanel>
+        </p-tabView>
+        <p-dialog header="Vista Previa" [(visible)]="openResetPasswordModal"
+            [breakpoints]="{'4000px':'30vw','1200px' : '40vw', '960px': '50vw', '850px':'70vw' ,'640px': '80vw'}"
+            [draggable]="false" [resizable]="false" [modal]="true">
+            <p-card class="sm:col-12 md:col-10 lg:col-8 xl:col-7 p-0">
+                <ng-template pTemplate="content">
+                    <ng-container *ngIf="!emailSentToStudent else emailSent">
+                        <div class="flex flex-column text-center card_header">
+                            <i class="fa-solid fa-lock"></i>
+                            <h2 class="mb-2">Olvidaste tu contraseña?</h2>
+                            <small class="text-sm mb-4">No te preocupes, se te enviará un email para <br>restablecer tu
+                                contraseña</small>
+                        </div>
+                        <form #passwordReset="ngForm">
+                            <div class="col-12 w-full p-0">
+                                <label class="font-bold">Email</label>
+                                <input type="text" pInputText class="inputfield w-full" name="resetEmail"
+                                    placeholder="Ingresa tu email..."
+                                    [ngClass]="{'ng-dirty': passwordReset.controls['resetEmail']?.errors?.required && passwordReset.controls['resetEmail']?.touched }"
+                                    [(ngModel)]="resetEmail" pattern="{{emailVerifyPattern}}" required>
+                                <small *ngIf="passwordReset.controls['resetEmail']?.errors?.pattern" class="p-error">*El
+                                    email ingresado no es válido, vuelva a intentar
+                                </small>
+                                <small *ngIf="emptyEmail && !resetEmail" class="p-error">Por favor ingresa un email, e
+                                    intente de nuevo</small>
+                            </div>
+                            <div class="flex flex-column w-full sendEmail">
+                                <button pButton pRipple [icon]="sendingEmail ? 'pi pi-spin pi-spinner' : ''"
+                                    (click)="sendResetPasswordEmail()" class="send mt-3"
+                                    [label]="!sendingEmail ? 'Enviar correo' : 'Enviando...'">
+                                </button>
+                                <button pButton type="button" (click)="closeResetPasswordModal()" label="Volver atrás"
+                                    icon="pi pi-arrow-left" class="p-button-text mt-2"></button>
+                            </div>
+                        </form>
+                    </ng-container>
+                    <ng-template #emailSent>
+                        <div class="flex flex-column text-center card_header">
+                            <i class="fa-solid fa-envelope"></i>
+                            <h2 class="mb-2 mt-2">Revisa tu correo</h2>
+                            <small class="text-sm mb-4">Se envío un link para restablecer tu contraseña a:
+                                <br>
+                                <b>{{resetEmail}}</b></small>
+                        </div>
+                        <p-button (click)="closeReceivedEmailModal()" icon="pi pi-arrow-left"
+                            label="Regresar a inicio de sesión" styleClass="p-button-text">
+                        </p-button>
+                    </ng-template>
+                </ng-template>
+            </p-card>
+        </p-dialog>
+    </div>
+</div>
+<div class="auth_footer flex justify-content-between p-1">
+    <div class="col-6 md:col-3 pl-2 flex justify-content-start ">
+        <a class="text-white font-light text-xs mt-1 align-self-center" href="https://www.unibe.edu.ec/">Universidad
+            Iberoamericana del Ecuador</a>
+    </div>
+    <div class="md:col-offset-5 sm:col-offset-0 pr-2 flex justify-content-end align-items-center">
+        <span class="text-white font-light text-xs ml-2 mr-2 cursor-pointer" (click)="showTermsDialog()">Política de
+            Privacidad</span>
+    </div>
+</div>
+<p-dialog header="Header" [(visible)]="displayTermsDialog" [style]="{width: '50vw'}">
+    <h2>Política de privacidad</h2>
+    <p class="text-justify mt-1">La presente política de privacidad regula el manejo de toda la información ingresada en el
+        Sistema Web para la
+        Asignación de Directores de Trabajo de Titulación y Tribunal de Grado de la Universidad Iberoamericana del
+        Ecuador (UNIB.E).
+    </p>
+    <h3 class="mt-1">Manejo de datos personales y académicos</h3>
+    <p class="text-justify mt-1">
+        El presente sistema comparte y recopila unicamente los datos personales y académicos 
+        de los usuarios que son necesarios para llevar a cabo el proceso de titulación dentro de la UNIB.E.
+    </p>
+    <h3 class="mt-1">Cookies</h3>
+    <p class="text-justify mt-1">
+        Las cookies son archivos con una pequeña cantidad de datos que se usan
+        comúnmente como identificadores únicos anónimos. Estos se envían a su
+        navegador desde los sitios web que visita y se almacenan en la memoria interna
+        de su dispositivo.
+        Al utilizar el presente sistema acepta el uso de las cookies esenciales para su correcto funcionamiento. Además, 
+        de las utilizadas por librerias de terceros para
+        recopilar información y mejorar sus servicios.
+    </p>
+
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check" (click)="displayTermsDialog=false" label="Aceptar" styleClass="p-button-text">
+        </p-button>
+    </ng-template>
+</p-dialog>

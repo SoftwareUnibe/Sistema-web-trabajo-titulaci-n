@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Carta conformidad o no conformidad</title>
+    <link rel="stylesheet" type="text/css" href="../pdf-resources/css/readerDesignationLetter.css" />
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="../pdf-resources/images/accordance.PNG" class="logo" />
+        </div>
+       
+        <div class="sentTo" style="font-size: 17px;">
+            <p><b>Fecha de emisión: </b> <span
+                th:text="|${(#dates.format(accordance.date, 'dd'))} de ${(#dates.format(accordance.date, 'MMMM'))} de ${(#dates.format(accordance.date, 'yyyy'))}|"></span></p>
+                <p><b>Nombre del docente: </b> <span
+                    th:text="${tutorName} "></span></p>
+            <p>Por medio del presente se le solicita verificar que </p>
+            <p th:each="topicStudent: ${students}"><b>Nombre del estudiante: </b> <span th:text="|${topicStudent.student.name} ${topicStudent.student.secondName} ${topicStudent.student.lastName} ${topicStudent.student.secondLastName}|"></span></p>
+            <p><b>Tema del Trabajo de Integración Curricular: </b><span th:text="${accordance.topic.name}"></span> </p>
+            <div class="letter_Info">
+              
+                <p>
+                    Marcar con una equis (x) según corresponda la conformidad o no conformidad de las correcciones
+                </p>
+                <div class="table_container">
+                  <p  style="margin-top: 15px;"><span style="border: solid rgb(0, 0, 0) 4px;padding: 5px; color: white;">ss <span style="color: black;" th:if="${accordance.accordance}">X</span><span  th:if="not ${accordance.accordance}">X</span>ss</span> Conformidad</p>
+                  <p style="margin-top: 25px; margin-bottom: 15px;"><span style="border: solid rgb(0, 0, 0) 4px;padding: 5px; color: white;">ss<span th:if="${accordance.accordance}">X</span><span style="color: black;" th:if="not ${accordance.accordance}">X</span>ss</span> No Conformidad</p>
+                </div>
+                <p>
+                    En caso de existir no conformidad indicar en el formulario de registro de observaciones las
+                    inconformidades.
+                </p>
+                <p>
+                    Fecha máxima de entrega de los resultados de la verificación: <span th:text="|${(#dates.format(accordance.maxDate, 'dd'))} de ${(#dates.format(accordance.maxDate, 'MMMM'))} de ${(#dates.format(accordance.maxDate, 'yyyy'))}|"></span>
+                </p>
+                <p>
+                    Atentamente,
+                </p>
+                <p style="margin-top: 80px;">
+                    <b>Unidad de Titulación de la UNIB.E.</b>
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+</html>

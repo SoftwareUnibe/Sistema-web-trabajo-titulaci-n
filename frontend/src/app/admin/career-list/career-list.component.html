@@ -1,0 +1,83 @@
+<div class="careers_container flex flex-column" *ngIf="careers">
+    <div class="table_container p-3">
+        <p-table #dt [value]="careers" styleClass="p-datatable" [globalFilterFields]="['name']" dataKey="id"
+            [responsiveLayout]="'scroll'" [paginator]="true" [rows]="7">
+            <ng-template pTemplate="caption">
+                <div class="flex align-items-center justify-content-between 
+                        grid-nogutter flex-wrap">
+                    <div class="topics__info lg:col-7 md:col-6 col-12">
+                        <h2>Lista de carreras</h2>
+                        <h4 class="mt-2"></h4>
+                        <button pButton pRipple (click)="openDialog()" label="Añadir" icon="pi pi-plus"
+                            class="col-12 p-3 md:col-8 lg:col-4 p-button-primary button-outline"></button>
+                    </div>
+
+                    <div class="flex mt-2 lg:mt-0 lg:col-5 col-12">
+                        <span class="p-input-icon-left col-12 p-0">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" class="inputfiled w-full"
+                                (input)="applyFilterGlobal($event, 'contains')" placeholder="Buscar carrera" />
+                        </span>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th id="number">N°</th>
+                    <th id="student">Nombre</th>
+                    <th id="student">Grado</th>
+                    <th id="student">Facultad</th>
+                    <th id="student">Editar</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-career let-rowIndex="rowIndex">
+                <tr>
+                    <td>{{rowIndex+1}}</td>
+                    <td class=" text-justify">{{career.name}}</td>
+                    <td class=" text-justify">{{career.degree}}</td>
+                    <td class=" text-justify">{{career.faculty.name}}</td>
+                    <td>
+                        <button pButton pRipple type="button" icon="pi pi-pencil" pTooltip="Editar"
+                            tooltipPosition="top" class="p-button-rounded p-button-info p-button-text"
+                            (click)="openEditDialog(career)"></button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    <p-dialog [(visible)]="dialog" [breakpoints]="{'1200px' : '40vw', '960px': '50vw', '850px':'60vw' ,'650px': '80vw'}"
+        [style]="{width: '30vw', margin: '0 1rem', height:'auto'}" header="Product Details" [modal]="true" styleClass="p-fluid">
+        <ng-template pTemplate="content">
+            <p-card class="">
+                <div class="field p-2">
+                    <h4 *ngIf="edit" class="mb-3">Únicamente se pueden editar los campos marcados con un (*) </h4>
+                    <label for="name" class="text-lg font-semibold ">Nombre {{attributesToEdit}}</label>
+                    <input type="text" pInputText id="name" [(ngModel)]="newCareer.name" required autofocus />
+                    <small class="p-error min-w-full" *ngIf="!newCareer.name && submit">El nombre es
+                        obligatorio.</small>
+                    <p></p>
+                    <label for="name" class="text-lg font-semibold mt-2">Grado {{attributesToEdit}}</label>
+                    <input type="text" pInputText id="degree" placeholder="Ej: Ingeniero en software"
+                        [(ngModel)]="newCareer.degree" required />
+
+                    <small class="p-error min-w-full" *ngIf="!newCareer.degree && submit">El grado es
+                        obligatorio.</small>
+                    <p></p>
+                    <div class="flex flex-column font-semibold txt-lg mt-2">
+                        <label>Tiene producto</label>
+                        <p-inputSwitch [(ngModel)]="newCareer.hasProduct" name="checked" class="mt-2" [disabled]="edit ? true : false">
+                        </p-inputSwitch>
+                    </div>
+                    <label for="faculty" class="text-lg font-semibold mt-2">Facultad</label>
+                    <p-dropdown [options]="faculties" [(ngModel)]="newCareer.faculty" placeholder="Facultad"
+                        optionLabel="name" [showClear]="true" [disabled]="edit" class="pb-3"></p-dropdown>
+                    <small class="p-error" *ngIf="!newCareer.faculty && submit">Debe seleccionar una facultad.</small>
+                    <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button mb-1 mt-2"
+                        (click)="editCareer()" [loading]="loading"></button>
+                    <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-danger"
+                        (click)="hideDialog()" [disabled]="loading"></button>
+                </div>
+            </p-card>
+        </ng-template>
+    </p-dialog>
+</div>

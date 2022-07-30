@@ -1,0 +1,194 @@
+<div class="calendar_container flex flex-column">
+    <div class="tittle text-left md:text-left pt-2 mb-4">
+        <h1>Cronograma de defensa oral</h1>
+    </div>
+    <p-messages severity="info" *ngIf="calendarStatus">
+        <ng-template pTemplate>
+            <h3>El calendario no puede ser modificado porque ya ha sido generado</h3>
+        </ng-template>
+    </p-messages>
+    <div class="table_container">
+        <p-table [value]="calendarDetailInfo" dataKey="id" rowGroupMode="rowspan"
+            styleClass="p-datatable-gridlines fadein animation-duration-500" editMode="row" responsiveLayout="scroll"
+            [loading]="!calendarDetailInfo">
+            <ng-template pTemplate="caption">
+                <h3 class="text-center">Horarios de Defensa <br>{{period}} {{actualYear}}</h3>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr class="text-center">
+                    <th rowspan="2">Carrera</th>
+                    <th rowspan="2">Estudiantes</th>
+                    <th rowspan="2">Tutor</th>
+                    <th colspan="3">
+                        Miembros del tribunal
+                    </th>
+                    <th rowspan="2">Día</th>
+                    <th rowspan="2">Fecha</th>
+                    <th rowspan="2">Hora</th>
+                    <th rowspan="2">Secretario responsable</th>
+                    <th rowspan="2" *ngIf="!calendarStatus">Editar</th>
+                <tr>
+                    <th>Lector</th>
+                    <th>Presidente del tribunal</th>
+                    <th>Director (a) de carrera</th>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-calendar let-rowgroup="rowgroup" let-rowspan="rowspan"
+                let-editing="editing" let-index="rowIndex">
+                <tr [pEditableRow]="calendar">
+                    <td *ngIf="rowgroup" [attr.rowspan]="rowspan">
+                        <ng-container *ngIf="careerDirector.career?.name else userHasNoCareer">
+                            {{careerDirector.career?.name}}
+                        </ng-container>
+                        <ng-template #userHasNoCareer>
+                            {{calendar.career?.name}}
+                        </ng-template>
+
+                    </td>
+                    <td>
+                        {{calendar.student.name}} {{calendar.student.lastName}}
+                    </td>
+                    <td>{{calendar.tutor.degree + ' ' + calendar.tutor.name + ' ' + calendar.tutor.lastName}}</td>
+                    <td>{{calendar.reader.degree + ' ' + calendar.reader.name + ' ' + calendar.reader.lastName}}</td>
+                    <td>
+                        <ng-container *ngIf="!calendar.tribunalBoss && !edit[index]">
+                            <p class="p-error">Elegir presidente</p>
+                        </ng-container>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <p-autoComplete placeholder="Buscar por nombre" [(ngModel)]="calendar.tribunalBoss"
+                                    [suggestions]="filteredResults" (onSelect)="setFieldValue($event, calendar)"
+                                    (completeMethod)="search($event)" [showEmptyMessage]="true"
+                                    [field]="$any(showSelectedUser)" (click)="selectAllText($event)"
+                                    emptyMessage="No se encontraron resultados" class="w-full-inputfield"
+                                    [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}" appendTo="body">
+                                    <ng-template let-user pTemplate="item">
+                                        <p>{{user.name + ' ' + user.secondName + ' ' + user.lastName + ' ' +
+                                            user.secondLastName}}</p>
+                                    </ng-template>
+                                </p-autoComplete>
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                <p *ngIf="calendar.tribunalBoss">{{calendar.tribunalBoss.degree + ' ' +
+                                    calendar.tribunalBoss.name + ' ' + calendar.tribunalBoss.lastName}}</p>
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td>
+                        {{ careerDirector.degree + ' ' + careerDirector.name + ' ' + careerDirector.lastName}}
+                    </td>
+                    <td>
+                        <ng-container *ngIf="!calendar.date else existDate">
+                            <p class="p-error">Elegir una fecha para mostrar día</p>
+                        </ng-container>
+                        <ng-template #existDate>
+                            {{getDayName(calendar) | titlecase}}
+                        </ng-template>
+                    </td>
+                    <td>
+                        <ng-container *ngIf="!calendar.date && !edit[index]">
+                            <p class="p-error">Elegir fecha</p>
+                        </ng-container>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <p-calendar placeholder="Fecha" appendTo="body" dateFormat="dd/mm/yy"
+                                    [(ngModel)]="calendar.date">
+                                </p-calendar>
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                <p>{{calendar.date | date: 'dd/MM/yyyy'}}</p>
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td>
+                        <ng-container *ngIf="!calendar.hour && !edit[index]">
+                            <p class="p-error">Elegir hora</p>
+                        </ng-container>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <p-calendar placeholder="Hora" appendTo="body" [(ngModel)]="calendar.hour"
+                                    [timeOnly]="true" hourFormat="12"></p-calendar>
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                <p>{{calendar.hour | date:'h:mm a'}}</p>
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td *ngIf="rowgroup" [attr.rowspan]="rowspan">
+                        <ng-container *ngIf="!secretary && !edit[index]">
+                            <p class="p-error">Falta Secretario</p>
+                        </ng-container>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input placeholder="Escriba aquí el secretario (a)" pInputText type="text"
+                                    [(ngModel)]="secretary" required>
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                <p>{{secretary}}</p>
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td style="text-align:center" *ngIf="!calendarStatus">
+                        <span #editRow class="flex relative">
+                            <button *ngIf="!editing" pButton pRipple type="button" pTooltip="Editar"
+                                tooltipPosition="left" pInitEditableRow icon="pi pi-pencil"
+                                (click)="onRowEditInit(calendar, index)" class="p-button-rounded p-button-text"
+                                [appendTo]="editRow"></button>
+                        </span>
+                        <div class="flex">
+                            <span #saveRow class="flex relative">
+                                <button *ngIf="editing" pButton pRipple type="button" pTooltip="Guardar"
+                                    tooltipPosition="left" pSaveEditableRow icon="pi pi-check"
+                                    (click)="onRowEditSave(calendar, index)"
+                                    class="p-button-rounded p-button-text p-button-success mr-2"
+                                    [appendTo]="saveRow"></button>
+                            </span>
+                            <span #cancelRow class="flex relative">
+                                <button *ngIf="editing" pButton pRipple type="button" pTooltip="Cancelar"
+                                    tooltipPosition="left" pCancelEditableRow icon="pi pi-times"
+                                    (click)="onRowEditCancel(index)"
+                                    class="p-button-rounded p-button-text p-button-danger"
+                                    [appendTo]="cancelRow"></button>
+                            </span>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+                <div class="flex mt-5">
+                    <div class="createdBy col-6 p-0 flex  justify-content-center">
+                        <div>
+                            <p>Elaborado por:</p>
+                            <p>Claudia Flores(Unidad de titulación)</p>
+                        </div>
+                    </div>
+                    <div class="reviewBy col-6 p-0 flex  justify-content-center">
+                        <div>
+                            <p>Revisado por:</p>
+                            <p>Ph.D Luisa Taborda</p>
+                            <p>Directora Académica</p>
+                        </div>
+                    </div>
+                </div>
+                <ng-container *ngIf="calendarExist else createCalendar">
+                    <button pButton pRipple type="button" [disabled]="loading" class="p-button mt-2" routerLink="/calendarsList">
+                        Volver atrás</button>
+                    <button *ngIf="userLoggedRole === 'ROLE_LIABLE_TT' && !calendarStatus"
+                        (click)="saveFinalCalendar(calendarDetailInfo)" [loading]="loading" pButton pRipple
+                        type="button" class="p-button mt-2 ml-2" style="background-color: #001A48;">
+                        Crear Calendario Final</button>
+                </ng-container>
+                <ng-template #createCalendar>
+                    <span class="flex justify-content-center">
+                        <button pButton pRipple type="button" label="Guardar" class="col-2 p-button"
+                            (click)="groupCalendarInfo(calendarDetailInfo)" [loading]="loading">
+                        </button>
+                    </span>
+                </ng-template>
+            </ng-template>
+        </p-table>
+
+    </div>
+
+</div>

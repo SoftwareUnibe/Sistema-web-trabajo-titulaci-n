@@ -1,0 +1,170 @@
+<div class="topic_container flex flex-column" >
+    <div class="tittle_container mb-2" *ngIf="selectedTopic || topics">
+        <p-message severity="info" text="Seleccione un tema para continuar con el proceso"
+            [styleClass]="selectedTopic?'mr-2 fadeout mt-2':' mr-2 fadein animation-duration-500 mt-2' "
+            *ngIf="!selectedTopic">
+        </p-message>
+
+        <p-messages severity="success" *ngIf="selectedTopic && !haveTopic"
+            [styleClass]="selectedTopic?'pr-2 fadein animation-duration-500':' pr-2 fadeout animation-duration-3000' ">
+            <ng-template pTemplate>
+                <div class="flex flex-column justify-content-between align-items-start 
+                md:flex-row md:justify-content-between md:align-items-center col-12">
+                    <p class="font-semibold text-lg lg:col-3 md:col-3"> Tema seleccionado: </p>
+                    <div class="text-justify text-lg lg:col-6 md:col-6">
+                        <p>{{selectedTopic.name}}</p>
+                    </div>
+                    <div class="lg:col-3 md:col-2 col-12 flex justify-content-end">
+                        <button pButton pRipple type="button" icon="pi pi-trash" iconPos="right"
+                            class="p-button-rounded p-button-danger " pTooltip="Selecciona otro tema"
+                            tooltipPosition="bottom" (click)="onRowUnselect()"></button>
+                    </div>
+                </div>
+            </ng-template>
+        </p-messages>
+        <p-messages severity="info" *ngIf="haveTopic"
+            [styleClass]="selectedTopic?'pr-2 fadein animation-duration-500':' pr-2 fadeout animation-duration-3000'">
+            <ng-template pTemplate>
+                <div class="flex flex-column justify-content-between align-items-start 
+                lg:flex-row lg:justify-content-between lg:align-items-center col-12 fadein animation-duration-500">
+                    <p class="font-semibold text-lg lg:col-3">
+                        Ya tiene un tema seleccionado:
+                    </p>
+                    <div class="text-justify text-lg lg:col-5 col-12 p-0 mt-2 justify-content-center">
+                        {{selectedTopic.name}}
+                    </div>
+                    <div class="lg:col-4 col-12 p-0 mt-2 flex justify-content-end">
+                        <div [pTooltip]="selectedTopic.paymentDenunciation === 'Pagado'?'No puede eliminar su tema si este ya fue pagado':''"
+                            tooltipPosition="bottom">
+                            <button pButton pRipple type="button" label="Eliminar Tema"
+                                class="mr-2 p-button-danger p-button" (click)="deleteStudentTopic(selectedTopic.id)"
+                                pTooltip="Selecciona otro tema" tooltipPosition="bottom"
+                                [disabled]="selectedTopic.paymentDenunciation === 'Pagado'"></button>
+                        </div>
+                        <button pButton pRipple type="button" label="Detalles" class=" p-button-info p-button"
+                            (click)="navigateToSecondSteep()" pTooltip="Detalles de su tema" tooltipPosition="bottom">
+                        </button>
+                    </div>
+                </div>
+            </ng-template>
+        </p-messages>
+    </div>
+    <div class="table_container">
+        <p-table #dt [value]="topics" styleClass="p-datatable fadein animation-duration-500" [globalFilterFields]="['name']" selectionMode="single" 
+            dataKey="id" [responsiveLayout]="'scroll'" [(selection)]="selectedTopic" (onRowSelect)="onRowSelect()"
+            [metaKeySelection]="true" [paginator]="true" [rows]="7" (onRowUnselect)="onRowUnselect()" [loading]="loading">
+            <ng-template pTemplate="caption">
+                <div class="flex align-items-center justify-content-between 
+                        grid-nogutter flex-wrap">
+                    <div class="topics__info xl:col-3 lg:col-5 md:col-6 col-12 md:text-left">
+                        <h4> Carrera: {{career}}</h4>
+                        <h4 class="mt-2"> Temas Disponibles: {{topics.length}}</h4>
+                    </div>
+
+                    <div class="flex mt-2 xl:col-3 lg:col-5 md:col-6 col-12 p-0">
+                        <span class="p-input-icon-left col-12 p-0">
+                            <i class="pi pi-search ml-2"></i>
+                            <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')"
+                                placeholder="Buscar tema por nombre" class="w-full inputfield" />
+                        </span>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th id="number">N°</th>
+                    <th id="name">Título</th>
+                    <th id="articulation">Articulación</th>
+                    <th id="career">Carrera</th>
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-topic let-rowIndex="rowIndex">
+                <tr [pSelectableRow]="topic" [pSelectableRowDisabled]="haveTopic">
+                    <td>{{rowIndex+1}}</td>
+                    <td class=" text-justify">{{topic.name}}</td>
+                    <td>{{topic.articulation}}</td>
+                    <td>{{topic.career}}</td>
+
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+    <!--Modal para elegir si el tema se va a hacer individual o en pareja-->
+    <p-dialog [(visible)]="showModalStudentTopic"
+        [breakpoints]="{'1200px' : '50vw', '960px': '50vw', '850px':'70vw' ,'600px': '100vw'}"
+        [style]="{width: '40vw', margin: '0 1rem'}" [draggable]="false" [resizable]="false" [focusOnShow]="true"
+        [modal]="true" [blockScroll]="true">
+        <p-card class="col-7">
+            <ng-template pTemplate="content">
+                <form #numberStudentsTopic="ngForm">
+                    <h3 class="flex justify-content-center">Elija alguna de las siguientes opciones para continuar</h3>
+                    <div class="topic__name mt-3 col-12">
+                        <h4>Tema seleccionado</h4>
+                        <div class="topic__info flex mt-2">
+                            <p> {{selectedTopic?.name}}</p>
+                        </div>
+                    </div>
+                    <div class="number__studentTopic col-12">
+                        <h4 class="mb-2">El tema elegido será elaborado:</h4>
+                        <div class="checkBox__input flex flex-column sm:flex-row col-12">
+                            <div class="field-radiobutton sm:col-6 col-12">
+                                <p-radioButton name="individual" value="individual" [(ngModel)]="checkboxSelection">
+                                </p-radioButton>
+                                <label for="city1">Individualmente</label>
+                            </div>
+                            <div class="field-radiobutton sm:col-6 col-12">
+                                <p-radioButton name="pair" value="pair" [(ngModel)]="checkboxSelection">
+                                </p-radioButton>
+                                <label for="city2">En pareja</label>
+                            </div>
+                        </div>
+                        <div *ngIf="checkboxSelection === 'pair'">
+                            <div class="search__student">
+                                <h4>Buscar estudiante</h4>
+                                <div class="field sm:col-12 md:col-12 lg:col-12 xl:col-6 mt-3 p-0 flex flex-column">
+                                    <span class="p-float-label p-input-icon-right">
+                                        <i class="pi pi-search" style="cursor: pointer;"
+                                            (click)="getStudentByCi(userData.ci, searchCI, userData.career.id)"></i>
+                                        <input type="text" class="inputfield w-full" name="searchCI" pInputText
+                                            [(ngModel)]="searchCI" (keypress)="validateDni($event)" [maxlength]="10"
+                                            [minlength]="10">
+                                        <label for="inputtext-right">Número de cédula</label>
+                                    </span>
+                                    <small class="p-error" *ngIf="incompleteSearchCi">La cédula debe tener 10
+                                        carácteres</small>
+                                </div>
+                            </div>
+                            <div class="student__found" *ngIf="studentFound">
+                                <div class="student__name mt-2 flex sm:flex-column align-items-start md:flex-row">
+                                    <h4 class="mr-2">Nombre:</h4>
+                                    <p>{{userFound.name + ' ' + userFound.lastName}}</p>
+                                </div>
+                                <div class="student__email r mt-2 flex sm:flex-column align-items-start md:flex-row">
+                                    <h4 class="mr-2">Correo electrónico:</h4>
+                                    <p>{{userFound.email}}</p>
+                                </div>
+                                <div class="student__career mt-2 flex sm:flex-column align-items-start md:flex-row">
+                                    <h4 class="mr-2">Carrera:</h4>
+                                    <p>{{career}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </ng-template>
+        </p-card>
+        <ng-template pTemplate="footer">
+            <div class="next__Button">
+                <p-button (click)="showModalStudentTopic = false" label="Cerrar" styleClass="p-button-text"></p-button>
+                <button pButton type="button"
+                    [disabled]="(checkboxSelection === 'pair' && !studentFound)  || (!checkboxSelection)"
+                    label="Siguiente" icon="pi pi-angle-right" iconPos="right"
+                    (click)="confirmTopicSelection(userData, selectedTopic, userFound)"
+                    pTooltip="Continuar con el proceso" tooltipPosition="top" [loading]="loading"></button>
+            </div>
+        </ng-template>
+    </p-dialog>
+
+</div>

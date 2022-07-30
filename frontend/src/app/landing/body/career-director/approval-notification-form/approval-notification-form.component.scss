@@ -1,0 +1,42 @@
+.body_container {
+    min-height: 100vh;
+    max-height: 100%;
+    width: 100%;
+    align-items: center;
+    padding: 1rem;
+}
+.field {
+    margin-bottom: 0rem;
+}
+.evaluation_options ::ng-deep.p-dropdown-label {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    flex: 1 1 auto;
+    width: 12.4rem;
+    text-overflow: ellipsis;
+    cursor: pointer;
+}
+
+.notification_card ::ng-deep.p-card-header {
+    width: 100%;
+    padding: 1rem 6rem 0 6rem;
+}
+.notification_card ::ng-deep.p-card-body {
+    padding: 1rem 6rem 0 6rem;
+}
+.card_description ::ng-deep .p-calendar .p-inputtext {
+    flex: 1 1 auto;
+    width: 8rem;
+    height: 2.4rem;
+}
+.pi-search:before {
+    cursor: pointer;
+    content: "\e908";
+}
+.pi-search:hover {
+    cursor: pointer;
+    content: "\e908";
+    color: #183ad3;
+    filter: drop-shadow(1px 2px 1px rgb(0 0 0 / 0.4));
+}

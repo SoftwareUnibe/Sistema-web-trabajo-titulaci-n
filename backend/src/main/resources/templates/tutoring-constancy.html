@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../pdf-resources/css/tutoringStyle.css" />
+    <title>Constancia de horas de tutoria</title>
+</head>
+
+<body style="font-size: 16px">
+    <div class="container">
+        <div class="header">
+            <img src="../pdf-resources/images/unibeTutor.png" class="logo" />
+        </div>
+        <div class="date" align="right">
+            <p class="date">Quito, D.M, <span
+                    th:text="${(#dates.format(currentDate, 'dd/MM/yyyy')) }"></span>
+            </p>
+        </div>
+    </div>
+    <div class="content">
+        <p class="text-justify">En referencia al proceso de acompañamiento que debe se le realiza al (los) estudiante (s) durante la elaboración del proyecto de:
+            </p>
+        <p class="text-justify" style="margin-top:10px">
+            <b><span th:text="${students[0].topic.articulation}"></span></b>
+        </p>
+        <p class="text-justify">
+            Informo como tutor (a) del (la) (los) (las) estudiante (s):
+        </p>
+        <p class="text-justify">
+            <span th:each="student: ${students}"><span
+                    th:text="${student.student.name + ' ' + student.student.lastName}"></span><span class="y"
+                    th:if="${studentStat.index == #lists.size(students)-2}"> y </span><span
+                    th:if="${studentStat.index == #lists.size(students)-1}">,</span></span>
+        </p>
+        <p>
+            <b>Facultad:  </b> <span th:text="${students[0].topic.career.faculty.name}"></span>
+        </p>
+        <p>
+            <b>Carrera:  </b> <span th:text="${students[0].topic.career.name}"></span>
+        </p>
+        <p>
+            <b>Periodo académico:  </b> <span th:each="tutoring, index: ${periodList}">
+                    <span th:text="${tutoring}"></span><span th:if="${index.index==#lists.size(periodList)-2}"
+                                                             class="y" >y  </span><span th:if="${index.index==#lists.size(periodList)-1}">.</span>
+                </span></span>
+        </p>
+        <p class="text-justify">
+            Se ha cumplido con las horas de tutorías descritas a continuación, que garantizan el desarrollo de la investigación garantizando su profundidad, consistencia y cumplimiento de las normas de estilo establecidas por la Universidad Iberoamericana del Ecuador.
+
+        </p>
+        <p class="mt-2 mb-2">A continuación, se detalla el proceso de tutoría realizado:
+        </p>
+        <div class="table-container">
+            <table class="default">
+                <thead>
+                    <tr style="background-color: #d9d9d9;" >
+                        <th class="text-center" style="width: 10%;">N°</th>
+                        <th class="text-center" style="width: 50%;">Actividad</th>
+                        <th class="text-center" style="width: 25%;">Fecha</th>
+                        <th class="text-center" style="width: 15%;">Horas de tutoria</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each=" tutoring: ${tutoringOfPeriodList}">
+                        <td class="text-center"><span th:text="${tutoring.number}"></span> </td>
+                        <td class="text-justify"><span th:text="${tutoring.activity}"></span></td>
+                        <td class="text-center"><span th:text="${(#dates.format(tutoring.date, 'dd/MM/yyyy')) }"></span>
+                        </td>
+                        <td class="text-center"><span th:text="${tutoring.hours}"></span></td>
+                    </tr>
+                </tbody>
+                <tbody>
+                    <tr>
+                        <td colspan="3" class="text-center">Total de horas de tutorias</td>
+                        <td colspan="1" class="text-center"><span th:text="${totalHours}"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <div class="document_persons">
+                <p class="bold_text padding">
+                    <span class="max-length"><b>Elaborado por</b></span>
+                    <span class="max-length"><b>Revisado por</b></span>
+                    <span class="max-length-end"><b>Aprobado por</b></span>
+                </p>
+            </div>
+            <div class="document_persons" style="margin-top: 60px;">
+                <p class="normal_text padding">
+                    <span class="max-length" style="border-top: solid 2px black"
+                          >Tutor(a)</span>
+                    <span class="max-length" style="border-top: solid 2px black">Director(a) de carrera</span>
+                    <span class="max-length-end" style="border-top: solid 2px black">Decan(a) de facultad </span></p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

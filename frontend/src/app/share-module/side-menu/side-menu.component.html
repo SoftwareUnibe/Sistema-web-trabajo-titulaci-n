@@ -1,0 +1,15 @@
+<div class="side_menu_container w-6rem" *ngIf="userInfo">
+    <div class="side_menu_items fixed z-5" id="style-4">
+        <div class="side_menu_logo pl-1 flex flex-column justify-content-between align-items-start">
+            <div class="justify-content-evenly flex align-items-center px-1 cursor-pointer" routerLink="/">
+                <img class="logo mr-2" src="../../../assets/logoUnibe.png" alt="">
+                <span class="logo_text unibe">Titulación</span>
+            </div>
+        </div>
+        <div class="px-2">
+            <p-panelMenu [model]="items" [multiple]="false" [style]="{'min-width':'100%','overflow':'auto'}">
+            </p-panelMenu>
+        </div>
+
+    </div>
+</div>

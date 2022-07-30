@@ -1,0 +1,169 @@
+<div class="topic__proposal-Container grid grid-nogutter mt-2">
+    <p-progressSpinner *ngIf="loading"></p-progressSpinner>
+    <div class="col-12 flex justify-content-center mb-1 messages_container fadein animation-duration-1000" *ngIf="!loading">
+        <p-messages severity="success" *ngIf="existProposal">
+            <ng-template pTemplate>
+                <div class="flex justify-content-between align-items-center col-12">
+                    <div class="text-md col-10">
+                        <p>Su propuesta de tema ya fue generada</p>
+                    </div>
+                    <div class="col-1 flex justify-content-end">
+                        <p-button pTooltip="Editar propuesta" icon="pi pi-pencil" iconPos="right"
+                            (click)="editProposal()"></p-button>
+                    </div>
+                </div>
+            </ng-template>
+        </p-messages>
+        <p-message severity="error"
+            text="Debe enviar la denuncia de tema y modalidad antes de generar la propuesta de tema"
+            styleClass="message" *ngIf="!existDenunciation">
+        </p-message>
+    </div>
+    <div class="col-12 flex justify-content-center mb-2 fadein animation-duration-1000" *ngIf="!loading">
+        <p-message severity="error"
+            text="Ambos estudiantes deben enviar la denuncia de tema antes de generar la propuesta de tema"
+            styleClass="message" *ngIf="!paymentStatus && topicProposal?.topicStudent?.topic?.twoStudents">
+        </p-message>
+    </div>
+    <p-card class="sm:col-12 md:col-10 lg:col-8 xl:col-6 fadein animation-duration-500" *ngIf="!loading">
+        <ng-template pTemplate="header">
+            <p-image src="../../../../../assets/unibe_form.png" alt="UNIB.E" width="100%"></p-image>
+        </ng-template>
+        <ng-template pTemplate="content">
+            <form #topicProposalForm="ngForm">
+                <h3 class="flex justify-content-center">PROPUESTA DE TEMA</h3>
+                <div class="proposal__topic mb-3 mt-2">
+                    <h4 class="mb-2">Tema de trabajo de titulación</h4>
+                    <p>{{topicProposal.topicStudent?.topic?.name}}</p>
+                    <p *ngIf="!topicProposal.topicStudent?.topic?.name">No existe tema seleccionado</p>
+                </div>
+                <div class="proposal__descriptionTopic mb-3 mt-2">
+                    <h4 class="mb-2">Descripción breve del tema</h4>
+                    <p *ngIf="existProposal && !edit">{{topicProposal.topicDescription}}</p>
+                    <textarea [(ngModel)]="topicProposal.topicDescription" name="topicDescription" rows="2"
+                        class="inputfield w-full" [autoResize]="true" pInputTextarea placeholder="Descripción" required
+                        *ngIf="!existProposal || edit" [readonly]="!existDenunciation"></textarea>
+                    <small *ngIf="topicProposalForm.controls['topicDescription']?.errors?.required &&  
+                        topicProposalForm.controls['topicDescription']?.touched" class="p-error">
+                        * Este campo es obligatorio
+                    </small>
+
+                </div>
+                <div class="proposal__generalObjective mb-3 mt-2">
+                    <h4 class="mb-2">Objetivo general</h4>
+                    <p *ngIf="existProposal && !edit">{{topicProposal.objectiveGeneral}}</p>
+                    <textarea [(ngModel)]="topicProposal.objectiveGeneral" name="objectiveGeneral" rows="2"
+                        class="inputfield w-full" [autoResize]="true" pInputTextarea placeholder="Objetivo general"
+                        required *ngIf="!existProposal || edit" [readonly]="!existDenunciation"></textarea>
+                    <small *ngIf="topicProposalForm.controls['objectiveGeneral']?.errors?.required &&
+                        topicProposalForm.controls['objectiveGeneral'].touched" class="p-error">
+                        * Este campo es obligatorio
+                    </small>
+                </div>
+                <div class="proposal__specificObjectives mb-3 mt-2">
+                    <h4 class="mb-2">Objetivos específicos</h4>
+                    <div *ngIf="existProposal">
+                        <p class="mt-2 mb-2"
+                            *ngFor="let objectives of topicProposal.objectivesSpecific; let index = index"> <b> • </b>
+                            {{objectives}}</p>
+                    </div>
+                    <textarea [(ngModel)]="specificObjective" name="specificObjective" rows="1"
+                        class="inputfield w-full" [autoResize]="true" pInputTextarea placeholder="Objetivos específicos"
+                        [required]="topicProposal?.objectivesSpecific?.length ? false: true"
+                        *ngIf="!existProposal || edit" [readonly]="!existDenunciation"></textarea>
+                    <small *ngIf="topicProposalForm.controls['specificObjective']?.errors?.required && 
+                        topicProposalForm.controls['specificObjective'].touched" class="p-error">
+                        * Este campo es obligatorio
+                    </small>
+                    <div class="add__objectives flex justify-content-end mb-2 mt-2">
+                        <button (click)="addSpecificObjectives(specificObjective)" pButton pRipple type="button"
+                            style="background-color: #f7b926; color: black;" icon="pi pi-plus" iconPos="left"
+                            label="Agregar" class="p-button-info mr-2" *ngIf="!existProposal || edit"
+                            [disabled]="!existDenunciation"></button>
+                    </div>
+                    <p-scrollPanel *ngIf="topicProposal?.objectivesSpecific?.length && !existProposal || edit"
+                        [style]="{width: '100%', height: '150px'}">
+                        <div *ngFor="let objectives of topicProposal.objectivesSpecific; let index = index">
+                            <div class="objectives__list flex mt-2 mb-2">
+                                <p class="p-2 col-11" style="text-align: justify;"> <b>{{index + 1}}. </b>
+                                    {{objectives}}
+                                </p>
+                                <i (click)="removeSpecificObjectives(index)"
+                                    class="pi pi-trash col-1 flex justify-content-center align-items-end p-2"></i>
+                            </div>
+                        </div>
+                    </p-scrollPanel>
+                </div>
+             
+                <div class="proposal__justification mb-3 mt-2">
+                    <h4 class="mb-2">Alcance de la investigación:</h4>
+                    <p *ngIf="existProposal && !edit">{{topicProposal.scope}}</p>
+                    <textarea [(ngModel)]="topicProposal.scope" name="scope" rows="2" class="inputfield w-full"
+                        [autoResize]="true" pInputTextarea placeholder="Ingrese el alccance del proyecto de titulación"
+                        required *ngIf="!existProposal || edit"></textarea>
+                    <small *ngIf="topicProposalForm.controls['scope']?.errors?.required &&  
+                        topicProposalForm.controls['scope']?.touched" class="p-error">
+                        * Este campo es obligatorio
+                    </small>
+                </div>
+                <div class="proposal__justification mb-3 mt-2">
+                    <h4 class="mb-2">Justificación breve del estudio:</h4>
+                    <p *ngIf="existProposal && !edit">{{topicProposal.studyJustification}}</p>
+                    <textarea [(ngModel)]="topicProposal.studyJustification" name="studyJustification" rows="2"
+                        class="inputfield w-full" [autoResize]="true" pInputTextarea
+                        placeholder="Ingrese el nombre del proyecto de titulación" required
+                        *ngIf="!existProposal || edit"></textarea>
+                    <small *ngIf="topicProposalForm.controls['studyJustification']?.errors?.required &&  
+                        topicProposalForm.controls['studyJustification']?.touched" class="p-error">
+                        * Este campo es obligatorio
+                    </small>
+                </div>
+                <div class="proposal__specificObjectives mb-3 mt-2">
+                    <h4 class="mb-2">Referencias bibliográficas(Opcional)</h4>
+                    <div *ngIf="existProposal">
+                        <p class="mt-2 mb-2"
+                            *ngFor="let objectives of topicProposal.bibliographicReferences; let index = index"> <b> • </b>
+                            {{objectives}}</p>
+                    </div>
+                    <textarea [(ngModel)]="reference" name="reference" rows="1"
+                        class="inputfield w-full" [autoResize]="true" pInputTextarea placeholder="Referencias"
+                        *ngIf="!existProposal || edit" [readonly]="!existDenunciation"></textarea>
+                    <div class="add__objectives flex justify-content-end mb-2 mt-2">
+                        <button (click)="addReferences(reference)" pButton pRipple type="button"
+                            style="background-color: #f7b926; color: black;" icon="pi pi-plus" iconPos="left"
+                            label="Agregar" class="p-button-info mr-2" *ngIf="!existProposal || edit"
+                            [disabled]="!existDenunciation"></button>
+                    </div>
+                    <p-scrollPanel *ngIf="topicProposal?.bibliographicReferences?.length && !existProposal || edit"
+                        [style]="{width: '100%', height: '150px'}">
+                        <div *ngFor="let objectives of topicProposal.bibliographicReferences; let index = index">
+                            <div class="objectives__list flex mt-2 mb-2">
+                                <p class="p-2 col-11" style="text-align: justify;"> <b>{{index + 1}}. </b>
+                                    {{objectives}}
+                                </p>
+                                <i (click)="removeReferences(index)"
+                                    class="pi pi-trash col-1 flex justify-content-center align-items-end p-2"></i>
+                            </div>
+                        </div>
+                    </p-scrollPanel>
+                </div>
+                <div class="proposal__justification flex justify-content-center mt-2">
+                    <button pButton pRipple type="button" label="Cancelar" class="p-button-danger mr-2" (click)="cancel()"
+                        *ngIf="!existProposal"></button>
+                    <button pButton pRipple type="button" label="Vista Previa" class="documentPreview p-button-info mr-2"
+                        (click)="showTopicProposalPreviewModal()" *ngIf="!existProposal"></button>
+                    <button [disabled]="topicProposalForm.invalid || !existDenunciation ||!paymentStatus" pButton
+                        pRipple type="button" label="Enviar" (click)="sendTopicProposal(topicProposal)" [loading]="loadingButton"
+                        style="background-color: #002858;" *ngIf="!existProposal"></button>
+                    <button pButton pRipple type="button" label="Guardar cambios" (click)="saveChanges(topicProposal)" [loading]="loadingButton"
+                        style="background-color: #002858;" *ngIf="edit"></button>
+                </div>
+               
+            </form>
+        </ng-template>
+    </p-card>
+
+</div>
+<app-topic-proposal-preview [topicProposal]="topicProposal" [showTopicProposalPreview]="topicProposalPreview"
+    (closeTopicProposalPreview)="closeTopicProposalPreview()">
+</app-topic-proposal-preview>

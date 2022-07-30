@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title th:text="${'Evaluación'}"></title>
+    <link rel="stylesheet" type="text/css" href="../pdf-resources/css/readerEvaluation.css" />
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <img th:if="${hasProduct}" src="../pdf-resources/images/unibeLector.png" class="logo" />
+            <img th:if="not ${hasProduct}" src="../pdf-resources/images/unibeLectorTT.PNG" class="logo" />
+        </div>
+    </div>
+    <div class="table-container" style="margin-top: 15px;">
+        <table class="default">
+            <thead>
+                <tr>
+                    <th class="text-left">Facultad: <span style="font-weight: 400;" th:text="${faculty}"></span></th>
+                    <th class="text-left">Carrera: <span style="font-weight: 400;" th:text="${career}"></span></th>
+                    <th class="text-left">Fecha: <span style="font-weight: 400;"
+                            th:text="${(#dates.format(date, 'dd/MM/yyyy')) }"></span></th>
+                </tr>
+                <tr th:each=" topicStudent: ${topicStudents}">
+                    <th class="text-left" colspan="2">Autor: <span style="font-weight: 400;"
+                            th:text="|${topicStudent.student.name} ${topicStudent.student.secondName} ${topicStudent.student.lastName} ${topicStudent.student.secondLastName}|"></span>
+                    </th>
+                    <th class="text-left">Cédula: <span style="font-weight: 400;" th:text="${topicStudent.student.ci}"></span> </th>
+                </tr>
+                <tr>
+                    <th class="text-left" colspan="3" style="width: 100%;">Título del trabajo de titulación: <span
+                            style="font-weight: 400;" th:text="${tittle}"></span></th>
+                </tr>
+                <tr>
+                    <th class="text-left" colspan="3" style="width: 100%;">Director del trabajo de titulación: <span
+                            style="font-weight: 400;" th:text="${tutor}"></span></th>
+                </tr>
+                <tr>
+                    <th class="text-left" colspan="3" style="width: 100%;">Docente lector: <span
+                            style="font-weight: 400;" th:text="${readerName}"></span> </th>
+                </tr>
+            </thead>
+        </table>
+        <table class="default" style="margin-top: 15px;">
+            <thead>
+                <tr style="background-color: #dce6f0;">
+                    <th class="text-center" style="width: 16%; font-weight: bolder; font-size: 14px;">Criterios de
+                        evaluación</th>
+                    <th class="text-center" style="width: 70%;font-weight: bolder; font-size: 14px;">Preguntas</th>
+                    <th class="text-center" style="width: 7%;font-weight: bolder; font-size: 14px;">Ponderación %</th>
+                    <th class="text-center" style="width: 7%;font-weight: bolder; font-size: 14px;">Calificación lector
+                        %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-center">1. Planteamiento del problema</span> </td>
+                    <td class="text-justify">¿Responde a las necesidades del contexto social? ¿Es relevante? ¿Se
+                        justifica adecuadamente?</span></td>
+                    <td class="text-center"><span th:if="${hasProduct}">10%</span> <span th:if="not ${hasProduct}">10%</span>
+                    </td>
+                    <td class="text-center"><span th:text="${workNotes[0]}"></span></td>
+                </tr>
+                <tr>
+                    <td class="text-center">2. El problema</span> </td>
+                    <td class="text-justify">¿El problema está presentado de manera clara y precisa? ¿La justificación
+                        avala la realización del trabajo? ¿Existe congruencia entre el objetivo general con el tema y la
+                        formulación del problema? ¿Los objetivos específicos conducen al logro del objetivo general? los
+                        objetivos específicos están formulados de manera correcta?</span></td>
+                    <td class="text-center"><span th:if="${hasProduct}">10%</span> <span th:if="not ${hasProduct}">15%</span>
+                    </td>
+                    <td class="text-center"><span th:text="${workNotes[1]}"></span></td>
+                </tr>
+                <tr>
+                    <td class="text-center">3. Marco teórico</span> </td>
+                    <td class="text-justify">¿Los antecedentes guardan relación con la investigación y están presentados
+                        correctamente? ¿las bases teóricas están enfocadas en el problema de investigación del cual se
+                        ocupa? ¿las bases teóricas presentan una estructura lógica y coherente?</span></td>
+                    <td class="text-center"><span th:if="${hasProduct}">10%</span> <span th:if="not ${hasProduct}">15%</span>
+                    </td>
+                    <td class="text-center"><span th:text="${workNotes[2]}"></span></td>
+                </tr>
+                <tr>
+                    <td class="text-center">4. Marco metodológico  </span> </td>
+                    <td class="text-justify">¿El diseño, la muestra, los procedimientos de recogida de información y las
+                        técnicas de análisis de datos se exponen de forma detallada y adecuada? ¿Los instrumentos
+                        presentan índices razonables de fiabilidad y validez? ¿Los procedimientos de recolección y
+                        análisis de datos son presentados de manera clara y detallada?</span></td>
+                    <td class="text-center"><span th:if="${hasProduct}">10%</span> <span th:if="not ${hasProduct}">15%</span>
+                    </td>
+                    <td class="text-center"><span th:text="${workNotes[3]}"></span></td>
+                </tr>
+                <tr>
+                    <td class="text-center">5. Análisis, interpretación conclusiones y recomendaciones </span> </td>
+                    <td class="text-justify">¿Los resultados son presentados de forma clara y coherente en función a los
+                        objetivos planteados? ¿son comprensibles? ¿se justifican a partir de los datos obtenidos? ¿Las
+                        conclusiones responden a los objetivos? ¿existen discrepancias entre las conclusiones? ¿Se
+                        efectúan propuestas y recomendaciones viables?</span></td>
+                    <td class="text-center"><span th:if="${hasProduct}">10%</span> <span th:if="not ${hasProduct}">20%</span>
+                    </td>
+                    <td class="text-center"><span th:text="${workNotes[4]}"></span></td>
+                </tr>
+                <tr>
+                    <td class="text-center">6.Cumplimiento de normas (Libro: como investigar en la UNIB.E)
+                    </span> </td>
+                    <td class="text-justify">¿Se cumple con las normas para el tamaño de página, márgenes, tipo y tamaño
+                        de letra, interlineado, títulos y subtítulos? ¿las citas se presentan como se establece en la
+                        normativa de la universidad? ¿Las fuentes de información están actualizadas? ¿se especifican en
+                        las bibliografías las fuentes utilizadas? ¿las bibliografías cumplen con las normas establecidas
+                        para cada tipo de fuente? ¿las imágenes, fotografías, gráficos y mapas se encuentran
+                        referenciados de forma correcta y cuentan con el tamaño establecido? </span></td>
+                    <td class="text-center"><span th:if="${hasProduct}">5%</span> <span th:if="not ${hasProduct}">15%</span>
+                    </td>
+                    <td class="text-center"><span th:text="${workNotes[5]}"></span></td>
+                </tr>
+                <tr>
+                    <td class="text-center">7. Sintaxis </span> </td>
+                    <td class="text-justify">¿Está bien escrito el trabajo de titulación? ¿se entienden las ideas del
+                        documento en cada una de las secciones? ¿Se cumplen con las normas de acentuación y uso de
+                        mayúsculas? ¿El documento está redactado en el tiempo verbal adecuado?</span></td>
+                    <td class="text-center"><span th:if="${hasProduct}">5%</span> <span th:if="not ${hasProduct}">10%</span>
+                    </td>
+                    <td class="text-center"><span th:text="${workNotes[6]}"></span></td>
+                </tr>
+            <tbody th:if="${hasProduct}">
+                <tr style="background-color: rgb(238, 237, 237);">
+                    <td colspan="4" class="text-center" style="font-weight:bold; font-size: 14px;">Evaluación del
+                        producto</td>
+                </tr>
+            </tbody>
+            <thead th:if="${hasProduct}">
+                <tr style="background-color: #dce6f0;">
+                    <th class="text-center" style="width: 16%; font-weight: bolder; font-size: 14px;">Criterios de
+                        evaluación</th>
+                    <th class="text-center" style="width: 70%; font-weight: bolder; font-size: 14px;">Preguntas</th>
+                    <th class="text-center" style="width: 7%; font-weight: bolder; font-size: 14px;">Ponderación %</th>
+                    <th class="text-center" style="width: 7%; font-weight: bolder; font-size: 14px;">Calificación lector
+                        %</th>
+                </tr>
+            </thead>
+            <tr th:if="${hasProduct}">
+                <td class="text-center">1.Calidad</span> </td>
+                <td class="text-justify">¿Evidencia la planificación de las acciones y recursos para el desarrollo
+                    adecuado del producto? ¿Cumple con todas las fases y procedimientos técnicos requeridos y detallados
+                    en el documento de titulación? ¿Cumple con el lenguaje adecuado para el tipo de producto?</span>
+                </td>
+                <td class="text-center">10%
+                </td>
+                <td class="text-center"><span th:text="${productNotes[0]}"></span></td>
+            </tr>
+            <tr th:if="${hasProduct}">
+                <td class="text-center">2. Pertinencia</span> </td>
+                <td class="text-justify">¿Resuelve una necesidad? ¿Se evidencian los aspectos de lógica, utilidad, valor
+                    y comprensión en relación a una necesidad?
+                    ¿En qué grado el objetivo del proyecto es consistente con el producto? ¿Se adapta al público al que
+                    está dirigido?
+                    </span></td>
+                <td class="text-center">10%
+                </td>
+                <td class="text-center"><span th:text="${productNotes[1]}"></span></td>
+            </tr>
+            <tr th:if="${hasProduct}">
+                <td class="text-center">3.Creatividad e innovación</span> </td>
+                <td class="text-justify">¿Se considera original en relación con otros productos del mismo tipo?
+                    ¿Estimula la generación de nuevas ideas? ¿Tiene cualidad para transformar o transcender la realidad?
+                    ¿Cumple con criterios de estilo que convierten al producto en algo atractivo para el público?</span>
+                </td>
+                <td class="text-center">10%
+                </td>
+                <td class="text-center"><span th:text="${productNotes[2]}"></span></td>
+            </tr>
+            <tr th:if="${hasProduct}">
+                <td class="text-center">4. Impacto</span> </td>
+                <td class="text-justify">¿Se evidencian efectos positivos en el ámbito tecnológico, institucional,
+                    económico, político, social, cultural y ambiental? Evaluar en función al ámbito que aplique.</span>
+                </td>
+                <td class="text-center">10%
+                </td>
+                <td class="text-center"><span th:text="${productNotes[3]}"></span></td>
+            </tr >
+            <tbody>
+                <tr>
+                    <td colspan="2" class="text-left" style="font-weight:bold; font-size: 14px;">TOTAL</td>
+                    <td colspan="1" class="text-center" style="font-weight:bold; font-size: 14px;">100% /10 PUNTOS</td>
+                    <td colspan="1" class="text-center" style="font-weight:bold; font-size: 14px;"> <span
+                            th:text="${totalNote}"></span> </td>
+                </tr>
+            </tbody>
+            </tbody>
+        </table>
+        <p>Comentarios
+        </p>
+        <p><span th:text="${notes}"></span>
+        </p>
+        <p style="margin-top:60px ;">________________________________
+        </p>
+        <p>Firma
+        </p>
+    </div>
+</body>
+
+</html>
+
+</html>

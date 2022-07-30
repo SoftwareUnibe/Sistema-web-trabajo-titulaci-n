@@ -1,0 +1,19 @@
+.container_reader_accordance {
+    min-width: 100%;
+}
+
+.info_container ::ng-deep.p-card-header {
+    padding: 1rem 5rem 0 5rem;
+}
+.info_container ::ng-deep.p-card-content {
+    padding: 1rem 4rem 0 4rem;
+}
+.info_container ::ng-deep .p-calendar .p-inputtext {
+    flex: 1 1 auto;
+    width: 7rem;
+    height: 2.4rem;
+}
+
+.info_container p{
+    text-align: justify;
+}

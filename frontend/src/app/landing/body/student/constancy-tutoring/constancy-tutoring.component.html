@@ -1,0 +1,80 @@
+<div class="container  flex flex-column ">
+    <div class="tittle_container p-3">
+        <p class="text-2xl font-bold">
+            Tutorías
+        </p>
+    </div>
+    <div class="flex justify-content-center">
+        <p-progressSpinner *ngIf="loading"></p-progressSpinner>
+    </div>
+    <div class="message_container flex justify-content-center mb-2 fadein animation-duration-500" *ngIf="!hasTopicApproval && !loading">
+        <p-message severity="warn" text="Aún no se ha generado la notificación de aprobación de tu tema,
+            asegurate de haber terminado el proceso antes de continuar" styleClass="mr-2">
+        </p-message>
+    </div>
+    <div class=" message_container flex justify-content-center fadein animation-duration-500" *ngIf="!hastutorDesignation && !loading">
+        <p-message severity="warn"
+            text="Aún no se te ha asignado un tutor, espera o ponte en contacto con el director de tu carrera"
+            styleClass="mr-2">
+        </p-message>
+    </div>
+    <div class="table-container">
+        <p-table #dt [value]="tutorigConstancyList$ | async " styleClass="p-datatable fadein animation-duration-500" [globalFilterFields]="['name']"
+            selectionMode="single" dataKey="id" [responsiveLayout]="'scroll'" [metaKeySelection]="true"
+            [paginator]="true" [rows]="7" *ngIf="hasTopicApproval || hastutorDesignation" [loading]="!tutorigConstancyList$">
+            <ng-template pTemplate="caption">
+                <div class="flex flex-column" *ngIf="tutorDesignation">
+                    <div class="flex flex-column sm:flex-row sm:align-items-center">
+                        <p class="text-xl font-semibold sm:mr-2">Tema: </p>
+                        <p class="text-lg font-medium text-justify">
+                            {{tutorDesignation.topicStudent.topic.name}}</p>
+                    </div>
+                    <div class="topics__info">
+                        <div class="flex flex-column sm:flex-row sm:align-items-center mt-2">
+                            <p class="text-lg font-semibold sm:mr-2">Nombre del tutor: </p>
+                            <p class="text-md">{{tutorDesignation.teacher.name +" "+
+                                tutorDesignation.teacher.secondName
+                                +" "+ tutorDesignation.teacher.lastName +" "+ tutorDesignation.teacher.secondLastName}}
+                            </p>
+                        </div>
+                        <div class="flex flex-column sm:flex-row sm:align-items-center mt-2">
+                            <p class="text-lg font-semibold sm:mr-2">Email: </p>
+                            <p class="text-md">{{tutorDesignation.teacher.email}}</p>
+                        </div>
+                        <div class="flex flex-column sm:flex-row sm:align-items-center mt-2">
+                            <p class="text-lg font-semibold sm:mr-2">Fecha de designación: </p>
+                            <p class="text-md">{{formatDate(tutorDesignation.date)}}</p>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>N°</th>
+                    <th>Actividad</th>
+                    <th>Fecha</th>
+                    <th class="text-center">N° de Horas</th>
+                    <th>Periodo</th>
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-constancy let-rowIndex="rowIndex">
+                <tr>
+                    <td class="text-center">{{constancy.number}}</td>
+                    <td class=" text-justify">{{constancy.activity}}
+                    </td>
+                    <td>{{formatDate(constancy.date)}}</td>
+                    <td class="text-center">{{constancy.hours}}</td>
+                    <td>{{constancy.period}}</td>
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="5" class="text-lg">Todavia no se ha registrado ninguna tutoria.</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+</div>

@@ -1,0 +1,401 @@
+<div class="tutorDesignation__container grid grid-nogutter">
+    <h1 class="col-12 flex justify-content-center mb-3">Cartas de asignación de tutor</h1>
+    <div class="flex justify-content-center w-full">
+        <p-progressSpinner *ngIf="loading"></p-progressSpinner>
+    </div>
+    <div class="select__Tutor col-12 fadein animation-duration-500" *ngIf="!loading">
+        <div class="search__Cards col-12 p-0">
+            <p-card>
+                <div class="header__info flex flex-column mb-3">
+                    <h3 *ngIf="topicProposal.topicStudent[0].topic.twoStudents">Seleccione el docente que será asignado
+                        como tutor a los siguientes estudiantes:</h3>
+                    <h3 *ngIf="!topicProposal.topicStudent[0].topic.twoStudents">
+                        Seleccione el docente que será asignado como tutor al estudiante:
+                    </h3>
+                    <ng-container *ngIf="topicProposal.topicStudent[0].topic.twoStudents else oneStudent">
+                        <p *ngFor="let item of topicStudent" class="text-lg mt-3">
+                            - {{item.student?.name + ' ' + item.student?.lastName}}
+                        </p>
+                    </ng-container>
+                    <ng-template #oneStudent>
+                        <p class="text-lg mt-3">
+                            - {{topicProposal.topicStudent[0].student?.name + ' ' +
+                            topicProposal.topicStudent[0].student?.lastName}}
+                        </p>
+                    </ng-template>
+                </div>
+                <div class="dropdowns flex">
+                    <div class="search__dropDowns col-12 sm:col-8 md:col-4 p-0">
+                        <h3 class="mb-2">Buscar docente</h3>
+                        <p-autoComplete placeholder="Buscar por nombre" [(ngModel)]="temporalSelectedTutor"
+                            [suggestions]="filteredResults" (onSelect)="setFieldValue()"
+                            (completeMethod)="search($event)" (onDropdownClick)="clearTemporalSelectedTutor()"
+                            [dropdown]="true" [showEmptyMessage]="true" emptyMessage="No se encontraron resultados"
+                            [field]="$any(userSelectedOnDropdown)">
+                            <ng-template let-teacher pTemplate="item">
+                                <p>{{teacher.name + ' ' + teacher.secondName + ' ' + teacher.lastName + ' ' +
+                                    teacher.secondLastName}}</p>
+                            </ng-template>
+                        </p-autoComplete>
+                    </div>
+                </div>
+                <div class="selected__tutor" *ngIf="existsTutor && selectedTutor">
+                    <p-messages severity="warn">
+                        <ng-template pTemplate>
+                            <div class="message flex flex-column">
+                                <div class="message__title flex align-items-center">
+                                    <i class="pi pi-exclamation-triangle mr-2" style="font-size: 1.5rem"></i>
+                                    <h3>IMPORTANTE</h3>
+                                </div>
+                                <div class="message__text flex-column mt-3 line-height-3">
+                                    <p>- El docente que será asignado como tutor será: <b class="uppercase">
+                                            {{selectedTutor.name + ' '
+                                            +
+                                            selectedTutor.secondName + ' ' + selectedTutor.lastName}} </b> </p>
+                                    <p>- El nombre del docente se utilizará en la creación de los documentos</p>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </p-messages>
+                </div>
+            </p-card>
+        </div>
+        <div class="documents__Tabview mt-3">
+            <p-tabView (onChange)="checkFormsDocuments()" [scrollable]="size">
+                <p-tabPanel header="Carta designación al estudiante (es)">
+                    <div class="document__content flex justify-content-center grid grid-nogutter col-12 fadein animation-duration-500">
+                        <p-message class="mb-4" *ngIf="topicProposal.topicStudent[0].topic.twoStudents" severity="info"
+                            text="Este tema se esta elaborando en pareja, por lo tanto se generará un documento por cada estudiante">
+                        </p-message>
+                        <p-card class="sm:col-12 md:col-10 lg:col-8 xl:col-7 card">
+                            <ng-template pTemplate="header">
+                                <app-documents-header documentTitle="DESIGNACIÓN DE TUTOR (A) DIRIGIDA AL ESTUDIANTE"
+                                    formNumber="012"></app-documents-header>
+                            </ng-template>
+                            <ng-template pTemplate="content">
+                                <form #studentLetterForm="ngForm">
+                                    <div class="flex align-items-center justify-content-end mt-1">
+                                        <p class="text-lg"> Quito, D.M.
+                                            <span>
+                                                <p-calendar [(ngModel)]="selectedDate" name="selectedDate"
+                                                    placeholder="Elegir fecha" [showIcon]="true" dateFormat="dd/mm/yy">
+                                                </p-calendar>
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <div class="flex flex-column align-items-start justify-content-center pt-3 mb-2">
+                                        <ng-container
+                                            *ngIf="topicProposal.topicStudent[0].topic.twoStudents else nameOfStudent">
+                                            <p class="text-lg" *ngFor="let user of topicStudent"> Estudiantes:
+                                                {{user.student.name +" "+user.student.secondName +"
+                                                "+user.student.lastName
+                                                +"
+                                                "+user.student.secondLastName}}</p>
+                                        </ng-container>
+                                        <ng-template #nameOfStudent>
+                                            <p class="text-lg">Estudiante:
+                                                {{topicProposal.topicStudent[0].student.name +"
+                                                "+topicProposal.topicStudent[0].student.secondName +"
+                                                "+topicProposal.topicStudent[0].student.lastName
+                                                +" "+topicProposal.topicStudent[0].student.secondLastName}}</p>
+                                        </ng-template>
+                                    </div>
+                                    <div class="align-items-center justify-content-start  mb-2">
+                                        <p class="text-lg mt-4"> Facultad:
+                                            {{topicProposal.topicStudent[0].student.career.faculty?.name}}</p>
+                                        <p class="text-lg mt-4"> Carrera:
+                                            {{topicProposal.topicStudent[0].student.career?.name}}
+                                        </p>
+                                    </div>
+                                    <div class="flex align-items-center justify-content-start pt-3 mb-3">
+                                        <p class="text-lg"> De nuestras consideraciones:</p>
+                                    </div>
+                                    <div class="text-justify line-height-3">
+                                        <p class="text-lg">Se le informa que una vez evaluada la propuesta de tema
+                                            presentada por usted
+                                            se le ha asignado al docente: <span *ngIf="!selectedTutor" class="p-error">
+                                                Falta tutor</span> <b *ngIf="selectedTutor">
+                                                {{selectedTutor.secondLastName + ' ' + selectedTutor.lastName + ' '
+                                                + selectedTutor.name}}</b>
+                                            como tutor (a) del trabajo titulado:
+                                            <span><b>{{topicProposal.topicStudent[0].topic.name}}</b></span>, con quien
+                                            deberá ponerse en contacto para proceder con el desarrollo del mismo.
+                                            <br>
+                                            Se le informa que le corresponde una (1) hora semanal para las tutorías, por
+                                            lo que, usted conjuntamente con su tutor (a) deberán llevar el control del
+                                            cumplimiento de horas de tutorías en el formulario correspondiente, el mismo
+                                            tiene que ser presentado a Secretaría de Administración y Registro al
+                                            finalizar el proceso ya que es un requisito para la titulación que debe
+                                            reposar en su portafolio académico.
+                                            <br>
+                                            Considerando que según el Artículo No. 46 del Reglamento de titulación,
+                                            entre sus responsabilidades se encuentran:
+                                        </p>
+                                        <ul style="list-style-type: lower-alpha; margin-left: 5rem;">
+                                            <li>Asistir a las tutorías acordadas con el Director(a) del
+                                                Trabajo
+                                                de
+                                                Integración Curricular o de la Propuesta de Investigación en
+                                                el
+                                                día y
+                                                horario programado.</li>
+                                            <li>Entregar periódicamente los avances del Documento del
+                                                Trabajo de
+                                                Integración Curricular o de la Propuesta de Investigación,
+                                                según
+                                                las
+                                                fechas acordadas con el (la) Tutor(a) del mismo.</li>
+                                            <li>Aplicar las correcciones y enmiendas realizadas por el (la)
+                                                Tutor(a) del
+                                                Trabajo de Integración Curricular o de la Propuesta de
+                                                Investigación.
+                                            </li>
+                                            <li>Cumplir a tiempo con los procedimientos técnicos y
+                                                administrativos
+                                                correspondientes a los procesos de titulación.
+                                            </li>
+                                            <li>Garantizar la veracidad del contenido del Trabajo de
+                                                Integración
+                                                Curricular o de la Propuesta de Investigación.
+                                            </li>
+                                            <li>
+                                                Aplicar al Trabajo de Integración Curricular o Propuesta de
+                                                Investigación, los fundamentos técnicos, y metodológicos
+                                                pertinentes al
+                                                tema de estudio.
+                                            </li>
+                                            <li>
+                                                Aplicar las normas vigentes para la elaboración del Trabajo
+                                                de
+                                                Integración Curricular o Propuesta de Investigación
+                                            </li>
+                                        </ul>
+                                        <br>
+                                        <div class="sign flex justify-content-center mt-6">
+                                            <div class="careerDirector_sign flex flex-column col-6 p-0">
+                                                <div class="line" style="border-bottom: 1px solid black;"></div>
+                                                <p>Director (a) de carrera</p>
+                                                <p>Secretario (a) del comité</p>
+                                            </div>
+                                            <div class="decano flex flex-column ml-3 col-6 p-0">
+                                                <div class="line" style="border-bottom: 1px solid black;"></div>
+                                                <p>Decano (a) de Facultad</p>
+                                                <p>Presidente del comité</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </ng-template>
+                        </p-card>
+                    </div>
+                </p-tabPanel>
+                <p-tabPanel header="Carta asignación al tutor">
+                    <div class="document__content flex justify-content-center grid grid-nogutter col-12 fadein animation-duration-500">
+                        <p-card class="sm:col-12 md:col-10 lg:col-8 xl:col-7 card">
+                            <ng-template pTemplate="header">
+                                <app-documents-header documentTitle="DESIGNACIÓN COMO TUTOR (A)" formNumber="013">
+                                </app-documents-header>
+                            </ng-template>
+                            <ng-template pTemplate="content">
+                                <form #tutorLetterForm="ngForm">
+                                    <div class="flex align-items-center justify-content-end mt-1">
+                                        <p class="text-lg" *ngIf="selectedDate"> Quito, D.M. {{selectedDate | date:
+                                            'dd/MM/yyyy'}}
+                                        </p>
+                                        <p *ngIf="!selectedDate" class="text-lg flex align-items-center"> Quito, D.M.
+                                            <span>
+                                                <p class="p-error ml-2" style="font-size: small; width: 70%;">
+                                                    La fecha seleccionar en carta al estudiante</p>
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <div class="flex align-items-center justify-content-start">
+                                        <p *ngIf="!selectedTutor" class="text-lg flex">Docente:
+                                            <span>
+                                                <p class="p-error ml-2">Falta tutor</p>
+                                            </span>
+                                        </p>
+                                        <p class="text-lg" *ngIf="selectedTutor">Docente: {{selectedTutor.name + ' ' +
+                                            selectedTutor.lastName + ' '}}</p>
+                                    </div>
+                                    <div class="flex align-items-center justify-content-start pt-3 mb-3">
+                                        <p class="text-lg"> Presente.</p>
+                                    </div>
+                                    <div class="text-justify line-height-3">
+                                        <p class="text-lg">Estimado (a) docente, atendiendo a su experiencia el Comité
+                                            de trabajo de
+                                            integración de la Carrera de
+                                            {{topicProposal.topicStudent[0].student.career.name}} que está adscrita a la
+                                            Facultad {{topicProposal.topicStudent[0].student.career.faculty.name}} le
+                                            notifica que ha sido designado (a) como tutor (a) de
+                                            Trabajo de Integración curricular
+                                            <br>
+                                            Propuesta de investigación
+                                        </p>
+                                        <p class="mt-5 text-lg">
+                                            De los siguientes estudiantes:
+                                        </p>
+                                    </div>
+                                    <table class="tg col-12">
+                                        <thead>
+                                            <tr>
+                                                <th class="tg-0pky col-4 text-center font-bold text-md">Nombres y
+                                                    Apellidos de
+                                                    estudiantes</th>
+                                                <th class="tg-0pky col-4 text-center font-bold text-md">Tema aprobado
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="tg-0pky text-center uppercase">
+                                                    <p class="text-md">{{topicStudent[0].student.name + ' ' +
+                                                        topicStudent[0].student.secondName + ' ' +
+                                                        topicStudent[0].student.lastName + ' ' +
+                                                        topicStudent[0].student.secondLastName}}</p>
+                                                </td>
+                                                <td class="tg-0pky text-center text-md" rowspan="2">
+                                                    {{topicStudent[0].topic.name}}</td>
+                                            </tr>
+                                            <tr *ngIf="topicStudent[0].topic.twoStudents">
+                                                <td class="tg-0pky text-center">
+                                                    <div class="flex flex-column justify-content-end uppercase">
+                                                        <p class="text-md">{{topicStudent[1].student.name + ' ' +
+                                                            topicStudent[1].student.secondName + ' ' +
+                                                            topicStudent[1].student.lastName + ' ' +
+                                                            topicStudent[1].student.secondLastName}}</p>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="considerations mt-3">
+                                        <p class="text-lg">Considerando que según el Artículo No. 45 del Reglamento de
+                                            titulación, entre sus funciones se encuentran:</p>
+                                        <ol type="a" class="ml-6 line-height-3">
+                                            <li>
+                                                Orientar al estudiante sobre la información bibliográfica pertinente.
+                                            </li>
+                                            <li>
+                                                Asesorar oportunamente sus dudas y consultas.
+                                            </li>
+                                            <li>
+                                                Exigir y revisar periódicamente la presentación de avances del Documento
+                                                del Trabajo de Integración Curricular o de la Propuesta de
+                                                Investigación.
+                                            </li>
+                                            <li>
+                                                Sugerir correcciones y enmiendas.
+                                            </li>
+                                            <li>
+                                                Exigir al estudiante el cumplimiento de procedimientos técnicos y
+                                                administrativos que correspondan.
+                                            </li>
+                                            <li>
+                                                Realizar el registro de las horas de tutorías especificando la actividad
+                                                realizada en cada uno de los encuentros en el formulario establecido.
+                                            </li>
+                                            <li>
+                                                Reportar al Director (a) de Carrera las horas de tutorías y avances del
+                                                Trabajo de Integración Curricular o de la Propuesta de Investigación por
+                                                cada estudiante de forma periódica.
+                                            </li>
+                                            <li>
+                                                Reportar al Director(a) el incumplimiento de las horas de tutorías por
+                                                parte del estudiante y presentarle las evidencias que respaldan las
+                                                acciones realizadas para que el estudiante cumpla con las tutorías.
+                                            </li>
+                                            <li>
+                                                Garantizar que no exista plagio, y de evidenciar su existencia realizar
+                                                los correctivos a tiempo.
+                                            </li>
+                                            <li>
+                                                Garantizar un Trabajo de Integración Curricular o una Propuesta de
+                                                Investigación con fundamentos técnicos, metodológicos y ajustado a las
+                                                normas vigentes establecidas por la universidad.
+                                            </li>
+                                            <li>
+                                                Cumplir con las tutorías de manera semanal desde el momento que recibe
+                                                la designación por parte del Comité de Trabajo de Integración
+                                                Curricular.
+                                            </li>
+                                            <li>
+                                                Velar por el cumplimiento de las horas de tutorías por parte del (de la)
+                                                estudiante y dejar evidencias de las acciones realizadas
+                                            </li>
+                                            <li>
+                                                Brindar tutorías al estudiante hasta el momento de su presentación oral.
+                                            </li>
+                                            <li>
+                                                Informar y justificar al (as) Director (a) de Carrera las posibles
+                                                ausencias a las tutorías a través del informe correspondiente.
+                                            </li>
+                                            <li>
+                                                En el caso que el (la) tutorado no logre los objetivos para la entrega
+                                                del trabajo de integración curricular o de la propuesta de investigación
+                                                en las fechas establecidas, deberá generar un informe con la exposición
+                                                de motivos y entregar al (la) Director (a) de carrera
+                                            </li>
+                                        </ol>
+                                        <p class="mt-3 text-lg">Agradeciendo su receptividad y colaboración, me despido
+                                            reiterándole mi estima.
+                                        </p>
+                                        <div class="sign flex justify-content-center mt-8">
+                                            <div class="careerDirector_sign flex flex-column col-6 p-0">
+                                                <div class="line" style="border-bottom: 1px solid black;"></div>
+                                                <p>Director (a) de carrera</p>
+                                                <p>Secretario (a) del comité</p>
+                                            </div>
+                                            <div class="decano flex flex-column ml-3 col-6 p-0">
+                                                <div class="line" style="border-bottom: 1px solid black;"></div>
+                                                <p>Decano (a) de Facultad</p>
+                                                <p>Presidente del cómite</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </ng-template>
+                        </p-card>
+                    </div>
+                </p-tabPanel>
+                <p-tabPanel header="Generar documentos">
+                    <div class="documents fadein animation-duration-500">
+                        <p-message severity="info" text="Para generar los respectivos documentos deberá elegir un tutor y llenar los campos solicitados
+                        en la carta de asignación al estudiante y al tutor">
+                        </p-message>
+                        <div class="chips mt-3">
+                            <p class="line-height-3 text-lg mr-3">- Tutor</p>
+                            <p-chip [icon]="selectedTutor ? 'pi pi-check' : null"
+                                label="{{selectedTutor ? 'Seleccionado' : 'No seleccionado' }}"
+                                [ngClass]="!selectedTutor ? 'incomplete_chip': 'complete_chip'">
+                            </p-chip>
+                        </div>
+                        <div class="chips">
+                            <p class="line-height-3 text-lg mr-3">- Carta de asignación dirigida al estudiante</p>
+                            <p-chip label="{{chipStudentDocument}}"
+                                [icon]="chipStudentDocument === 'Completo' ? 'pi pi-check' : null"
+                                [ngClass]="chipStudentDocument === 'Incompleto' ? 'incomplete_chip': 'complete_chip'">
+                            </p-chip>
+                        </div>
+                        <div class="chips mt-3">
+                            <p class="line-height-3 text-lg mr-3">- Carta de asignación dirigida al tutor</p>
+                            <p-chip label="{{chipTutorDocument}}"
+                                [icon]="chipTutorDocument === 'Completo' ? 'pi pi-check' : null"
+                                [ngClass]="chipTutorDocument === 'Incompleto' ? 'incomplete_chip': 'complete_chip'">
+                            </p-chip>
+                        </div>
+                    </div>
+                    <div class=" flex justify-content-center mt-2">
+                        <button pButton pRipple type="button" label="Cancelar" routerLink="/tutorDesignation"
+                            class="p-button-danger mr-2" [disabled]="loadingButton"></button>
+                        <button pButton pRipple type="button" label="Enviar" style="background-color: #002858;" [loading]="loadingButton"
+                            (click)="createStudentsLetter(topicProposal.topicStudent[0].topic.twoStudents,topicProposal.topicStudent[0], topicProposal.topicStudent[1])"></button>
+                    </div>
+                </p-tabPanel>
+            </p-tabView>
+        </div>
+
+    </div>
+
+</div>

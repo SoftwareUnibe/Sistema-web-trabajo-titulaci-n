@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>TopicApprovalNotification</OriginalElement>
+  <nodes>
+    <node x="756.5651041666666" y="143.63541666666703">Career</node>
+    <node x="467.6393229166665" y="150.33333333333337">User</node>
+    <node x="-214.57291666666646" y="225.27083333333337">TopicProposal</node>
+    <node x="1389.4348958333335" y="-57.14453853564547">TutoringHours</node>
+    <node x="542.8541666666666" y="-28.552083333333144">TutoringConstancy</node>
+    <node x="506.68098958333314" y="636.40625">Reader</node>
+    <node x="177.75000000000006" y="225.27083333333337">TopicStudent</node>
+    <node x="-177.57291666666646" y="-119.09374999999994">TopicDenunciation</node>
+    <node x="194.25000000000006" y="570.1354166666664">DesignationTT</node>
+    <node x="700.0651041666666" y="378.7120492705752">CalendarDetail</node>
+    <node x="1334.9348958333335" y="741.2916666666665">ReaderObservations</node>
+    <node x="1070.0" y="170.0635000000015">Topic</node>
+    <node x="921.5448022037574" y="686.3548255573902">FinalDegreeCalendar</node>
+    <node x="-193.07291666666646" y="548.1354166666664">TopicApprovalNotification</node>
+    <node x="918.1901041666665" y="25.854166666666657">Faculty</node>
+    <node x="349.01041666666674" y="-6.552083333333144">Rol</node>
+    <node x="1345.9348958333335" y="210.9085968896228">ProductAndWorkEvaluation</node>
+    <node x="1356.9348958333335" y="488.1041666666665">ReaderAccordance</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="TopicDenunciation" target="TopicStudent" relationship="TO_ONE">
+      <point x="98.99991666666645" y="5.0417499999999436" />
+      <point x="97.66666666666669" y="0.9480000000000004" />
+      <point x="97.66666666666669" y="0.9480000000000075" />
+      <point x="212.16614583334405" y="0.9480000000000075" />
+      <point x="-77.08385416665601" y="-79.61458333333161" />
+    </edge>
+    <edge source="TopicApprovalNotification" target="TopicStudent" relationship="TO_ONE">
+      <point x="-8.333333353505168E-5" y="-82.00041666666641" />
+      <point x="-78.573" y="511.70833333333326" />
+      <point x="200.71739583334397" y="511.70833333333326" />
+      <point x="-88.53260416665609" y="107.54375000000312" />
+    </edge>
+    <edge source="FinalDegreeCalendar" target="Career" relationship="TO_ONE">
+      <point x="9.375000001909939E-5" y="-48.9998333333333" />
+      <point x="1017.0448959537574" y="256.40000000000003" />
+      <point x="887.1336625000166" y="256.40000000000003" />
+      <point x="53.06855833334998" y="61.221916666665095" />
+    </edge>
+    <edge source="TopicStudent" target="User" relationship="TO_ONE">
+      <point x="111.49999999999994" y="1.6666666664377772E-4" />
+      <point x="435.0" y="329.271" />
+      <point x="435.0" y="329.27083333333337" />
+      <point x="499.1666666666668" y="329.27083333333337" />
+      <point x="499.1666666666668" y="328.93185000000267" />
+      <point x="19.03433958334483" y="8.598516666669298" />
+    </edge>
+    <edge source="TutoringConstancy" target="User" relationship="TO_ONE">
+      <point x="7.949495833344372" y="41.358933333336154" />
+      <point x="585.0" y="72.80685000000301" />
+      <point x="585.0" y="155.87466666666694" />
+      <point x="586.2203291666776" y="155.87466666666694" />
+      <point x="31.581006250011114" y="-110.02648333333042" />
+    </edge>
+    <edge source="CalendarDetail" target="Career" relationship="TO_ONE">
+      <point x="0.0" y="-126.00033333333323" />
+      <point x="834.0651041666666" y="314.0" />
+      <point x="834.065" y="314.0" />
+      <point x="-1.0416666657420137E-4" y="70.99958333333296" />
+    </edge>
+    <edge source="CalendarDetail" target="FinalDegreeCalendar" relationship="TO_ONE">
+      <point x="-42.14784570258678" y="127.6905931736867" />
+      <point x="791.9172584640799" y="745.2272502064419" />
+      <point x="-90.60995497006559" y="9.872424649051709" />
+    </edge>
+    <edge source="User" target="Rol" relationship="TO_MANY">
+      <point x="-79.5" y="-170.0" />
+      <point x="52.62890624999977" y="38.0" />
+    </edge>
+    <edge source="User" target="Career" relationship="TO_ONE">
+      <point x="75.57967291668217" y="-105.7306666666671" />
+      <point x="710.354" y="214.60266666666627" />
+      <point x="710.354" y="214.63541666666703" />
+      <point x="765.0429958333486" y="214.63541666666703" />
+      <point x="-69.02210833331799" y="-0.9860833333341361" />
+    </edge>
+    <edge source="DesignationTT" target="User" relationship="TO_ONE">
+      <point x="96.67699583334502" y="-35.100750000000176" />
+      <point x="435.0" y="595.0346666666662" />
+      <point x="435.0" y="595.0416666666665" />
+      <point x="514.7916666666666" y="595.0416666666665" />
+      <point x="514.7916666666666" y="450.894783333336" />
+      <point x="-13.033993749988213" y="130.56145000000265" />
+    </edge>
+    <edge source="TutoringHours" target="Topic" relationship="TO_ONE">
+      <point x="-73.49989583333354" y="-1.6666666665798857E-4" />
+      <point x="1303.6666666666665" y="35.855294797687876" />
+      <point x="1303.6666666666665" y="193.19849301404247" />
+      <point x="75.78859957059603" y="-80.86500698595904" />
+    </edge>
+    <edge source="Reader" target="Topic" relationship="TO_ONE">
+      <point x="-15.538380169624816" y="45.86773843930723" />
+      <point x="568.1809895833331" y="764.2739884393072" />
+      <point x="568.1809895833331" y="898.7915772089191" />
+      <point x="1150.5" y="898.7915772089191" />
+      <point x="1150.5" y="363.66680019818415" />
+      <point x="-2.3030271841448666" y="89.60330019818264" />
+    </edge>
+    <edge source="TopicProposal" target="TopicStudent" relationship="TO_ONE">
+      <point x="93.87364583334346" y="29.418750000001637" />
+      <point x="15.300729166677002" y="344.58333333333337" />
+      <point x="210.09239583334357" y="344.58333333333337" />
+      <point x="-79.15760416665648" y="30.460416666668266" />
+    </edge>
+    <edge source="CalendarDetail" target="User" relationship="TO_ONE">
+      <point x="-63.88756494288748" y="-73.9961120286261" />
+      <point x="765.0429958333486" y="430.7159372419491" />
+      <point x="765.0429958333486" y="320.33333333333337" />
+      <point x="86.9996770833335" y="0.0" />
+    </edge>
+    <edge source="ReaderAccordance" target="Topic" relationship="TO_ONE">
+      <point x="-77.60603201830554" y="-3.5896042884628514" />
+      <point x="1385.328863815028" y="570.1041666666665" />
+      <point x="1287.0" y="570.1041666666665" />
+      <point x="1287.0" y="343.66772505367953" />
+      <point x="74.83626265895305" y="69.60422505367802" />
+    </edge>
+    <edge source="Reader" target="User" relationship="TO_ONE">
+      <point x="61.499677083333495" y="14.999749999999949" />
+      <point x="568.1809895833331" y="733.406" />
+      <point x="568.1809895833331" y="320.33333333333337" />
+      <point x="86.9996770833335" y="0.0" />
+    </edge>
+    <edge source="Topic" target="Career" relationship="TO_ONE">
+      <point x="-73.62571249998405" y="-80.06558333333484" />
+      <point x="834.065" y="193.99791666666667" />
+      <point x="-1.0416666657420137E-4" y="70.99958333333296" />
+    </edge>
+    <edge source="ProductAndWorkEvaluation" target="Topic" relationship="TO_ONE">
+      <point x="-116.8468839951845" y="-30.357735954325165" />
+      <point x="1287.0" y="273.55086093529764" />
+      <point x="1287.0" y="274.0639166666682" />
+      <point x="80.50029166666741" y="4.166666666947094E-4" />
+    </edge>
+    <edge source="Career" target="Faculty" relationship="TO_ONE">
+      <point x="0.0" y="-71.0" />
+      <point x="834.0651041666666" y="71.70833333333363" />
+      <point x="958.0953291666775" y="71.70833333333363" />
+      <point x="-16.594774999989" y="-8.755649999997047" />
+    </edge>
+    <edge source="DesignationTT" target="TopicStudent" relationship="TO_ONE">
+      <point x="-5.6843418860808015E-14" y="-60.00041666666641" />
+      <point x="-5.6843418860808015E-14" y="104.00016666666664" />
+    </edge>
+    <edge source="TutoringConstancy" target="Topic" relationship="TO_ONE">
+      <point x="-1.666666665869343E-4" y="59.99999999999983" />
+      <point x="630.354" y="-3.1666666666666288" />
+      <point x="1116.563802083333" y="-3.1666666666666288" />
+      <point x="1116.563802083333" y="194.87016666667137" />
+      <point x="65.36468750001131" y="-79.19333333333014" />
+    </edge>
+    <edge source="ReaderObservations" target="Topic" relationship="TO_ONE">
+      <point x="-6.25000002401066E-5" y="-70.99966666666649" />
+      <point x="1438.9348333333332" y="803.458298926507" />
+      <point x="1202.7777820644105" y="803.458298926507" />
+      <point x="52.27778206441053" y="96.62678492155175" />
+    </edge>
+    <edge source="TopicStudent" target="Topic" relationship="TO_ONE">
+      <point x="-5.6843418860808015E-14" y="-103.99983333333338" />
+      <point x="289.25" y="-53.16666666666657" />
+      <point x="1167.0" y="-53.16666666666657" />
+      <point x="1167.0" y="193.20350000000488" />
+      <point x="25.364687500012224" y="-80.85999999999663" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.5337741046831955" showDependencies="true" x="680.7572283071813" y="340.11811307679625" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

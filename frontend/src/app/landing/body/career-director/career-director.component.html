@@ -1,0 +1,189 @@
+<div class="body_container flex flex-column">
+    <div class="tittle text-left md:text-left pt-2">
+        <h1>Banco de temas</h1>
+    </div>
+    <div class="tabView_container">
+        <p-tabView [scrollable]="size">
+            <p-tabPanel header="Temas Disponibles">
+                <div class="table_container">
+                    <p-table #dt [value]="topics" styleClass="p-datatable fadein animation-duration-500"
+                        [globalFilterFields]="['name']" dataKey="id" [responsiveLayout]="'scroll'" [paginator]="true"
+                        [rows]="7" [loading]="loading">
+                        <ng-template pTemplate="caption">
+                            <div
+                                class="flex align-items-center justify-content-between grid-nogutter col-12 p-0 flex-wrap">
+                                <div class="topics__info col-12 sm:col-6 md:col-4 lg:col-3">
+                                    <h4> Carrera: {{career}}</h4>
+                                    <h4 class="mt-2"> Temas Disponibles: {{topics?.length}}</h4>
+                                </div>
+                                <div
+                                    class="flex col-12 mt-2 sm:mt-0 sm:col-6 sm:justify-content-end md:justify-content-center md:col-4">
+                                    <button pButton pRipple type="button" label="Añadir nuevo tema"
+                                        routerLink="/topicBank/new" style="background-color: #002858;"></button>
+                                </div>
+                                <div class="flex col-12 mt-2 md:col-3 md:mt-0 justify-content-center">
+                                    <span class="p-input-icon-left col-12 p-0">
+                                        <i class="ml-2 pi pi-search"></i>
+                                        <input pInputText type="text" class="inputfield w-full"
+                                            (input)="applyFilterTopics($event, 'contains')"
+                                            placeholder="Busca un tema" />
+                                    </span>
+                                </div>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th id="number">N°</th>
+                                <th id="name">Título</th>
+                                <th id="articulation">Articulación</th>
+                                <th id="articulation">Acciones</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-topic let-rowIndex="rowIndex">
+                            <tr>
+                                <td>{{rowIndex+1}}</td>
+                                <td class=" text-justify">{{topic.name}}</td>
+                                <td>{{topic.articulation}}</td>
+                                <td>
+                                    <div class="button_container flex">
+                                        <button pButton pRipple type="button" icon="pi pi-pencil" pTooltip="Editar"
+                                            tooltipPosition="top"
+                                            class="p-button-rounded p-button-info p-button-text mr-2"
+                                            (click)="edit(topic.id)"></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="8" class="text-lg" *ngIf="topics?.length===0">No existe
+                                    temas para gestionar
+                                </td>
+                                <td colspan="8" class="text-lg" *ngIf="topics?.length!==0">
+                                    No se encontraron resultados</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+
+                </div>
+            </p-tabPanel>
+            <p-tabPanel header="Temas pendientes por aprobar">
+                <div class="table_container">
+                    <p-table #dt2 [value]="topicProposal" styleClass="p-datatable-striped fadein animation-duration-500"
+                        [loading]="loading" [globalFilterFields]="['topicStudent.0.topic.name']" dataKey="id"
+                        [responsiveLayout]="'scroll'" [paginator]="true" [rows]="7">
+                        <ng-template pTemplate="caption">
+                            <div class="flex align-items-center col-12 md:col-4 p-0 justify-content-between">
+                                <span class="p-input-icon-left col-12 p-0">
+                                    <i class="pi pi-search"></i>
+                                    <input pInputText type="text" class="inputfield w-full"
+                                        (input)="applyFilterProposalTopics($event, 'contains')"
+                                        placeholder="Buscar por título de tema" />
+                                </span>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th id="number">N°</th>
+                                <th id="name">Tema</th>
+                                <th id="articulation">Articulación</th>
+                                <th id="dni">Estudiante (es)</th>
+                                <th id="career">Carrera</th>
+                                <th id="asigmentDate">Fecha de asignación</th>
+                                <th id="topicEvaluation">Estado</th>
+                                <th id="actions">Acciones</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-selectedTopicProposal let-rowIndex="rowIndex">
+                            <tr>
+                                <td class="text-justify">{{rowIndex + 1}}</td>
+                                <td class="col-5 text-justify">{{selectedTopicProposal.topicStudent[0].topic.name}}</td>
+                                <td class="col-2">{{selectedTopicProposal.topicStudent[0].topic.articulation}}</td>
+                                <td class="col-1">
+                                    <p *ngFor="let students of selectedTopicProposal.topicStudent">
+                                        {{students.student.name + ' ' + students.student.lastName}}
+                                    </p>
+                                </td>
+                                <td class="col-2">{{selectedTopicProposal.topicStudent[0].topic.career.name}}</td>
+                                <td class="col-1">{{selectedTopicProposal.topicStudent[0].assignedDate |
+                                    date:'yyyy-MM-dd'}}</td>
+                                <td class="col-1">{{selectedTopicProposal.topicStudent[0].topic.topicStatus}}</td>
+                                <td class="col">
+                                    <p-tieredMenu #menu [model]="evaluationOptions" [popup]="true" appendTo="body"
+                                        [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'">
+                                    </p-tieredMenu>
+                                    <button icon="pi pi-angle-down" iconPos="right" pButton pRipple type="button"
+                                        label="Evaluar" class="p-button p-button-primary"
+                                        (click)="getTopicProposalIdOnPressButton($event, selectedTopicProposal.id)">
+                                    </button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="8" class="text-lg" *ngIf="topicProposal.length===0">No existe
+                                    temas para gestionar
+                                </td>
+                                <td colspan="8" class="text-lg" *ngIf="topicProposal.length!==0">
+                                    No se encontraron resultados</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </p-tabPanel>
+            <p-tabPanel header="En Ejecución">
+                <div class="table_container">
+                    <p-table #dt3 [value]="selectedStudentTopics"
+                        styleClass="p-datatable-striped fadein animation-duration-500" [loading]="loading"
+                        [globalFilterFields]="['name','ci']" dataKey="id" [responsiveLayout]="'scroll'"
+                        [paginator]="true" [rows]="7">
+                        <ng-template pTemplate="caption">
+                            <div class="flex align-items-center col-12 md:col-4 p-0 justify-content-between">
+                                <span class="p-input-icon-left col-12 p-0">
+                                    <i class="pi pi-search"></i>
+                                    <input pInputText type="text" class="inputfield w-full"
+                                        (input)="applyFilterSelectedTopics($event, 'contains')"
+                                        placeholder="Buscar por tema o cédula" />
+                                </span>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th id="number">N°</th>
+                                <th id="name">Tema</th>
+                                <th id="articulation">Articulación</th>
+                                <th id="pay">Pago</th>
+                                <th id="dni">Cédula</th>
+                                <th id="career">Carrera</th>
+                                <th id="asigmentDate">Fecha de asignación</th>
+                                <th id="topicEvaluation">Evaluación de tema</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-selectedTopic let-rowIndex="rowIndex">
+                            <tr>
+                                <td class="text-justify">{{rowIndex + 1}}</td>
+                                <td class="col-5 text-justify">{{selectedTopic.name}}</td>
+                                <td class="col-2">{{selectedTopic.articulation}}</td>
+                                <td class="col-1">{{selectedTopic.paymentStatus}}</td>
+                                <td class="col-1">{{selectedTopic.ci}}</td>
+                                <td class="col-2">{{selectedTopic.career}}</td>
+                                <td class="col-1">{{selectedTopic.assignedDate | date:'yyyy-MM-dd'}}</td>
+                                <td class="col-1">{{selectedTopic.topicEvaluation}}</td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="8" class="text-lg" *ngIf="selectedStudentTopics.length===0">No existe
+                                    temas para gestionar
+                                </td>
+                                <td colspan="8" class="text-lg" *ngIf="selectedStudentTopics.length!==0">
+                                    No se encontraron resultados</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+
+                </div>
+            </p-tabPanel>
+        </p-tabView>
+    </div>
+</div>

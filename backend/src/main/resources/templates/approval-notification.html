@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title th:text="${'Notificación de aprobación ' + notification.topicStudent.student.name + ' ' + notification.topicStudent.student.lastName}"></title>
+    <link rel="stylesheet" type="text/css" href="../pdf-resources/css/notificationStyle.css"/>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <img src="../pdf-resources/images/unibeEvaluacionPropuesta.PNG" class="logo"/>
+    </div>
+    <div class="align_right" align="right">
+        <p class="normal_text">Quito, D.M, <span th:text="${(#dates.format(notification.date, 'dd')) + ' de ' + (#dates.format(notification.date, 'MMMM')) + ' del ' + (#dates.format(notification.date, 'yyyy')) }"></span>
+    </div>
+    <div class="align_left trato">
+        <p class="normal_text"> <span class="bold_text">Estudiante:</span> <span th:text="${notification.topicStudent.student.name}"></span> <span
+                th:text="${notification.topicStudent.student.secondName}"></span> <span
+                th:text="${notification.topicStudent.student.lastName}"></span>
+            <span th:text="${notification.topicStudent.student.secondLastName}"></span></p>
+        <p class="normal_text"><span class="bold_text">Facultad: </span> <span th:text="${notification.topicStudent.topic.career.faculty.name}"></span></p>
+        <p class="normal_text"><span class="bold_text">Carrera: </span> <span th:text="${notification.topicStudent.topic.career.name}"></span></p>
+        <p class="normal_text">De nuestras consideraciones:</p>
+        <p class="content_text">
+            Por medio de la presente el Comité de trabajo de integración curricular, en reunión ordinaria No.<span th:text="${notification.meetingNumber}"></span> fecha: <span
+                th:text="${notification.meetingDate}"></span>, le informa que su propuesta de investigación titulada:
+            <em class="bold_text"> <span th:text="${notification.topicStudent.topic.name}"></span> </em>ha sido:
+        </p>
+        <p class="normal_text"><span th:if="${notification.topicStudent.topicEvaluation == 'Aprobado'}">Aprobado</span>
+            <span th:if="${notification.topicStudent.topicEvaluation == 'Aprobado con observaciones'}">Aprobado con correcciones</span>
+            <span th:if="${notification.topicStudent.topicEvaluation == 'Reprobado'}">No aprobado</span></p>
+            <p class="normal_text" th:if="${notification.topicStudent.topicEvaluation == 'Reprobado'}">Considere las siguientes observaciones: </p>
+            <p class="normal_text" th:if="${notification.topicStudent.topicEvaluation == 'Aprobado con observaciones'}">Considere las siguientes observaciones: </p>
+        <p class="normal_text">
+            <ol th:if="${notification.observations}">
+                <li class="normal_text"  th:each=" obs: ${notification.observations}">
+                    <span th:text="${obs}"></span>
+                </li>
+            </ol>
+        </p>
+        <div style="margin-top: 40px;">
+            <span >________________________</span> <span style="margin-left: 345px;">___________________________</span>
+        </div>
+        <div >
+            <span class="normal_text">Director(a) de carrera</span> <span class="normal_text" style="margin-left: 350px;">Decano(a) de la facultad</span>
+        </div>
+        <div >
+            <span class="normal_text">Secretario(a) del comité</span> <span class="normal_text" style="margin-left: 335px;">Presidente del comité</span>
+        </div>
+   
+    </div>
+</div>
+</body>
+</html>
+</html>

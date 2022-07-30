@@ -1,0 +1,114 @@
+<div class="topicDenunciation__container" *ngIf="topicDenunciation">
+    <p-dialog header="Vista Previa" [(visible)]="denunciationPreview"
+        [breakpoints]="{'1200px' : '60vw', '960px': '70vw', '850px':'80vw' ,'600px': '100vw'}" [style]="{width: '50vw', margin: '0 1rem'}"
+        [draggable]="false" [resizable]="false" (onHide)="closeDenunciationModal()" [modal]="true">
+        <p-card class="col-7">
+            <ng-template pTemplate="header">
+                <p-image src="../../../../../assets/unibe_form.png" alt="UNIB.E" width="100%"></p-image>
+            </ng-template>
+            <ng-template pTemplate="content">
+                <form #topicDenunciationForm="ngForm">
+                    <h3 class="flex justify-content-center">DENUNCIA DE TEMA Y MODALIDAD DE INVESTIGACIÓN</h3>
+                    <div class="student__info">
+                        <h4 class="mt-3 mb-3">DATOS GENERALES:</h4>
+                        <div class="student student__name flex">
+                            <h4>Nombres:</h4>
+                            <p>{{topicDenunciation.topicStudent?.student?.name}}
+                                {{topicDenunciation.topicStudent?.student?.secondName}}</p>
+                        </div>
+                        <div class="student student__lastName flex">
+                            <h4>Apellidos:</h4>
+                            <p>{{topicDenunciation.topicStudent?.student?.lastName}}
+                                {{topicDenunciation.topicStudent?.student?.secondLastName}}</p>
+                        </div>
+                        <div class="student student__Dni flex">
+                            <h4>Cédula de identidad:</h4>
+                            <p>{{topicDenunciation.topicStudent?.student?.ci}}</p>
+                        </div>
+                        <div class="student student__career flex">
+                            <h4>Carrera:</h4>
+                            <p>{{topicDenunciation.topicStudent?.student?.career?.name}}</p>
+                        </div>
+                        <div class="student student__semester flex align-items-center">
+                            <h4>Semestre:</h4>
+                            <p *ngIf="!topicDenunciation.semesterLevel" class="p-error">Falta el semestre</p>
+                            <p>{{topicDenunciation.semesterLevel}}</p>
+                        </div>
+                        <div class="student career__director flex">
+                            <h4>Director (a) de carrera:</h4>
+                            <p>Pedro</p>
+                        </div>
+                        <div class="student cityAndDate flex align-items-center mt-2 mb-3">
+                            <h4>Ciudad/Fecha:</h4>
+                            <p *ngIf="!topicDenunciation.ciudad" class="p-error">Falta la ciudad</p>
+                            <p>{{topicDenunciation.ciudad}}</p>
+                            <p class="m-0" *ngIf="!topicDenunciation.date">, {{actualDate}}</p>
+                            <p class="m-0" *ngIf="topicDenunciation.date">, {{topicDenunciationDate}}</p>
+                        </div>
+                        <div class="message">
+                            <p>De mis consideraciones</p>
+                            <p class="request">Solicito la evaluación de la propuesta del Trabajo de Titulación o
+                                Trabajo de
+                                Integración
+                                Curricular para obtener el título de
+                                <b>{{topicDenunciation.topicStudent?.student?.career?.degree}}</b>
+                            </p>
+                            <p class="mb-3">Los datos de la propuesta se especifican a continuación:</p>
+                            <div class="topicName mt-3 mb-3">
+                                <h4>Tema:</h4>
+                                <p>{{topicDenunciation.topicStudent?.student?.name}}</p>
+                            </div>
+                            <div class="investigationLine mt-3 mb-3">
+                                <h4>Línea de investigación:</h4>
+                                <p *ngIf="!topicDenunciation.investigationLine" class="p-error">Falta línea de
+                                    investigación</p>
+                                <p>{{topicDenunciation.investigationLine}}</p>
+                            </div>
+                            <div class="proyect__title mt-3 mb-3">
+                                <h4>Título del proyecto de la universidad con el cual se articula el tema propuesto
+                                </h4>
+                                <p *ngIf="!topicDenunciation.investigationLine" class="p-error">Falta título del
+                                    proyecto</p>
+                                <p>{{topicDenunciation.articulationTopic}}</p>
+                            </div>
+                            <div class="proyect__type mt-3 mb-3">
+                                <h4>Tipo de proyecto:</h4>
+                                <p *ngIf="!topicDenunciation.investigationLine" class="p-error">Falta tipo de
+                                    proyecto
+                                </p>
+                                <p>{{topicDenunciation.projectType}}</p>
+                            </div>
+                            <div class="investigation__modality mt-3 mb-3">
+                                <h4>Modalidad de investigación:</h4>
+                                <p *ngIf="!topicDenunciation.investigationLine" class="p-error">Falta modalidad de
+                                    investigación</p>
+                                <p>{{topicDenunciation.investigationModality}}</p>
+                            </div>
+                            <div class="denunciation__footer flex">
+                                <div class="denunciaton__requestedBy col-4 flex flex-column align-items-center">
+                                    <h4>Solicitado por</h4>
+                                    <p>{{topicDenunciation.topicStudent?.student?.name}}
+                                        {{topicDenunciation.topicStudent?.student?.secondName}}
+                                        {{topicDenunciation.topicStudent?.student?.lastName}}
+                                        {{topicDenunciation.topicStudent?.student?.secondLastName}}
+                                    </p>
+                                </div>
+                                <div class="denunciation__recievedBy col-4 flex flex-column align-items-center">
+                                    <h4>Recibido por</h4>
+                                    <p>{{director?.name+' '+director?.lastName}}</p>
+                                </div>
+                                <div class="denunciation__deliverTo col-4 flex flex-column align-items-center">
+                                    <h4>Entregar a</h4>
+                                    <p>Secretaría de Administración y Registro</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </ng-template>
+        </p-card>
+        <ng-template pTemplate="footer">
+            <p-button (click)="closeDenunciationModal()" label="Cerrar" styleClass="p-button-text"></p-button>
+        </ng-template>
+    </p-dialog>
+</div>

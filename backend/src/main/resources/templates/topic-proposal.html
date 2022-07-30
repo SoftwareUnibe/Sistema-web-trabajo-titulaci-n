@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title th:text="${'Propuesta de tema ' + topicProposal.topicStudent.student.name + ' ' + topicProposal.topicStudent.student.lastName }"></title>
+    <link rel="stylesheet" type="text/css" href="../pdf-resources/css/topicProposal.css"/>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <img src="../pdf-resources/images/header.png" class="logo"/>
+    </div>
+    <div class="document_title">
+        <h3 align="center">PROPUESTA DE TEMA</h3>
+    </div>
+    <div class="proposal_info">
+        <div class="proposalData">
+            <b>Tema de trabajo de titulación</b>
+            <p th:text="${topicProposal.topicStudent.topic.name}"></p>
+        </div>
+        <div class="proposalData">
+            <b>Descripción breve del tema</b>
+            <p th:text="${topicProposal.topicDescription}"></p>
+        </div>
+        <div class="proposalData">
+            <b>Objetivo general</b>
+            <p th:text="${topicProposal.objectiveGeneral}">></p>
+        </div>
+        <div class="proposalData">
+            <b>Objetivos específicos</b>
+            <ul th:each="specificObjectives : ${topicProposal.objectivesSpecific}">
+                <li th:text="${specificObjectives}"></li>
+            </ul>
+        </div>
+        <div class="proposalData">
+            <b>Alcance del estudio</b>
+            <p th:text="${topicProposal.scope}"></p>
+        </div>
+        <div class="proposalData">
+            <b>Justificación breve del estudio</b>
+            <p th:text="${topicProposal.studyJustification}"></p>
+        </div>
+        <div class="proposalData" th:if="${topicProposal.bibliographicReferences}">
+            <b>Referencias</b>
+            <ul th:each="reference : ${topicProposal.bibliographicReferences}">
+                <li th:text="${reference}"></li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+</html>

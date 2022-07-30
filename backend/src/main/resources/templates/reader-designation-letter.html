@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title th:text="${'Carta al lector' + ' ' + reader.reader.name + ' ' + reader.reader.lastName}">fsdadfsa</title>
+    <link rel="stylesheet" type="text/css" href="../pdf-resources/css/readerDesignationLetter.css"/>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <img src="../pdf-resources/images/header.png" class="logo"/>
+    </div>
+    <div align="right">
+        <p class="creation_Date">
+            <b>
+            Quito, DM.
+                <span th:text="|${(#dates.format(reader.date, 'dd'))} de ${(#dates.format(reader.date, 'MMMM'))} de ${(#dates.format(reader.date, 'yyyy'))}|"></span>
+            </b>
+
+        </p>
+    </div>
+    <div class="sentTo">
+        <p><b>PARA: </b> <span
+                th:text="|${reader.reader.degree} ${reader.reader.name} ${reader.reader.lastName}|"></span></p>
+        <p><b>ASUNTO: </b> Lectura de Trabajo de Titulación. </p>
+        <div class="letter_Info">
+            <p th:if="${isTwoStudents}">
+                Por medio del presente se le informa que usted ha sido designado lector del Trabajo de Titulación de los
+                estudiantes:
+                <b><span th:text="${(#strings.toUpperCase(studentOne + ' Y ' + studentTwo))}"></span></b>
+                titulado: <b>"<span th:text="${#strings.toUpperCase(reader.topic.name)}"></span>"</b>
+            </p>
+            <p th:if="not ${isTwoStudents}">
+                Por medio del presente se le informa que usted ha sido designado lector del Trabajo de Titulación del
+                estudiante:
+                <b><span th:text="${#strings.toUpperCase(studentOne)}"></span></span></b>
+                titulado: <b>"<span th:text="${#strings.toUpperCase(reader.topic.name)}"></span>"</b>
+            </p>
+            <p>
+                La fecha máxima de entrega de la evaluación y sus observaciones es hasta el
+                <b> <span
+                        th:text="${(#dates.dayOfWeekName(reader.maxDate)) + ' ' + (#dates.day(reader.maxDate)) + ' de ' + (#dates.monthName(reader.maxDate)) + ' de ' + (#dates.year(reader.maxDate))}"></span></b>
+            </p>
+            <p>
+                Es importante recordar que, en el proceso de lectoría se debe revisar los aspectos relacionados a la
+                calidad del texto escrito en relación a la sintaxis.
+            </p>
+            <p>
+                Atentamente,
+            </p>
+            <p>
+                <b>Unidad de Titulación de la UNIB.E.</b>
+            </p>
+            <p>
+                Adjunto
+                <br>
+                <br>
+                Documento de trabajo de titulación que puede ser descargado en el siguiente link:
+               <a th:href="@{thesisLink}"><span th:text="${thesisLink}"></span></a>
+            </p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+</html>

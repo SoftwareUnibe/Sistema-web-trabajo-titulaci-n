@@ -1,0 +1,199 @@
+<div class="topicDenunciation__container grid grid-nogutter mt-2">
+    <p-progressSpinner *ngIf="loading"></p-progressSpinner>
+    <div class="col-12 flex justify-content-center mb-2 messages_container fadein animation-duration-1000" *ngIf="topicDenunciation || !loading ">
+        <p-messages severity="success" *ngIf="existDenunciation">
+            <ng-template pTemplate>
+                <div class="flex justify-content-between align-items-center col-12">
+                    <div class="text-md col-10">
+                        <p>Su denuncia de tema ya fue generada</p>
+                    </div>
+                    <div class="col-1 flex justify-content-end">
+                        <p-button pTooltip="Editar su denuncia" icon="pi pi-pencil" iconPos="right"
+                            (click)="editDenunciation()"></p-button>
+                    </div>
+                </div>
+            </ng-template>
+        </p-messages>
+        <p-message severity="error" text="Debe seleccionar un tema para generar su denuncia" styleClass="message"
+            *ngIf="!existTopicStudent">
+        </p-message>
+    </div>
+    <p-card class="sm:col-12 md:col-10 lg:col-8 xl:col-6" *ngIf="!loading">
+        <ng-template pTemplate="header">
+            <p-image src="../../../../../assets/unibe_form.png" alt="UNIB.E" width="100%"></p-image>
+        </ng-template>
+        <ng-template pTemplate="content">
+            <form #topicDenunciationForm="ngForm">
+                <h3 class="flex justify-content-center">DENUNCIA DE TEMA Y MODALIDAD DE INVESTIGACIÓN</h3>
+                <div class="student__info">
+                    <h4 class="mt-3 mb-3">DATOS GENERALES:</h4>
+                    <div class="student student__name flex">
+                        <h4>Nombres:</h4>
+                        <p>{{topicDenunciation.topicStudent?.student?.name}}
+                            {{topicDenunciation.topicStudent?.student?.secondName}}</p>
+                        <p class="text-pink-600" *ngIf="!topicDenunciation.topicStudent?.student?.name"> No existe tema
+                            elegido</p>
+
+                    </div>
+                    <div class="student student__lastName flex">
+                        <h4>Apellidos:</h4>
+                        <p>{{topicDenunciation.topicStudent?.student?.lastName}}
+                            {{topicDenunciation.topicStudent?.student?.secondLastName}}</p>
+                        <p class="text-pink-600" *ngIf="!topicDenunciation.topicStudent?.student?.name"> No existe tema
+                            elegido</p>
+
+                    </div>
+                    <div class="student student__Dni flex">
+                        <h4>Cédula de identidad:</h4>
+                        <p>{{topicDenunciation.topicStudent?.student?.ci}}</p>
+                        <p class="text-pink-600" *ngIf="!topicDenunciation.topicStudent?.student?.name"> No existe tema
+                            elegido</p>
+                    </div>
+                    <div class="student student__career flex">
+                        <h4>Carrera:</h4>
+                        <p>{{topicDenunciation.topicStudent?.student?.career?.name}}</p>
+                        <p class="text-pink-600" *ngIf="!topicDenunciation.topicStudent?.student?.name"> No existe tema
+                            elegido</p>
+
+                    </div>
+                    <div class="student student__semester flex align-items-center">
+                        <h4>Semestre:</h4>
+                        <div class="flex flex-column ml-3">
+                            <p *ngIf="existDenunciation && !edited"> {{topicDenunciation?.semesterLevel}} </p>
+                            <p-dropdown [(ngModel)]="topicDenunciation.semesterLevel" name="semesterLevel"
+                                [options]="semesterLevel" placeholder="Selecciona el semestre" optionLabel="semester"
+                                optionValue="value" [required]="true" *ngIf="!existDenunciation || edited"></p-dropdown>
+                            <small *ngIf="topicDenunciationForm.controls['semesterLevel']?.errors?.required &&  
+                        topicDenunciationForm.controls['semesterLevel']?.touched" class="p-error">
+                                * Este campo es obligatorio
+                            </small>
+                        </div>
+                    </div>
+                    <div class="student career__director flex">
+                        <h4>Director (a) de carrera:</h4>
+                        <p>PEDRO</p>
+                    </div>
+                    <div class="student cityAndDate flex flex-wrap align-items-center mt-2 mb-3">
+                        <h4>Ciudad/Fecha:</h4>
+                        <p *ngIf="existDenunciation && !edited">{{topicDenunciation?.ciudad}},</p>
+                        <div class="flex flex-column col-3 ml-2" *ngIf="!existDenunciation || edited">
+                            <input type="text" pInputText class="p-inputtext-sm p-2"
+                                [(ngModel)]="topicDenunciation.ciudad" name="city" required>
+                            <small *ngIf="topicDenunciationForm.controls['city']?.errors?.required &&  
+                            topicDenunciationForm.controls['city']?.touched" class="p-error">
+                                * Este campo es obligatorio
+                            </small>
+                        </div>
+                        <p *ngIf="existDenunciation">{{topicDenunciationDate}}</p>
+                        <p *ngIf="!existDenunciation">, {{actualDate}}</p>
+                    </div>
+                    <div class="message">
+                        <p>De mis consideraciones</p>
+                        <p class="request">Solicito la evaluación de la propuesta del Trabajo de Titulación o Trabajo de
+                            Integración
+                            Curricular para obtener el título de
+                            <b>{{topicDenunciation.topicStudent?.student?.career?.degree}}</b> </p>
+                        <p class="mb-3">Los datos de la propuesta se especifican a continuación:</p>
+                        <div class="topicName">
+                            <h4>Tema:</h4>
+                            <p>{{topicDenunciation.topicStudent?.topic?.name}}</p>
+                        </div>
+                        <div class="investigationLine">
+                            <h4>Línea de investigación:</h4>
+                            <div class="flex flex-column">
+                                <p *ngIf="existDenunciation && !edited"> {{topicDenunciation.investigationLine}}</p>
+                                <p-dropdown [(ngModel)]="topicDenunciation.investigationLine" name="investigationLine"
+                                    [options]="investigationLine" placeholder="Selecciona uno" optionLabel="name"
+                                    optionValue="value" [required]="true" *ngIf="!existDenunciation || edited">
+                                </p-dropdown>
+                                <small *ngIf="topicDenunciationForm.controls['investigationLine']?.errors?.required &&  
+                                topicDenunciationForm.controls['investigationLine']?.touched" class="p-error">
+                                    * Este campo es obligatorio
+                                </small>
+                            </div>
+                        </div>
+                        <div class="proyect__title">
+                            <h4>Título del proyecto de la universidad con el cual se articula el tema propuesto</h4>
+                            <p *ngIf="existDenunciation && !edited"> {{topicDenunciation.articulationTopic}}</p>
+                            <textarea [(ngModel)]="topicDenunciation.articulationTopic" name="articulationTopic"
+                                rows="2" class="inputfield w-full" [autoResize]="true" pInputTextarea
+                                placeholder="Ingrese el nombre del proyecto de Articulación" required
+                                *ngIf="!existDenunciation || edited"></textarea>
+                            <small *ngIf="topicDenunciationForm.controls['articulationTopic']?.errors?.required &&  
+                                topicDenunciationForm.controls['articulationTopic']?.touched" class="p-error">
+                                * Este campo es obligatorio
+                            </small>
+                        </div>
+                        <div class="proyect__type">
+                            <h4>Tipo de proyecto:</h4>
+                            <div class="flex flex-column">
+                                <p *ngIf="existDenunciation && !edited"> {{topicDenunciation.projectType}}</p>
+                                <p-dropdown [(ngModel)]="topicDenunciation.projectType" name="projectType"
+                                    [options]="proyectType" placeholder="Selecciona uno" optionLabel="name"
+                                    optionValue="value" [required]="true" *ngIf="!existDenunciation || edited">
+                                </p-dropdown>
+                                <small *ngIf="topicDenunciationForm.controls['projectType']?.errors?.required &&  
+                                topicDenunciationForm.controls['projectType']?.touched" class="p-error">
+                                    * Este campo es obligatorio
+                                </small>
+                            </div>
+                        </div>
+                        <div class="investigation__modality">
+                            <h4>Modalidad de investigación:</h4>
+                            <div class="flex flex-column">
+                                <p *ngIf="existDenunciation && !edited"> {{topicDenunciation.investigationModality}}</p>
+                                <p-dropdown [(ngModel)]="topicDenunciation.investigationModality"
+                                    name="investigationModality" [options]="investigationModality"
+                                    placeholder="Selecciona uno" optionLabel="name" optionValue="value"
+                                    [required]="true" *ngIf="!existDenunciation && !edited"></p-dropdown>
+                                <small *ngIf="topicDenunciationForm.controls['investigationModality']?.errors?.required &&  
+                                topicDenunciationForm.controls['investigationModality']?.touched" class="p-error">
+                                    * Este campo es obligatorio
+                                </small>
+                            </div>
+                        </div>
+                        <div class="denunciation__footer flex">
+                            <div class="denunciaton__requestedBy col-4 flex flex-column align-items-center">
+                                <h4 class="text-center">Solicitado por</h4>
+                                <p>
+                                    {{topicDenunciation.topicStudent?.student?.name}}
+                                    {{topicDenunciation.topicStudent?.student?.secondName}}
+                                    {{topicDenunciation.topicStudent?.student?.lastName}}
+                                    {{topicDenunciation.topicStudent?.student?.secondLastName}}
+                                </p>
+                            </div>
+                            <div class="denunciation__recievedBy col-4 flex flex-column align-items-center">
+                                <h4 class="text-center">Recibido por</h4>
+                                <p>{{director?.name+' '+director?.lastName}}</p>
+                            </div>
+                            <div class="denunciation__deliverTo col-4 flex flex-column align-items-center">
+                                <h4 class="text-center">Entregar a</h4>
+                                <p>Secretaría de Administración y Registro</p>
+                            </div>
+                        </div>
+                        <div class="denunciation__buttons flex justify-content-center mt-2">
+                            <button pButton pRipple type="button" label="Vista Previa" class="denunciationPreview p-button-info mr-2"
+                                (click)="showTopicDenunciationPreview()" *ngIf="!existDenunciation"></button>
+                            <button pButton pRipple type="button"
+                                [disabled]="topicDenunciationForm.invalid || !existTopicStudent" label="Enviar"
+                                style="background-color: #002858;" (click)="sendTopicDenunciation(topicDenunciation)"
+                                *ngIf="!existDenunciation" [loading]="loadingButton"></button>
+                            <button pButton pRipple type="button" label="Siguiente" style="background-color: #002858;"
+                                *ngIf="existDenunciation" routerLink="/student/proposal"></button>
+                            <button pButton pRipple type="button" *ngIf="edited" class="ml-2" label="Guardar cambios"
+                                style="background-color: #002858;" [loading]="loadingButton"
+                                (click)="updateTopicDenunciation(topicDenunciation)"></button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </ng-template>
+    </p-card>
+
+
+    <!-- MODAL TOPIC DENUNCIATION PREVIEW -->
+    <app-topic-denunciation-preview [director]="director" [topicDenunciation]="topicDenunciation"
+        [denunciationPreview]="denunciationPreview" [actualDate]="actualDate"
+        (showDenunciationPreview)="closeTopicDenunciationPreviewModal()">
+    </app-topic-denunciation-preview>
+</div>

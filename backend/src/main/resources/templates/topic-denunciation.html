@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title th:text="${'Denuncia de tema ' + topicDenunciation.topicStudent.student.name + ' ' + topicDenunciation.topicStudent.student.lastName}"></title>
+    <link rel="stylesheet" type="text/css" href="../pdf-resources/css/topicDenunciation.css"/>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <img src="../pdf-resources/images/header.png" class="logo"/>
+    </div>
+    <div class="document_title">
+        <h3 align="center">DENUNCIA DE TEMA Y MODALIDAD DE INVESTIGACIÓN</h3>
+    </div>
+    <div class="student_info">
+        <h4 align="left">DATOS GENERALES:</h4>
+        <div class="student student_name flex">
+            <p>
+                <b>Nombres: </b>
+                <span th:text="${topicDenunciation.topicStudent.student.name+' '+topicDenunciation.topicStudent.student.secondName}"></span>
+            </p>
+        </div>
+        <div class="student student_lastName">
+            <p><b>Apellidos: </b>
+                <span th:text="${topicDenunciation.topicStudent.student.lastName+' '+ topicDenunciation.topicStudent.student.secondLastName}"></span>
+            </p>
+        </div>
+        <div class="student student_Dni">
+            <p><b>Cédula de identidad: </b><span th:text="${topicDenunciation.topicStudent.student.ci}"></span></p>
+        </div>
+        <div class="student student_career">
+            <p><b>Carrera: </b><span th:text="${topicDenunciation.topicStudent.student.career.name}"></span></p>
+        </div>
+        <div class="student student_semester">
+            <p><b>Semestre: </b><span th:text="${topicDenunciation.semesterLevel}"></span></p>
+        </div>
+        <div class="student career_Director">
+            <p><b>Director (a) de carrera: </b><span th:text="${topicDenunciation.semesterLevel}"></span> Pedro</p>
+        </div>
+        <div class="student cityAndDate">
+            <p>
+                <b>Ciudad/Fecha:</b>
+                <span th:text="${topicDenunciation.ciudad}"></span>, <span th:text="${(#dates.format(topicDenunciation.date, 'dd')) + ' de ' + (#strings.capitalize((#dates.format(topicDenunciation.date, 'MMMM')))) + ' del ' + (#dates.format(topicDenunciation.date, 'yyyy')) }"></span>
+            </p>
+           <!-- <span th:text="${(#dates.format(topicDenunciation.date, 'yyyy-MM-dd' #temporals.day(topicDenunciation.date)))} "></span>-->
+        </div>
+        <div class="message">
+            <p>De mis consideraciones</p>
+            <p class="request">Solicito la evaluación de la propuesta del Trabajo de Titulación o
+                Trabajo de
+                Integración
+                Curricular para obtener el título de
+                <b><span th:text="${topicDenunciation.topicStudent.student.career.degree}"></span></b>
+            </p>
+            <p>Los datos de la propuesta se especifican a continuación:</p>
+            <div class="proposalData topicName">
+                <h4>Tema:</h4>
+                <p><span th:text="${topicDenunciation.topicStudent.topic.name}"> </span></p>
+            </div>
+            <div class="proposalData investigationLine">
+                <h4>Línea de investigación:</h4>
+                <p><span th:text="${topicDenunciation.investigationLine}"></span></p>
+            </div>
+            <div class="proposalData proyect_title">
+                <h4>Título del proyecto de la universidad con el cual se articula el tema propuesto </h4>
+                <p><span th:text="${topicDenunciation.articulationTopic}"></span></p>
+            </div>
+            <div class="proposalData proyect_type">
+                <h4>Tipo de proyecto:</h4>
+                <p><span th:text="${topicDenunciation.projectType}"></span></p>
+            </div>
+            <div class="proposalData investigation_modality">
+                <h4>Modalidad de investigación:</h4>
+                <p><span th:text="${topicDenunciation.investigationModality}"></span></p>
+            </div>
+            <div class="document_persons">
+                <p class="bold_text padding">
+                    <span class="max-length"><b>Solicitado por</b></span>
+                    <span class="max-length"><b>Recibido por</b></span>
+                    <span class="max-length-end"><b>Entregar a</b></span>
+                </p>
+            </div>
+            <div class="document_persons">
+                <p class="normal_text padding">
+                    <span class="max-length"
+                          th:text="${topicDenunciation.topicStudent.student.name+' '+topicDenunciation.topicStudent.student.secondName}"></span>
+                    <span class="max-length" th:text="${director}"></span>
+                    <span class="max-length-end">Secretaría de Administración y Registro </span></p>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
+</html>

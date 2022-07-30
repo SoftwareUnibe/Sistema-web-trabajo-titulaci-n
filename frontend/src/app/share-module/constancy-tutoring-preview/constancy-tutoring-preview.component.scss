@@ -1,0 +1,39 @@
+.container{
+    background-color: white;
+}
+.tutoring_container {
+    display: flex;
+    justify-content: center;
+    
+}
+
+
+.tutoring_container ::ng-deep.p-card-header {
+    padding: 1rem 3rem 0 3rem;
+}
+
+.tutoring_container ::ng-deep .p-card-body {
+    padding: 0 3rem 3rem 3rem;
+}
+
+ table {
+    border: 1px solid;
+    min-width: 100%;
+    border-collapse: collapse;
+  }
+   th, td {
+    border: 1px solid;
+    padding: 8px;
+  }
+.tutoring_container ::ng-deep p {
+    text-align: center;
+}
+
+.message ::ng-deep p,
+.message ::ng-deep h4{
+    margin: 0.5rem 0;    
+}
+.message .request {
+    margin: 1.5rem 0;
+    line-height: 1.2rem;
+}

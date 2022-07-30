@@ -1,0 +1,64 @@
+<div class="thesis__container grid grid-nogutter col-12" >
+   <div class="flex min-w-full justify-content-center">
+    <p-progressSpinner *ngIf="loading"></p-progressSpinner>
+   </div>
+    <p-card header="Envío de documento al lector" class="col-12 fadein animation-duration-500" *ngIf="topicStudent && readerInfo && !loading">
+        <div class="col-12 p-0">
+            <ng-container *ngIf="!topicStudent.topic?.hasReader else hasReader">
+                <p-messages severity="warn">
+                    <ng-template pTemplate>
+                        <p>Aún no se le ha asigndo un lector, por lo tanto no puede continuar con este proceso</p>
+                    </ng-template>
+                </p-messages>
+            </ng-container>
+            <ng-template #hasReader>
+                <h3 class="mb-3 p-0 text-justify">En el siguiente apartado subir el documento final de su
+                    trabajo de titulación</h3>
+                <p class="line-height-3 md:col-12 lg:col-8 xl:col-6 p-0 mb-2 text-justify">Este documento será enviado al siguiente
+                    correo:
+                    <b>{{readerInfo.reader?.email}}</b> el cual pertenece al lector que se le ha
+                    asignado a su trabajo de titulación
+                </p>
+            </ng-template>
+            <div class="md:col-12 lg:col-8 xl:col-6 p-0">
+                <p-fileUpload #fileSelected name="file" [customUpload]="true" accept=".pdf, .docx" chooseLabel="Elegir"
+                    uploadLabel="Enviar" cancelLabel="Cancelar"
+                    invalidFileTypeMessageSummary="Tipo de archivo inválido."
+                    invalidFileTypeMessageDetail="Sólo se permiten documentos de tipo: .pdf, .docx"
+                    invalidFileSizeMessageSummary="Tamaño del archivo inválido."
+                    invalidFileSizeMessageDetail="El tamaño máximo permitido es 10 MB." [maxFileSize]="10000000"
+                    (uploadHandler)="customUpload($event, fileSelected, topicStudent.student.id, readerInfo.reader?.email)"
+                    [disabled]="!topicStudent.topic?.hasReader">
+                    <ng-template let-file pTemplate="file">
+                        <table class="selectedFile" *ngIf="!sendingEmail">
+                            <thead>
+                                <tr>
+                                    <th>Archivo Seleccionado</th>
+                                    <th>Tamaño</th>
+                                    <th>Eliminar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{file.name}}</td>
+                                    <td>{{bytesToSize(file.size)}}</td>
+                                    <td>
+                                        <button pButton pRipple type="button" icon="pi pi-trash"
+                                            class="p-button-rounded p-button-danger p-button-text"
+                                            (click)="deleteFile(fileSelected)"></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <section *ngIf="sendingEmail"
+                            class="flex flex-column align-items-center justify-content-center">
+                            <h3>Enviando correo...</h3>
+                            <small>Este proceso puede tardar algunos segundos</small>
+                            <p-progressSpinner></p-progressSpinner>
+                        </section>
+                    </ng-template>
+                </p-fileUpload>
+            </div>
+        </div>
+    </p-card>
+</div>

@@ -1,0 +1,13 @@
+<p-toast position="top-center"></p-toast>
+<p-confirmDialog [breakpoints]="{'1200px' : '40vw', '960px': '70vw', '850px':'80vw' ,'600px': '100vw'}"
+    [style]="{width: '40vw', margin: '0 1rem'}" [blockScroll]="true" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text">
+</p-confirmDialog>
+<div class="flex grid-nogutter container" *ngIf="!loading">
+    <div *ngIf="visible">
+        <side-menu *ngIf="visible" class="col-fixed"></side-menu>
+    </div>
+    <div class="col">
+        <header-app *ngIf="visible"></header-app>
+        <router-outlet></router-outlet>
+    </div>
+</div>

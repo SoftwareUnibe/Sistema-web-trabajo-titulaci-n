@@ -1,0 +1,68 @@
+<div class="topic__proposal-Container grid grid-nogutter mt-5" *ngIf="topicProposal">
+    <p-dialog header="Vista Previa" [(visible)]="showTopicProposalPreview"
+        [breakpoints]="{'1200px' : '60vw', '960px': '70vw', '850px':'80vw' ,'600px': '100vw'}" [style]="{width: '50vw', margin: '0 1rem'}"
+        [draggable]="false" [resizable]="false" [blockScroll]="true" [modal]="true" (onHide)="closeProposalPreview()">
+        <div style="text-align:justify" class="test">
+            <p-card class="col-6">
+                <ng-template pTemplate="header">
+                    <p-image src="../../../../../assets/unibe_form.png" alt="UNIB.E" width="100%"></p-image>
+                </ng-template>
+                <ng-template pTemplate="content">
+                    <form #topicProposalForm="ngForm">
+                        <h3 class="flex justify-content-center">PROPUESTA DE TEMA</h3>
+                        <div class="proposal__topic mb-3 mt-2">
+                            <h4 class="mb-2">Tema de trabajo de titulación</h4>
+
+                            <p>{{topicProposal.topicStudent?.topic?.name}}</p>
+                        </div>
+                        <div class="proposal__descriptionTopic mb-3 mt-2">
+                            <h4 class="mb-2">Descripción breve del tema</h4>
+                            <p *ngIf="!topicProposal.topicDescription" class="p-error">Falta descripcion del tema</p>
+                            <p class="test">{{topicProposal.topicDescription}}</p>
+                        </div>
+                        <div class="proposal__generalObjective mb-3 mt-2">
+                            <h4 class="mb-2">Objetivo general</h4>
+                            <p *ngIf="!topicProposal.objectiveGeneral" class="p-error">Falta objetivo general</p>
+                            <p>{{topicProposal.objectiveGeneral}}</p>
+                        </div>
+                        <div class="proposal__specificObjectives mb-3 mt-2">
+                            <h4 class="mb-2">Objetivos específicos</h4>
+                            <p *ngIf="!topicProposal?.objectivesSpecific?.length" class="p-error">
+                                Faltan objetivos específicos
+                            </p>
+                            <div *ngFor="let objectives of topicProposal.objectivesSpecific; let index = index">
+                                <p class="mt-2 mb-2"> <b> • </b> {{objectives}}</p>
+                            </div>
+                        </div>
+                        <div class="proposal__justification mb-3 mt-2">
+                            <h4 class="mb-2">Alcance del estudio:</h4>
+                            <p *ngIf="!topicProposal.scope" class="p-error">Falta definir el alcance
+                            </p>
+                            <p>{{topicProposal.scope}}</p>
+                        </div>
+                        <div class="proposal__justification mb-3 mt-2">
+                            <h4 class="mb-2">Justificación breve del estudio:</h4>
+                            <p *ngIf="!topicProposal.studyJustification" class="p-error">Falta justificación del estudio
+                            </p>
+                            <p>{{topicProposal.studyJustification}}</p>
+                        </div>
+                        <div class="proposal__specificObjectives mb-3 mt-2">
+                            <h4 class="mb-2">Referencias bibliográficas</h4>
+                            <p *ngIf="!topicProposal?.bibliographicReferences?.length">
+                                No hay referencias
+                            </p>
+                            <div *ngFor="let objectives of topicProposal.bibliographicReferences; let index = index">
+                                <p class="mt-2 mb-2"> <b> • </b> {{objectives}}</p>
+                            </div>
+                        </div>
+                    </form>
+                </ng-template>
+            </p-card>
+
+        </div>
+        <ng-template pTemplate="footer">
+            <p-button (click)="closeProposalPreview()" label="Cerrar" styleClass="p-button-text">
+            </p-button>
+        </ng-template>
+    </p-dialog>
+</div>

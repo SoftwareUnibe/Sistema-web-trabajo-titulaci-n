@@ -1,0 +1,80 @@
+<div class="body_container flex flex-column">
+    <p-dialog [(visible)]="topicApprovalPreview"
+        [breakpoints]="{'1200px' : '60vw', '960px': '70vw', '850px':'80vw' ,'650px': '100vw'}" [style]="{width: '50vw', margin:'0 1rem'}"
+        [draggable]="false" [resizable]="false" [modal]="true" (onHide)="closeDenunciationModal()">
+        <div class="min-w-full detail_card">
+            <p-card *ngIf="notificationDetail">
+                <ng-template pTemplate="header">
+                    <app-documents-header documentTitle="NOTIFICACIÓN AL ESTUDIANTE"
+                        subtitle="REVISIÓN DE LA PROPUESTA DE TEMA" formNumber="011"></app-documents-header>
+                </ng-template>
+                <ng-template pTemplate="content">
+                    <div class="flex align-items-center justify-content-end mt-1">
+                        <p class="text-sm"> Quito, D.M. {{topicApprovalDate}}</p>
+                    </div>
+                    <div class="flex fl align-items-center justify-content-start pt-3 mb-2">
+                        <p> <span class="font-bold">Estudiante: </span>{{notificationDetail.topicStudent.student.name +"
+                            "+notificationDetail.topicStudent.student.secondName +"
+                            "+notificationDetail.topicStudent.student.lastName
+                            +" "+notificationDetail.topicStudent.student.secondLastName}}</p>
+
+                    </div>
+                    <p class="mt-3">
+                        <span class="font-bold">Facultad: </span>
+                        <span>{{notificationDetail.topicStudent.topic.career.faculty.name}} </span>
+                    </p>
+                    <p class="mt-3">
+                        <span class="font-bold">Carrera: </span>
+                        <span>{{notificationDetail.topicStudent.topic.career.name}} </span>
+                    </p>
+                    <div class="flex align-items-center justify-content-start pt-3 mb-3">
+                        <p> De nuestras consideraciones:</p>
+                    </div>
+                    <div class="card_description flex align-items-center justify-content-start mt-2 text-justify
+            line-height-3 pt-2">
+                        <p>Por medio de la presente el Comité de trabajo de integración curricular, en reunión ordinaria
+                            No.
+                            {{notificationDetail.meetingNumber}} fecha: {{notificationDetail.meetingDate}},
+                            le informa que su propuesta de investigación titulada: <em
+                                class="font-medium">{{notificationDetail.topicStudent.topic.name }}</em> ha sido:
+                        </p>
+                    </div>
+                    <div class="flex flex-column align-items-start justify-content-start pt-3">
+                        <p *ngIf="notificationDetail.topicStudent.topicEvaluation==='Aprobado'">
+                            {{notificationDetail.topicStudent.topicEvaluation}}</p>
+                        <p *ngIf="notificationDetail.topicStudent.topicEvaluation==='Aprobado con observaciones'">
+                            Aprobado con correcciones</p>
+                        <p *ngIf="notificationDetail.topicStudent.topicEvaluation==='Aprobado con observaciones'">
+                            Considere las siguientes observaciones:</p>
+                        <p *ngIf="notificationDetail.topicStudent.topicEvaluation==='Reprobado'"> No aprobado</p>
+                        <p *ngIf="notificationDetail.topicStudent.topicEvaluation==='Reprobado'"> Considere las
+                            siguientes observaciones:</p>
+                    </div>
+                    <div *ngIf="notificationDetail.topicStudent.topicEvaluation==='Aprobado con observaciones' ||notificationDetail.topicStudent.topicEvaluation==='Reprobado' "
+                        class="flex align-items-center pt-3">
+                        <ol *ngIf="notificationDetail.observations">
+                            <li class="ml-3" *ngFor="let obs of notificationDetail.observations">
+                                {{obs}}
+                            </li>
+                        </ol>
+                    </div>
+                    <div class="flex grid-nogutteralign-items-center justify-content-between pt-3">
+                        <div class=" col-6 text-center mt-3">
+                            <p class="border-top-1 font-bold"> Director (a) de carrera</p>
+                            <p>Secretario (a) del comité</p>
+                        </div>
+                        <div class="col-6 text-center mt-3">
+                            <p class="border-top-1 font-bold">Decano (a) de Facultad</p>
+                            <p>Presidente del comité</p>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-card>
+        </div>
+        <ng-template pTemplate="footer">
+            <p-button (click)="closeDenunciationModal()" label="Cerrar" styleClass="p-button-text"></p-button>
+            <!-- p-button (click)="getNotificationPdf(notificationDetail.topicStudent.id,notificationDetail.topicStudent.student.name+' '+notificationDetail.topicStudent.student.lastName)"
+     label="Descargar" styleClass="p-button-text"></p-button> -->
+        </ng-template>
+    </p-dialog>
+</div>

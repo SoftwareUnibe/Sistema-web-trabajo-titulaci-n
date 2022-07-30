@@ -1,0 +1,81 @@
+<div class="container flex flex-column grid grid-nogutter" >
+    <div class="tittle_container flex justify-content-between">
+        <h2>Registro de observaciones</h2>
+        <section *ngIf="topicStudents" class="actionButtons mt-2 sm:mt-0 flex flex-wrap col-12 lg:col-8 p-0 fadein animation-duration-500">
+            <div class="buttons col-6 md:col-4 xl:col-3 pr-2 pl-0 pt-1 pb-0">
+                <button pButton pRipple label="Añadir" icon="pi pi-plus" class="col-12 p-button-raised"
+                    (click)="addObservation()"></button>
+            </div>
+            <div class="buttons col-6 md:col-4 xl:col-3 md:pr-2 pr-0 pl-0 pt-1 pb-0">
+                <button pButton pRipple label="Guardar" icon="pi pi-save" class="col-12 p-button-raised"
+                    (click)="saveObservations(reader.topic)" [loading]="loading"></button>
+            </div>
+            <div class="buttons col-12 mt-2 md:col-4 xl:col-3 sm:mt-1  p-0">
+                <button pButton pRipple label="Volver a lectorías" routerLink="/teacher/lectures"
+                    icon="fa-solid fa-book-open-reader"
+                    class="col-12 p-button-raised p-button-text p-button-plain"></button>
+            </div>
+        </section>
+    </div>
+    <div class="table_container_obs">
+        <p-table #dt [rows]="10" [value]="observationMainList" [paginator]="true" responsiveLayout="scroll"
+            [rowHover]="true" dataKey="id" [loading]="!topicStudents" styleClass="fadein animation-duration-500">
+            <ng-template pTemplate="caption">
+                <p *ngIf="!reader.topic.twoStudents"> <span class="font-semibold">Estudiante: </span>
+                    {{topicStudents[0].student.name +' '+topicStudents[0].student.lastName}}</p>
+                <p *ngIf="reader.topic.twoStudents"> <span class="font-semibold">Estudiantes: </span>
+                    {{topicStudents[0].student.name +' '+topicStudents[0].student.lastName
+                    +','+topicStudents[1].student.name +'
+                    '+topicStudents[1].student.lastName}}</p>
+                <p> <span class="font-semibold">Trabajo de titulación: </span> {{reader.topic.name}}
+                </p>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th class="col-4 sm:col-4 md:col-3">Sección o página del trabajo</th>
+                    <th class="col-6 sm:col-7 md:col-8">Observación</th>
+                    <th class="col-2 sm:col-1 md:col-1">Editar</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-main let-rowIndex="rowIndex">
+                <tr>
+                    <td>
+                        {{main}}
+                    </td>
+                    <td>
+                        {{observationDetailList[rowIndex]}}
+                    </td>
+
+                    <td>
+                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-info mr-2"
+                            (click)="editObs(rowIndex)"></button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+    <p-dialog [(visible)]="observationsModal" [breakpoints]="{'1200px' : '45vw', '960px': '55vw', '650px': '100vw'}"
+        [style]="{width: '30vw', margin: '0 1rem'}" [modal]="true" styleClass="p-fluid">
+
+        <p-card>
+            <div class="field">
+                <label class="font-bold">Sección o página</label>
+                <input type="text" pInputText name="seccion" autofocus [(ngModel)]="observationMain" />
+                <small class="p-error" *ngIf="!observationMain">Campo obligatorio.</small>
+            </div>
+            <div class="field">
+                <label class="font-bold">Observación</label>
+                <textarea id="description" name="description" [autoResize]="true" [(ngModel)]="observationDetail"
+                    pInputTextarea required rows="1" cols="20" class="description"></textarea>
+                <small class="p-error" *ngIf="!observationDetail">Campo obligatorio.</small>
+            </div>
+            <div class="flex justify-content-end">
+                <button pButton pRipple label="Cancelar" class="p-button-text"
+                    (click)="observationsModal=false;edit=false"></button>
+                <button pButton pRipple label="Añadir" class=" p-button-raised"
+                    (click)="registerObs(observationMain,observationDetail)"></button>
+            </div>
+        </p-card>
+    </p-dialog>
+</div>

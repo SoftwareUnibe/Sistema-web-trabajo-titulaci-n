@@ -1,0 +1,40 @@
+.topicDenunciation__container {
+    display: flex;
+    justify-content: center;
+    
+}
+
+.topicDenunciation__container ::ng-deep.p-card-header img {
+    padding: 1rem 3rem 0 3rem;
+}
+
+.topicDenunciation__container ::ng-deep .p-card-body{
+    padding: 0 3rem 3rem 3rem;
+}
+.student__info .student ::ng-deep h4 {
+    margin: 0.5rem 0;
+}
+.student__info .student ::ng-deep p {
+    margin: 0.5rem 0 0.5rem 0.5rem;
+}
+
+.student__info ::ng-deep .p-dropdown {
+    margin: 0.5rem 0;
+}
+
+.student__info ::ng-deep .p-dropdown .p-inputtext{
+    padding: 0.7rem;
+}
+
+.denunciation__footer ::ng-deep p {
+    text-align: center;
+}
+
+.message ::ng-deep p,
+.message ::ng-deep h4{
+    margin: 0.5rem 0;    
+}
+.message .request {
+    margin: 1.5rem 0;
+    line-height: 1.2rem;
+}

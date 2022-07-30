@@ -1,0 +1,34 @@
+.topic__proposal-Container {
+    display: flex;
+    justify-content: center;
+}
+
+.topic__proposal-Container ::ng-deep p {
+    text-align: justify;
+}
+.topic__proposal-Container ::ng-deep.p-card-header img {
+    padding: 1rem 3rem 0 3rem;
+}
+
+.topic__proposal-Container ::ng-deep .p-card .p-card-body {
+    padding: 0 3rem 1rem 3rem;
+}
+
+.proposal__specificObjectives ::ng-deep .p-scrollpanel-content {
+    background-color: #eee;
+}
+.objectives__list > i {
+    font-size: 1.2rem;
+    color: #d32f2f;
+    cursor: pointer;
+}
+.messages_container ::ng-deep .p-message .p-message-wrapper {
+    padding: 0.2rem 0.5rem;
+}
+
+@media screen and (max-width:560px) {
+    .documentPreview {
+        display: none;
+    }
+    
+}

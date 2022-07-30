@@ -1,0 +1,35 @@
+.user__container {
+    min-height: 90vh;
+    max-height: 100%;
+    max-width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    @media only screen and (max-width: 600px) {
+        padding: 1rem;
+    }
+}
+.user__container ::ng-deep .p-card{
+    width: 35rem;
+    padding:1.5rem;
+    @media only screen and (max-width: 600px) {
+        width: 100%;
+   
+    }
+
+}
+.user__container ::ng-deep .p-card-header {
+    text-align: center;   
+}
+
+.form__inputs .buttons{
+    display: flex;
+    justify-content: center;   
+}
+.form__inputs .field > label{
+    font-weight: 500;
+}
+.form__inputs small{
+    font-weight: 400;
+}

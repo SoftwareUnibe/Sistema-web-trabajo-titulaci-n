@@ -1,0 +1,57 @@
+<div class="payments_container flex flex-column" *ngIf="userList">
+    <div class="table_container p-3">
+        <p-table #dt [value]="userList" styleClass="p-datatable" [globalFilterFields]="['ci']" dataKey="ci"
+            [responsiveLayout]="'scroll'" [paginator]="true" [rows]="7">
+            <ng-template pTemplate="caption">
+                <div class="flex align-items-center justify-content-between 
+                        grid-nogutter flex-wrap">
+                    <div class="topics__info lg:col-7 col-12">
+                        <h2>Lista de usuarios del sistema</h2>
+                        <h4 class="mt-2"></h4>
+                    </div>
+
+                    <div class="flex mt-2 lg:mt-0 lg:col-5 md:col-7 col-12 p-0">
+                        <span class="p-input-icon-left col-12 p-0">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" class="inputfiled w-full" (input)="applyFilterGlobal($event, 'contains')"
+                                placeholder="Buscar por cédula" />
+                        </span>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th id="number">N°</th>
+                    <th id="student">Nombre</th>
+                    <th id="ci">Cédula</th>
+                    <th id="career">Carrera</th>
+                    <th id="career">Rol</th>
+                    <th id="status">
+                
+                            Estado
+                            <p-columnFilter type="boolean" field="verified" display="menu"></p-columnFilter>
+           
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-user let-rowIndex="rowIndex">
+                <tr>
+                    <td>{{rowIndex+1}}</td>
+                    <td class=" text-justify">{{user.name +' '+ user.lastName}}</td>
+                    <td>{{user.ci}}</td>
+                    <td *ngIf="user.career">{{user.career.name}}</td>
+                    <td *ngIf="!user.career">Usuario administrativo</td>
+                    <td>{{roleToString(user.roles[0])}}</td>
+                    <td *ngIf="user.verified">
+                        <p-message severity="success" text="Verficado" styleClass="mr-2"></p-message>
+                    </td>
+                    <td *ngIf="!user.verified">
+                        <button pButton pRipple type="button" label="Verificar" class="p-button-raised p-button-primary"
+                            (click)="verificateUser(user)" [loading]="loading"></button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+</div>

@@ -1,0 +1,8 @@
+.body_container { 
+    display: flex;
+    justify-content: center;
+}
+
+.detail_card ::ng-deep .p-card{
+    padding: 3rem;
+}

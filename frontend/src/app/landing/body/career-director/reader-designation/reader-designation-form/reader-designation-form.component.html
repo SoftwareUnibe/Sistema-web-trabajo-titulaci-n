@@ -1,0 +1,112 @@
+<div class="reader__container flex justify-content-center grid grid-nogutter col-12">
+    <p-progressSpinner *ngIf="loading"></p-progressSpinner>
+    <div class="search__reader col-12 sm:col-12 md:col-10 lg:col-8 xl:col-7 p-0 mb-4 fadein animation-duration-500" *ngIf="!loading">
+        <p-card>
+            <h2 class="flex justify-content-center">Carta al lector</h2>
+            <div class="searchs col-12 sm:col-6 p-0">
+                <h3 class="mb-2 col-6 p-0">Buscador</h3>
+                <span class="col-6 p-0">
+                    <p-autoComplete placeholder="Buscar por nombre" [(ngModel)]="temporalSelectedReader"
+                        [suggestions]="filteredResults" (onSelect)="setFieldValue()"
+                        (completeMethod)="search($event)" [showEmptyMessage]="true" [field]="$any(cleanField)"
+                        emptyMessage="No se encontraron resultados" class="w-full inputfield"
+                        [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}">
+                        <ng-template let-teacher pTemplate="item">
+                            <p>{{teacher.name + ' ' + teacher.secondName + ' ' + teacher.lastName + ' ' +
+                                teacher.secondLastName}}</p>
+                        </ng-template>
+                    </p-autoComplete>
+                </span>
+            </div>
+            <section *ngIf="teacherSelectedAsReader">
+                <h3 class="mb-2 mt-3">Lector seleccionado</h3>
+                <div class="remove__Reader flex align-items-center">
+                    <p>{{teacherSelectedAsReader.name + ' ' + teacherSelectedAsReader.secondName + ' ' +
+                        teacherSelectedAsReader.lastName + ' ' + teacherSelectedAsReader.secondLastName}}
+                    </p>
+                    <i (click)="removeReader()" pTooltip="Quitar lector" tooltipPosition="top"
+                        class="pi pi-trash flex justify-content-center align-items-end p-2"></i>
+                </div>
+            </section>
+        </p-card>
+    </div>
+    <div class="document__format sm:col-12 md:col-10 lg:col-8 xl:col-7 fadein animation-duration-500" *ngIf="!loading">
+        <p-card>
+            <ng-template pTemplate="header">
+                <p-image src="../../../../../assets/unibe_form.png" alt="UNIB.E" width="100%"></p-image>
+            </ng-template>
+            <ng-template pTemplate="content">
+                <form #readerDesignationForm="ngForm">
+                    <div class="card__text">
+                        <section class="flex justify-content-end">
+                            <p class="font-bold mt-5">Quito, D.M. {{actualDate}} </p>
+                        </section>
+                        <section>
+                            <p class="mb-5"><b class="mr-2">Para:</b>
+                                <span *ngIf="!readerExists || !teacherSelectedAsReader" class="p-error">Lector
+                                    aún no seleccionado</span>
+                                <span *ngIf="teacherSelectedAsReader">
+                                    {{teacherSelectedAsReader.name + ' ' + teacherSelectedAsReader.secondName + ' ' +
+                                    teacherSelectedAsReader.lastName + ' ' + teacherSelectedAsReader.secondLastName}}
+                                </span>
+                            </p>
+                            <p><b class="mr-2">Asunto:</b> Lectura de trabajo de titulación </p>
+                        </section>
+                        <section>
+                            <ng-container *ngIf="!topicStudent[0]?.topic.twoStudents else twoStudents">
+                                <p class="mt-5 mb-5">Por medio del presente se le informa que usted ha sido designado
+                                    lector del Trabajo de Titulación del estudiante:
+                                    <b>{{(topicStudent[0]?.student.name + ' ' + topicStudent[0]?.student.secondName + '
+                                        ' +
+                                        topicStudent[0]?.student.lastName + ' ' +
+                                        topicStudent[0]?.student.secondLastName) | uppercase}}
+                                    </b>titulado:<b>“{{topicStudent[0]?.topic.name | uppercase}}”</b>
+                                </p>
+                            </ng-container>
+                            <ng-template #twoStudents>
+                                <p class="mt-5 mb-5">Por medio del presente se le informa que usted ha sido designado
+                                    lector del Trabajo de Titulación de los estudiantes:
+                                    <b>{{(topicStudent[0]?.student.name + ' ' + topicStudent[0]?.student.secondName + '
+                                        ' +
+                                        topicStudent[0]?.student.lastName + ' ' +
+                                        topicStudent[0]?.student.secondLastName) | uppercase}} Y
+                                        {{(topicStudent[1]?.student.name + ' ' + topicStudent[1]?.student.secondName + '
+                                        ' +
+                                        topicStudent[1]?.student.lastName + ' ' +
+                                        topicStudent[1]?.student.secondLastName) | uppercase}}
+                                    </b>titulado:<b>“{{topicStudent[0]?.topic.name | uppercase}}”</b>
+                                </p>
+                            </ng-template>
+
+
+
+                            <p class="mb-5">La fecha máxima de entrega de la evaluación y sus observaciones es hasta el
+                                <b *ngIf="maxDateText">{{maxDateText.replace(',','')}}.</b>
+                                <i (click)="editDate()" *ngIf="maxDate" pTooltip="Editar fecha" tooltipPosition="top"
+                                    class="pi pi-pencil mr-2"></i>
+                                <p-calendar *ngIf="!maxDate || edit" class="inputfield" name="maxDate" inputId="basic"
+                                    [(ngModel)]="maxDate" dateFormat="yy-mm-dd" [required]="true" [showIcon]="true"
+                                    placeholder="Elegir una fecha" (onSelect)="selectedDate($event)">
+                                </p-calendar>
+                                <i (click)="cancelEditDate()" *ngIf="edit" pTooltip="Cancelar edición"
+                                    tooltipPosition="top" class="pi pi-times ml-2"></i>
+                            </p>
+                            <p class="mb-5">Es importante recordar que, en el proceso de lectoría se debe revisar los
+                                aspectos
+                                relacionados a la calidad del texto escrito en relación a la sintaxis.
+                            </p>
+                            <p class="mb-5">Atentamente</p>
+                            <p class="font-bold mb-5">Unidad de Titulación de la UNIB.E</p>
+                        </section>
+                        <div class="denunciation__buttons flex justify-content-center mt-4">
+                            <button pButton pRipple type="button" label="Cancelar"
+                                class="p-button-raised p-button-text mr-2"></button>
+                            <button pButton pRipple type="button" label="Enviar" class="p-button-raised" [loading]="loadingButton"
+                                style="background-color: #002858;" (click)="createReaders()" ></button>
+                        </div>
+                    </div>
+                </form>
+            </ng-template>
+        </p-card>
+    </div>
+</div>

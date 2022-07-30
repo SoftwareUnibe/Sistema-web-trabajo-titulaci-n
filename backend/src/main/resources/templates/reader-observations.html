@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title th:text="${'Observaciónes'}"></title>
+    <link rel="stylesheet" type="text/css" href="../pdf-resources/css/readerEvaluation.css" />
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="../pdf-resources/images/unibeObsrv.PNG" class="logo" />
+        </div>
+    
+    <div class="info">
+        <p> <span style="font-size: 16px; font-weight: 600;">Fecha: </span><span  th:text="${(#dates.format(readerObs.date, 'dd/MM/yyyy')) }"></span></p>
+        <p> <span style="font-size: 16px; font-weight: 600;">Título del Trabajo de integración curricular: </span><span th:text="${readerObs.topic.name}"></span></p>
+        <p> <span style="font-size: 16px; font-weight: 600;">Nombre del Docente lector (a): </span><span th:text="${readerName}"></span></p>
+        <p th:each=" topicStudent: ${students}"> <span style="font-size: 16px; font-weight: 600;">Nombre del Estudiante: </span><span th:text="|${topicStudent.student.name} ${topicStudent.student.secondName} ${topicStudent.student.lastName} ${topicStudent.student.secondLastName}|"></span></p>
+        <p> <span style="font-size: 16px; font-weight: 600;">Facultad: </span><span th:text="${readerObs.topic.career.faculty.name}"></span></p>
+        <p> <span style="font-size: 16px; font-weight: 600;">Carrera: </span><span th:text="${readerObs.topic.career.name}"></span></p>
+        <p> <span style="font-size: 16px; font-weight: 600;">Titulo a obtenerse: </span><span th:text="${readerObs.topic.career.degree}"></span></p>
+    </div>
+</div>
+    <div class="table-container" style="margin-top: 15px; margin-left: 8px; margin-right: 8px;">
+        <table class="default" style="margin-top: 15px;">
+            <thead>
+                <tr>
+                    <th class="text-center" style="width: 25%; font-weight: bolder; font-size: 16px;">
+                    Sección o Página del trabajo
+                    </th>
+                    <th class="text-center" style="width: 75%;font-weight: bolder; font-size: 16px;">Observación</th>
+                </tr>
+            </thead>
+            <tbody>
+               
+           
+                <tr th:each="main,iter: ${mainList}">
+                    <td class="text-left" ><span th:text="${main}"></span></td>
+                    <td class="text-center"><span th:text="${descList[iter.index]}"></span></td>
+                </tr>
+           
+            </tbody>
+        </table>
+        <p style="margin-top: 75px;">Firma del docente lector (a): ______________________________________________
+        </p>
+    </div>
+</body>
+
+</html>
+
+</html>
